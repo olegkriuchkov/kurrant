@@ -1,0 +1,12 @@
+{
+  "name": "playapp",
+  "displayName": "playapp",
+  "expo": {
+    "name": "playapp",
+    "slug": "expo-template-bare",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

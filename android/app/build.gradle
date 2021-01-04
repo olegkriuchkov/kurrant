@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.getkurrant"
+        applicationId "com.kurrant"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

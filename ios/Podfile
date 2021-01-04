@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'GetKurrant' do
+target 'kurrant' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'GetKurrantTests' do
+  target 'kurrantTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'GetKurrant' do
   end
 end
 
-target 'GetKurrant-tvOS' do
-  # Pods for GetKurrant-tvOS
+target 'kurrant-tvOS' do
+  # Pods for kurrant-tvOS
 
-  target 'GetKurrant-tvOSTests' do
+  target 'kurrant-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

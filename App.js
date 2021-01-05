@@ -12,11 +12,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomePage} />
-      </Stack.Navigator>
-      <Stack.Navigator>
         <Stack.Screen name="Contacts" component={Contacts} />
-      </Stack.Navigator>
-      <Stack.Navigator>
         <Stack.Screen name="Log" component={Log} />
       </Stack.Navigator>
     </NavigationContainer>

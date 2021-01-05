@@ -1,12 +1,26 @@
 import React from 'react';
-import {Text} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomePage from './src/pages/HomePage';
+import Log from './src/pages/Log';
+import Contacts from './src/pages/Contacts';
 
-const App = () => {
+const Stack = createStackNavigator();
+
+function App() {
   return (
-    <>
-      <Text>Hello</Text>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomePage} />
+      </Stack.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="Contacts" component={Contacts} />
+      </Stack.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="Log" component={Log} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-};
+}
 
 export default App;

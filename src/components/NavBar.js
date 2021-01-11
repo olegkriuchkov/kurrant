@@ -5,17 +5,7 @@ import {Actions} from 'react-native-router-flux';
 import Icon from './Icon';
 import COLOR from '../constants/COLOR';
 
-const NavBar = ({
-  title,
-  arrowBack,
-  iconButton,
-  color,
-  onPress,
-  burger,
-  select,
-  edit,
-  titleStyle,
-}) => (
+const NavBar = ({title, arrowBack, iconButton, color, onPress, titleStyle}) => (
   <View
     style={{
       height: 70,

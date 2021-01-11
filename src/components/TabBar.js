@@ -1,6 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
+import {Actions} from 'react-native-router-flux';
 import Icon from './Icon';
 
 const TabBar = () => (
@@ -10,7 +11,7 @@ const TabBar = () => (
       justifyContent: 'space-around',
       flexDirection: 'row',
     }}>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => Actions.Log()}>
       <Icon iconType="plus" height={50} width={50} />
     </TouchableOpacity>
     <TouchableOpacity>

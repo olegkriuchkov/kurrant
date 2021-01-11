@@ -2,10 +2,12 @@ import React from 'react';
 import {View} from 'react-native';
 import {Plus} from '../assets/buttonPlus';
 import ArrowBack from '../assets/ArrowBack';
+import RightArrow from '../assets/rightArrow';
 
 const icons = {
   plus: Plus,
   arrowBack: ArrowBack,
+  rightArrow: RightArrow,
 };
 
 export default ({width, height, viewBox, fill, color, iconType, style}) => {

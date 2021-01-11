@@ -6,6 +6,10 @@ import HomePage from '../pages/HomePage';
 import NavBar from '../components/NavBar';
 import TabBar from '../components/TabBar';
 import Settings from '../pages/Settings';
+import COLOR from '../constants/COLOR';
+import Log from '../pages/Log';
+import SecurityPage from '../pages/Settings/SeccurityPage';
+import DataPage from '../pages/Settings/DataPage';
 
 export default observer(() => (
   <Router>
@@ -36,17 +40,35 @@ export default observer(() => (
           component={HomePage}
           initial
           tabBarComponent={TabBar}
-          navBar={() => <NavBar title="February" />}
+          navBar={() => <NavBar title="February" settings />}
         />
         <Scene
-          title="Settings"
           key="Settings"
           statusBarStyle="light-content"
           component={Settings}
-          tabBarComponent={TabBar}
-          navBar={() => (
-            <NavBar title="Settings" arrowBack onPress={() => Actions.pop()} />
-          )}
+          back
+          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+        />
+        <Scene
+          key="Log"
+          statusBarStyle="light-content"
+          component={Log}
+          back
+          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+        />
+        <Scene
+          key="Security"
+          statusBarStyle="light-content"
+          component={SecurityPage}
+          back
+          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+        />
+        <Scene
+          key="Data"
+          statusBarStyle="light-content"
+          component={DataPage}
+          back
+          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
         />
       </Scene>
     </Scene>

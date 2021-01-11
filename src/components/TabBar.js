@@ -14,10 +14,10 @@ const TabBar = () => (
     <TouchableOpacity onPress={() => Actions.Log()}>
       <Icon iconType="plus" height={50} width={50} />
     </TouchableOpacity>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => Actions.Home()}>
       <Icon iconType="plus" height={50} width={50} />
     </TouchableOpacity>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => Actions.Contacts()}>
       <Icon iconType="plus" height={50} width={50} />
     </TouchableOpacity>
   </View>

@@ -10,6 +10,7 @@ import COLOR from '../constants/COLOR';
 import Log from '../pages/Log';
 import SecurityPage from '../pages/Settings/SeccurityPage';
 import DataPage from '../pages/Settings/DataPage';
+import Contacts from '../pages/Contacts';
 
 export default observer(() => (
   <Router>
@@ -40,28 +41,29 @@ export default observer(() => (
           component={HomePage}
           initial
           tabBarComponent={TabBar}
-          navBar={() => <NavBar title="February" settings />}
+          navBar={() => <NavBar title="February" settings noStyle />}
         />
         <Scene
           key="Settings"
           statusBarStyle="light-content"
           component={Settings}
           back
-          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+          navBar={() => <NavBar color={COLOR.GREY} arrowBack />}
         />
         <Scene
           key="Log"
           statusBarStyle="light-content"
           component={Log}
+          tabBarComponent={TabBar}
           back
-          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+          navBar={() => <NavBar noStyle color={COLOR.WHITE} title="Log" />}
         />
         <Scene
           key="Security"
           statusBarStyle="light-content"
           component={SecurityPage}
           back
-          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+          navBar={() => <NavBar noStyle color={COLOR.GREY} />}
         />
         <Scene
           key="Data"
@@ -69,6 +71,14 @@ export default observer(() => (
           component={DataPage}
           back
           navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+        />
+        <Scene
+          key="Contacts"
+          statusBarStyle="light-content"
+          tabBarComponent={TabBar}
+          component={Contacts}
+          back
+          navBar={() => <NavBar noStyle color={COLOR.WHITE} title="Contact" />}
         />
       </Scene>
     </Scene>

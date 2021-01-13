@@ -1,9 +1,9 @@
 import React from 'react';
 import {Text, ScrollView, View} from 'react-native';
-import COLOR from '../../constants/COLOR';
-import ButtonWithArrow from '../../components/ButtonWithArrow';
+import COLOR from '../../../constants/COLOR';
+import ButtonWithArrow from '../../../components/ButtonWithArrow';
 
-const SecurityPage = () => {
+const DataPage = () => {
   return (
     <ScrollView style={{height: '100%', backgroundColor: COLOR.GREY}}>
       <ButtonWithArrow
@@ -16,7 +16,7 @@ const SecurityPage = () => {
           borderBottomColor: COLOR.WHITE,
         }}
         textStyle={{color: COLOR.WHITE, fontSize: 24, fontWeight: '800'}}
-        title="Security"
+        title="Data"
       />
       <ButtonWithArrow
         style={{
@@ -27,7 +27,7 @@ const SecurityPage = () => {
           borderBottomColor: COLOR.WHITE,
         }}
         textStyle={{color: COLOR.WHITE, fontSize: 24, fontWeight: '800'}}
-        title="Add PIN Lock"
+        title="Export to Google Drive"
         icon="rightArrow"
       />
       <ButtonWithArrow
@@ -39,11 +39,11 @@ const SecurityPage = () => {
           borderBottomColor: COLOR.WHITE,
         }}
         textStyle={{color: COLOR.WHITE, fontSize: 24, fontWeight: '800'}}
-        title="Setup Touch ID"
+        title="Delete all app data"
         icon="rightArrow"
       />
     </ScrollView>
   );
 };
 
-export default SecurityPage;
+export default DataPage;

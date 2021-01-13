@@ -1,9 +1,10 @@
 import React from 'react';
 import {Text, ScrollView, View} from 'react-native';
-import COLOR from '../../constants/COLOR';
-import ButtonWithArrow from '../../components/ButtonWithArrow';
+import {Actions} from 'react-native-router-flux';
+import COLOR from '../../../constants/COLOR';
+import ButtonWithArrow from '../../../components/ButtonWithArrow';
 
-const DataPage = () => {
+const SecurityPage = () => {
   return (
     <ScrollView style={{height: '100%', backgroundColor: COLOR.GREY}}>
       <ButtonWithArrow
@@ -16,7 +17,7 @@ const DataPage = () => {
           borderBottomColor: COLOR.WHITE,
         }}
         textStyle={{color: COLOR.WHITE, fontSize: 24, fontWeight: '800'}}
-        title="Data"
+        title="Security"
       />
       <ButtonWithArrow
         style={{
@@ -27,10 +28,12 @@ const DataPage = () => {
           borderBottomColor: COLOR.WHITE,
         }}
         textStyle={{color: COLOR.WHITE, fontSize: 24, fontWeight: '800'}}
-        title="Export to Google Drive"
+        title="Add PIN Lock"
         icon="rightArrow"
+        onPress={() => Actions.PIN()}
       />
       <ButtonWithArrow
+        onPress={() => Actions.TouchID()}
         style={{
           width: '95%',
           marginHorizontal: 10,
@@ -39,11 +42,11 @@ const DataPage = () => {
           borderBottomColor: COLOR.WHITE,
         }}
         textStyle={{color: COLOR.WHITE, fontSize: 24, fontWeight: '800'}}
-        title="Delete all app data"
+        title="Setup Touch ID"
         icon="rightArrow"
       />
     </ScrollView>
   );
 };
 
-export default DataPage;
+export default SecurityPage;

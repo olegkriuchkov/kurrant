@@ -16,7 +16,7 @@ const NavBar = ({
 }) => (
   <View
     style={
-      !noStyle
+      noStyle
         ? {height: 70, backgroundColor: color}
         : {
             height: 70,

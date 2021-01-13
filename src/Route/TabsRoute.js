@@ -8,9 +8,11 @@ import TabBar from '../components/TabBar';
 import Settings from '../pages/Settings';
 import COLOR from '../constants/COLOR';
 import Log from '../pages/Log';
-import SecurityPage from '../pages/Settings/SeccurityPage';
-import DataPage from '../pages/Settings/DataPage';
+import SecurityPage from '../pages/Settings/security/SeccurityPage';
+import DataPage from '../pages/Settings/data/DataPage';
 import Contacts from '../pages/Contacts';
+import PinPage from '../pages/Settings/security/pinPage';
+import TouchID from '../pages/Settings/security/touchID';
 
 export default observer(() => (
   <Router>
@@ -25,15 +27,57 @@ export default observer(() => (
           width: '100%',
           backgroundColor: 'black',
         }}
-        showLabel={false}
-        /* tabBarOnPress={{navigation}) => {
-          const {state} = navigation;
-          const {key} = state;
-          if (key !== 'plus') {
-            Actions[key]();
-          }
-        }} */
-      >
+        showLabel={false}>
+        <Scene
+          hideNavBar
+          tabs
+          tabBarStyle={{
+            flex: 1,
+            borderColor: 'black',
+            height: 100,
+            width: '100%',
+            backgroundColor: 'black',
+          }}
+          showLabel={false}>
+          <Scene
+            key="Settings"
+            statusBarStyle="light-content"
+            component={Settings}
+            back
+            initial
+            navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
+          />
+          <Scene
+            key="PIN"
+            statusBarStyle="light-content"
+            component={PinPage}
+            back
+            navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
+          />
+          <Scene
+            key="TouchID"
+            statusBarStyle="light-content"
+            component={TouchID}
+            back
+            navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
+          />
+
+          <Scene
+            key="Security"
+            statusBarStyle="light-content"
+            component={SecurityPage}
+            back
+            navBar={() => <NavBar noStyle arrowBack color={COLOR.GREY} />}
+          />
+          <Scene
+            key="Data"
+            statusBarStyle="light-content"
+            component={DataPage}
+            back
+            navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+          />
+        </Scene>
+
         <Scene
           title="Home"
           key="Home"
@@ -41,44 +85,25 @@ export default observer(() => (
           component={HomePage}
           initial
           tabBarComponent={TabBar}
-          navBar={() => <NavBar title="February" settings noStyle />}
+          navBar={() => <NavBar title="February" settings />}
         />
-        <Scene
-          key="Settings"
-          statusBarStyle="light-content"
-          component={Settings}
-          back
-          navBar={() => <NavBar color={COLOR.GREY} arrowBack />}
-        />
+
         <Scene
           key="Log"
           statusBarStyle="light-content"
           component={Log}
           tabBarComponent={TabBar}
           back
-          navBar={() => <NavBar noStyle color={COLOR.WHITE} title="Log" />}
+          navBar={() => <NavBar color={COLOR.WHITE} title="Log" />}
         />
-        <Scene
-          key="Security"
-          statusBarStyle="light-content"
-          component={SecurityPage}
-          back
-          navBar={() => <NavBar noStyle color={COLOR.GREY} />}
-        />
-        <Scene
-          key="Data"
-          statusBarStyle="light-content"
-          component={DataPage}
-          back
-          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
-        />
+
         <Scene
           key="Contacts"
           statusBarStyle="light-content"
           tabBarComponent={TabBar}
           component={Contacts}
           back
-          navBar={() => <NavBar noStyle color={COLOR.WHITE} title="Contact" />}
+          navBar={() => <NavBar color={COLOR.WHITE} title="Contact" />}
         />
       </Scene>
     </Scene>

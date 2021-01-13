@@ -15,6 +15,8 @@ import PinPage from '../pages/Settings/security/pinPage';
 import DeleteData from '../pages/Settings/data/DeleteData';
 import Notifications from '../pages/Settings/Notifications/Notifications';
 import Touchid from '../pages/Settings/security/touchID';
+import Tests from '../pages/Tests';
+import TestsHeader from '../components/TestHeader';
 
 export default observer(() => (
   <Router>
@@ -110,6 +112,13 @@ export default observer(() => (
           tabBarComponent={TabBar}
           back
           navBar={() => <NavBar color={COLOR.WHITE} title="Log" />}
+        />
+        <Scene
+          key="Test"
+          statusBarStyle="light-content"
+          component={Tests}
+          back
+          navBar={() => <TestsHeader />}
         />
 
         <Scene

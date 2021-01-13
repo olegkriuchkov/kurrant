@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import HomePageStyle from '../style/page/HomePageStyle';
+import Icon from '../../icon-fonts';
 
 const HomePage = () => {
   const [modalFlag, setModalFlag] = useState(true);
@@ -25,8 +27,12 @@ const HomePage = () => {
 
       {!modalFlag && (
         <View style={HomePageStyle.modal}>
-          <Text style={HomePageStyle.modalText}>New hookup</Text>
-          <Text style={HomePageStyle.modalText}>New test result</Text>
+          <TouchableOpacity>
+            <Text style={HomePageStyle.modalText}>New hookup</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Actions.Test()}>
+            <Text style={HomePageStyle.modalText}>New test result</Text>
+          </TouchableOpacity>
         </View>
       )}
       <TouchableOpacity

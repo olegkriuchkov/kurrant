@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import HomePageStyle from '../style/page/HomePageStyle';
-import COLOR from '../constants/COLOR';
 
 const HomePage = () => {
   const [modalFlag, setModalFlag] = useState(true);
@@ -25,22 +24,9 @@ const HomePage = () => {
       </View>
 
       {!modalFlag && (
-        <View
-          style={{
-            position: 'absolute',
-            height: '100%',
-            width: '100%',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end',
-            bottom: 130,
-            right: 30,
-          }}>
-          <Text style={{color: COLOR.PINK2, fontSize: 25, fontWeight: '600'}}>
-            New hookup
-          </Text>
-          <Text style={{color: COLOR.PINK2, fontSize: 25, fontWeight: '600'}}>
-            New test result
-          </Text>
+        <View style={HomePageStyle.modal}>
+          <Text style={HomePageStyle.modalText}>New hookup</Text>
+          <Text style={HomePageStyle.modalText}>New test result</Text>
         </View>
       )}
       <TouchableOpacity

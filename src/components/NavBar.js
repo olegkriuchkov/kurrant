@@ -4,6 +4,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Icon from './Icon';
 import COLOR from '../constants/COLOR';
+import NavbarStyle from '../style/component/NavbarStyle';
 
 const NavBar = ({
   title,
@@ -17,20 +18,8 @@ const NavBar = ({
   <View
     style={
       noStyle
-        ? {height: 70, backgroundColor: color}
-        : {
-            height: 70,
-            backgroundColor: COLOR.WHITE,
-            shadowOffset: {
-              width: 0,
-              height: 25,
-            },
-            justifyContent: 'space-between',
-            shadowOpacity: 1,
-            shadowRadius: 0,
-            flexDirection: 'row',
-            elevation: 10,
-          }
+        ? [NavbarStyle.noStyle, {backgroundColor: color}]
+        : NavbarStyle.mainStyle
     }>
     <View style={{flexDirection: 'row'}}>
       {arrowBack && (

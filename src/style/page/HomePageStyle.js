@@ -64,4 +64,14 @@ export default StyleSheet.create({
     position: 'absolute',
     backgroundColor: COLOR.PINK,
   },
+  modal: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    bottom: 130,
+    right: 30,
+  },
+  modalText: {color: COLOR.PINK2, fontSize: 25, fontWeight: '600'},
 });

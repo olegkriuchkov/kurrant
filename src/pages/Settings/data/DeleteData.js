@@ -4,31 +4,33 @@ import {Actions} from 'react-native-router-flux';
 import ButtonWithArrow from '../../../components/ButtonWithArrow';
 import DataStyle from '../../../style/page/Settings/DataStyle';
 
-const SecurityPage = () => {
+const DeleteData = () => {
   return (
     <ScrollView style={DataStyle.main}>
       <ButtonWithArrow
         hideArrow
         style={DataStyle.button}
-        textStyle={DataStyle.buttonText}
-        title="Security"
+        textStyle={DataStyle.redButtonText}
+        title="Delete all app data?"
       />
       <ButtonWithArrow
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
-        title="Add PIN Lock"
+        title="Yes, delete all app data"
+        hideArrow
         icon="rightArrow"
-        onPress={() => Actions.PIN()}
+        onPress={() => {}}
       />
       <ButtonWithArrow
-        onPress={() => Actions.TouchID()}
+        onPress={() => Actions.pop()}
+        hideArrow
         style={DataStyle.bottomButton}
         textStyle={DataStyle.buttonText}
-        title="Setup Touch ID"
+        title="Cancel"
         icon="rightArrow"
       />
     </ScrollView>
   );
 };
 
-export default SecurityPage;
+export default DeleteData;

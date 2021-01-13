@@ -1,9 +1,28 @@
 import React from 'react';
-import {Text, ScrollView, View} from 'react-native';
+import {View, Button} from 'react-native';
+import TouchID from 'react-native-touch-id';
 import COLOR from '../../../constants/COLOR';
 
-const TouchID = () => {
-  return <View style={{height: '100%', backgroundColor: COLOR.GREY}} />;
+const Touchid = () => {
+  return (
+    <View style={{height: '100%', backgroundColor: COLOR.GREY}}>
+      <Button
+        title="press"
+        onPress={() =>
+          TouchID.authenticate('to demo this react-native component', {
+            unifiedErrors: false,
+            passcodeFallback: false,
+          })
+            .then((success) => {
+              alert('Authenticated Successfully');
+            })
+            .catch((error) => {
+              alert('Authentication Failed');
+            })
+        }
+      />
+    </View>
+  );
 };
 
-export default TouchID;
+export default Touchid;

@@ -1,6 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
 import Icon from './Icon';
+import ButtonWithArrowStyle from '../style/component/ButtonWithArrowStyle';
 
 export default ({
   style,
@@ -12,17 +13,7 @@ export default ({
   iconStyle,
 }) => (
   <TouchableOpacity
-    style={[
-      {
-        width: '100%',
-        height: 60,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      },
-      style,
-    ]}
+    style={[ButtonWithArrowStyle.mainStyle, style]}
     onPress={onPress}>
     <Text style={[{fontSize: 15}, textStyle]}>{title}</Text>
     <View

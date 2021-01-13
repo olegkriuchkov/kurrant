@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Scene, SceneProps, Actions} from 'react-native-router-flux';
+import {Router, Scene} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import HomePage from '../pages/HomePage';
 
@@ -12,7 +12,9 @@ import SecurityPage from '../pages/Settings/security/SeccurityPage';
 import DataPage from '../pages/Settings/data/DataPage';
 import Contacts from '../pages/Contacts';
 import PinPage from '../pages/Settings/security/pinPage';
-import TouchID from '../pages/Settings/security/touchID';
+import DeleteData from '../pages/Settings/data/DeleteData';
+import Notifications from '../pages/Settings/Notifications/Notifications';
+import Touchid from '../pages/Settings/security/touchID';
 
 export default observer(() => (
   <Router>
@@ -57,11 +59,10 @@ export default observer(() => (
           <Scene
             key="TouchID"
             statusBarStyle="light-content"
-            component={TouchID}
+            component={Touchid}
             back
             navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
           />
-
           <Scene
             key="Security"
             statusBarStyle="light-content"
@@ -75,6 +76,20 @@ export default observer(() => (
             component={DataPage}
             back
             navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+          />
+          <Scene
+            key="DeleteData"
+            statusBarStyle="light-content"
+            component={DeleteData}
+            back
+            navBar={() => <NavBar noStyle color={COLOR.GREY} />}
+          />
+          <Scene
+            key="Notifications"
+            statusBarStyle="light-content"
+            component={Notifications}
+            back
+            navBar={() => <NavBar noStyle color={COLOR.GREY} />}
           />
         </Scene>
 

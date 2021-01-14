@@ -17,31 +17,16 @@ import Notifications from '../pages/Settings/Notifications/Notifications';
 import Touchid from '../pages/Settings/security/touchID';
 import Tests from '../pages/Tests';
 import TestsHeader from '../components/TestHeader';
+import TabBarStyle from '../style/component/TabBarStyle';
 
 export default observer(() => (
   <Router>
     <Scene key="root">
-      <Scene
-        hideNavBar
-        tabs
-        tabBarStyle={{
-          flex: 1,
-          borderColor: 'black',
-          height: 100,
-          width: '100%',
-          backgroundColor: 'black',
-        }}
-        showLabel={false}>
+      <Scene hideNavBar tabs tabBarStyle={TabBarStyle.tabBar} showLabel={false}>
         <Scene
           hideNavBar
           tabs
-          tabBarStyle={{
-            flex: 1,
-            borderColor: 'black',
-            height: 100,
-            width: '100%',
-            backgroundColor: 'black',
-          }}
+          tabBarStyle={TabBarStyle.tabBar}
           showLabel={false}>
           <Scene
             key="Settings"

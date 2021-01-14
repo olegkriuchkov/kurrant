@@ -73,5 +73,5 @@ export default StyleSheet.create({
     bottom: 130,
     right: 30,
   },
-  modalText: {color: COLOR.PINK2, fontSize: 25, fontWeight: '600'},
+  modalText: {color: COLOR.DARKPINK, fontSize: 25, fontWeight: '600'},
 });

@@ -4,18 +4,9 @@ import {Text, Image, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import NavbarStyle from '../style/component/NavbarStyle';
 import COLOR from '../constants/COLOR';
-import Icon from './Icon';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 
-const TestsHeader = ({
-  title,
-  arrowBack,
-  color,
-  onPress,
-  titleStyle,
-  settings,
-  noStyle,
-}) => {
+const TestsHeader = ({color, noStyle}) => {
   const [select, setSelect] = useState(true);
   return (
     <View

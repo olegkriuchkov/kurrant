@@ -1,31 +1,34 @@
-import React, {useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
-import COLOR from '../constants/COLOR';
+import React from 'react';
+import {Text, SafeAreaView, View, ScrollView, TextInput} from 'react-native';
 import TestsStyle from '../style/page/Tests/TestsStyle';
+import TestItem from '../components/TestItem';
 
 const Tests = () => {
-  const [flag, setFlag] = useState(false);
+  const allTitle = ['Chlamydia', 'Gonorrhea', 'HIV', 'Syphilis', 'Other'];
   return (
-    <View style={TestsStyle.main}>
-      <TouchableOpacity
-        onPress={() => setFlag(true)}
-        style={TestsStyle.mainItem}>
-        {flag && (
-          <View style={{alignItems: 'center'}}>
-            <TouchableOpacity style={TestsStyle.topItem}>
-              <Text>Rectal</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={TestsStyle.midelItem}>
-              <Text>Throat</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={TestsStyle.bottomItem}>
-              <Text>Urine</Text>
-            </TouchableOpacity>
+    <SafeAreaView>
+      <ScrollView style={{width: '100%', height: '100%'}}>
+        <View style={TestsStyle.main}>
+          <View style={TestsStyle.contaier}>
+            {allTitle.map((title) => (
+              <TestItem title={title} />
+            ))}
           </View>
-        )}
-      </TouchableOpacity>
-    </View>
+        </View>
+        <View style={TestsStyle.mainNoteWrapper}>
+          <View style={TestsStyle.noteWrapper} />
+          <Text style={TestsStyle.textNote}>Notes</Text>
+          <TextInput
+            style={TestsStyle.textInput}
+            underlineColorAndroid="transparent"
+            placeholder="Type something"
+            placeholderTextColor="grey"
+            numberOfLines={10}
+            multiline={true}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

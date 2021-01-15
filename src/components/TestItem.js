@@ -1,8 +1,9 @@
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import React, {useState} from 'react';
 import TestsStyle from '../style/page/Tests/TestsStyle';
+import ButtonItem from './ButtonItem';
 
-const TestItem = ({title}) => {
+const TestItem = ({title, types}) => {
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState([]);
   const select = (title) => {
@@ -22,56 +23,17 @@ const TestItem = ({title}) => {
       onPress={() => (confirm ? {} : setFlag(true))}
       style={TestsStyle.mainItem}>
       {!flag && !confirm && <Text style={TestsStyle.titleStyle}>{title}</Text>}
+      {flag &&
+        types.map((type, index) => (
+          <ButtonItem
+            index={index}
+            type={type}
+            onPress={() => select(type)}
+            selected={selected}
+          />
+        ))}
       {flag && (
         <View style={{alignItems: 'center'}}>
-          <TouchableOpacity
-            style={
-              selected.includes('Rectal')
-                ? TestsStyle.topItemSelected
-                : TestsStyle.topItem
-            }
-            onPress={() => select('Rectal')}>
-            <Text
-              style={
-                selected.includes('Rectal')
-                  ? TestsStyle.textColor
-                  : TestsStyle.textColorSelected
-              }>
-              Rectal
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={
-              selected.includes('Throat')
-                ? TestsStyle.midelItemSelected
-                : TestsStyle.midelItem
-            }
-            onPress={() => select('Throat')}>
-            <Text
-              style={
-                selected.includes('Throat')
-                  ? TestsStyle.textColor
-                  : TestsStyle.textColorSelected
-              }>
-              Throat
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={
-              selected.includes('Urine')
-                ? TestsStyle.bottomItemSelected
-                : TestsStyle.bottomItem
-            }
-            onPress={() => select('Urine')}>
-            <Text
-              style={
-                selected.includes('Urine')
-                  ? TestsStyle.textColor
-                  : TestsStyle.textColorSelected
-              }>
-              Rectal
-            </Text>
-          </TouchableOpacity>
           <TouchableOpacity
             style={TestsStyle.confirmButton}
             onPress={() => success()}>
@@ -82,7 +44,6 @@ const TestItem = ({title}) => {
           </TouchableOpacity>
         </View>
       )}
-
       {confirm && (
         <View style={TestsStyle.resultTitle}>
           <Text style={TestsStyle.resultTitleText}>{title}</Text>

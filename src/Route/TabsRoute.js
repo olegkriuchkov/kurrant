@@ -18,6 +18,7 @@ import Touchid from '../pages/Settings/security/touchID';
 import Tests from '../pages/Tests';
 import TestsHeader from '../components/TestHeader';
 import TabBarStyle from '../style/component/TabBarStyle';
+import Entry from '../pages/Entry';
 
 export default observer(() => (
   <Router>
@@ -87,7 +88,7 @@ export default observer(() => (
           component={HomePage}
           initial
           tabBarComponent={TabBar}
-          navBar={() => <NavBar title="February" settings />}
+          navBar={() => <NavBar title="February" calendar settings />}
         />
 
         <Scene
@@ -96,14 +97,16 @@ export default observer(() => (
           component={Log}
           tabBarComponent={TabBar}
           back
-          navBar={() => <NavBar color={COLOR.WHITE} title="Log" />}
+          navBar={() => <NavBar color={COLOR.WHITE} calendar settings />}
         />
         <Scene
           key="Test"
           statusBarStyle="light-content"
           component={Tests}
           back
-          navBar={() => <TestsHeader />}
+          navBar={() => (
+            <TestsHeader calendar tabs={['Any positive tests?', 'Notes']} />
+          )}
         />
 
         <Scene
@@ -112,7 +115,20 @@ export default observer(() => (
           tabBarComponent={TabBar}
           component={Contacts}
           back
-          navBar={() => <NavBar color={COLOR.WHITE} title="Contact" />}
+          navBar={() => <NavBar color={COLOR.WHITE} title="Contact" settings />}
+        />
+        <Scene
+          key="Entry"
+          statusBarStyle="light-content"
+          tabBarComponent={TabBar}
+          component={Entry}
+          back
+          navBar={() => (
+            <TestsHeader
+              calendar
+              tabs={['Activity', 'Protection', 'Substance', 'Notes']}
+            />
+          )}
         />
       </Scene>
     </Scene>

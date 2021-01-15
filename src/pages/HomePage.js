@@ -29,7 +29,11 @@ const HomePage = () => {
           <TouchableOpacity>
             <Text style={HomePageStyle.modalText}>New hookup</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => Actions.Test()}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalFlag(true);
+              Actions.Test();
+            }}>
             <Text style={HomePageStyle.modalText}>New test result</Text>
           </TouchableOpacity>
         </View>

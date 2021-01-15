@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Text, View} from 'react-native';
+import {TouchableOpacity, Image, Text, View} from 'react-native';
 import Icon from './Icon';
 import ButtonWithArrowStyle from '../style/component/ButtonWithArrowStyle';
 
@@ -21,7 +21,12 @@ export default ({
         display: 'flex',
         flexDirection: 'row',
       }}>
-      {!hideArrow && <Icon style={iconStyle} iconType={icon || 'rightArrow'} />}
+      {!hideArrow && (
+        <Image
+          style={{width: 15, height: 15, marginRight: 5}}
+          source={require('../assets/buttonArrow.png')}
+        />
+      )}
     </View>
   </TouchableOpacity>
 );

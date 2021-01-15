@@ -3,9 +3,10 @@ import {Text, SafeAreaView, View, ScrollView, TextInput} from 'react-native';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import TestItem from '../components/TestItem';
 
-const Tests = () => {
-  const allTitle = ['Chlamydia', 'Gonorrhea', 'HIV', 'Syphilis', 'Other'];
-  const testTypes = ['Rectal', 'Throad', 'Urine'];
+const Entry = () => {
+  const allTitle = ['Makeout', 'Handjob', 'Blowjob', 'Rimjob', 'Anal', 'Other'];
+  const protection = ['Condom', 'No Condom'];
+  const types = ['Give', 'Rimjob', 'Give & Receive'];
 
   return (
     <SafeAreaView>
@@ -13,12 +14,21 @@ const Tests = () => {
         <View style={TestsStyle.main}>
           <View style={TestsStyle.contaier}>
             {allTitle.map((title) => (
-              <TestItem title={title} types={testTypes} />
+              <TestItem title={title} types={types} />
             ))}
           </View>
         </View>
+        <View style={TestsStyle.main}>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={TestsStyle.textNote}>Protection</Text>
+            <View style={TestsStyle.contaier}>
+              {protection.map((title) => (
+                <TestItem title={title} types={protection} />
+              ))}
+            </View>
+          </View>
+        </View>
         <View style={TestsStyle.mainNoteWrapper}>
-          <View style={TestsStyle.noteWrapper} />
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
             style={TestsStyle.textInput}
@@ -34,4 +44,4 @@ const Tests = () => {
   );
 };
 
-export default Tests;
+export default Entry;

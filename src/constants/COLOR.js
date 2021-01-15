@@ -6,4 +6,6 @@ export default {
   GREY: '#A1A8AE',
   BLUE: '#D3F0F4',
   TOPLINE: '#A8C3CE',
+  NAVBARBORDER: '#727272',
+  NOTE: '#727272',
 };

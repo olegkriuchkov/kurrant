@@ -3,7 +3,6 @@ import COLOR from '../../constants/COLOR';
 
 export default StyleSheet.create({
   mainStyle: {
-    height: 200,
     backgroundColor: COLOR.WHITE,
     shadowOffset: {
       width: 0,

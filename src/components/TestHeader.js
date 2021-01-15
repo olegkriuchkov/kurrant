@@ -2,11 +2,22 @@ import React, {useState} from 'react';
 import {Text, Image, TouchableOpacity, View} from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
+import moment from 'moment';
 import NavbarStyle from '../style/component/NavbarStyle';
 import COLOR from '../constants/COLOR';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
+import CalendarButton from './CalendarButton';
+import CustomCalendar from './Calendar';
+import Tabs from './Tabs';
 
-const TestsHeader = ({color, noStyle}) => {
+const TestsHeader = ({color, noStyle, calendar, tabs}) => {
+  const [calendarFlag, setCalendarFlag] = useState(false);
+  const press = (day) => {
+    console.log(day);
+    setDate(new Date(day.timestamp));
+  };
+  const [date, setDate] = useState(new Date(Date.now()));
+
   const [select, setSelect] = useState(true);
   return (
     <View
@@ -17,7 +28,10 @@ const TestsHeader = ({color, noStyle}) => {
       }>
       <View style={TestsHeaderStyle.mainWrapper}>
         <View>
-          <TouchableOpacity onPress={() => Actions.pop()}>
+          <TouchableOpacity
+            onPress={() => {
+              Actions.pop();
+            }}>
             <Image
               source={require('../assets/back.png')}
               style={{width: 30, height: 30}}
@@ -28,13 +42,20 @@ const TestsHeader = ({color, noStyle}) => {
               New test results
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{fontSize: 24}}>February 9</Text>
-              <TouchableOpacity>
-                <Image
-                  source={require('../assets/more.png')}
-                  style={TestsHeaderStyle.button}
-                />
-              </TouchableOpacity>
+              <View style={{flexDirection: 'column'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text style={{fontSize: 24}}>
+                    {moment(date).format('MMMM D')}
+                  </Text>
+                  {calendar && (
+                    <CalendarButton
+                      onPress={() => setCalendarFlag(!calendarFlag)}
+                      calendarFlag={calendarFlag}
+                    />
+                  )}
+                </View>
+                {calendarFlag && <CustomCalendar onPress={press} date={date} />}
+              </View>
             </View>
           </View>
         </View>
@@ -45,62 +66,12 @@ const TestsHeader = ({color, noStyle}) => {
           />
         </TouchableOpacity>
       </View>
-
       <View style={{flexDirection: 'row', marginBottom: 0, marginRight: 5}}>
-        <TouchableOpacity
-          onPress={() => setSelect(true)}
-          style={
-            select
-              ? {
-                  margin: 10,
-                  marginBottom: 0,
-                  borderWidth: 3.5,
-                  borderColor: COLOR.WHITE,
-                  paddingBottom: 7,
-                  borderBottomColor: COLOR.PINK,
-                }
-              : {
-                  margin: 10,
-                  marginTop: 14,
-                  marginBottom: 0,
-                }
-          }>
-          <Text
-            style={
-              select
-                ? {fontSize: 18, color: COLOR.PINK}
-                : {fontSize: 18, opacity: 0.5, color: COLOR.BLACK}
-            }>
-            Any positive results?
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setSelect(false)}
-          style={
-            !select
-              ? {
-                  margin: 10,
-                  marginBottom: 0,
-                  borderWidth: 3.5,
-                  borderColor: COLOR.WHITE,
-                  paddingBottom: 7,
-                  borderBottomColor: COLOR.PINK,
-                }
-              : {
-                  margin: 10,
-                  marginTop: 14,
-                  marginBottom: 0,
-                }
-          }>
-          <Text
-            style={
-              !select
-                ? {fontSize: 18, color: COLOR.PINK}
-                : {fontSize: 18, opacity: 0.5, color: COLOR.BLACK}
-            }>
-            Notes
-          </Text>
-        </TouchableOpacity>
+        <Tabs
+          tabs={tabs}
+          onPress={(tabId) => setSelect(tabId)}
+          defaultTab={tabs[0]}
+        />
       </View>
     </View>
   );

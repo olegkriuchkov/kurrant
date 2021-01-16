@@ -23,7 +23,10 @@ export default StyleSheet.create({
     flexDirection: 'column',
     width: '95%',
   },
-  noStyle: {height: 70},
+  noStyle: {
+    height: 70,
+    paddingTop: 20,
+  },
   dateContaier: {
     flexDirection: 'row',
     alignItems: 'center',

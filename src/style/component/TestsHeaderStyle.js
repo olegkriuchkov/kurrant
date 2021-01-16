@@ -4,15 +4,17 @@ import COLOR from '../../constants/COLOR';
 export default StyleSheet.create({
   mainStyle: {
     backgroundColor: COLOR.WHITE,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 25,
+      height: 3,
     },
-    justifyContent: 'space-between',
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    flexDirection: 'column',
-    elevation: 10,
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
   },
   mainWrapper: {
     margin: 10,

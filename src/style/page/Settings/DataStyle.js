@@ -16,4 +16,8 @@ export default StyleSheet.create({
     width: '95%',
     marginHorizontal: 10,
   },
+  safeArea: {
+    flex: 1,
+    backgroundColor: COLOR.GREY,
+  },
 });

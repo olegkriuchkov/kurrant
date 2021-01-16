@@ -33,6 +33,7 @@ export default observer(() => (
             key="Settings"
             statusBarStyle="light-content"
             component={Settings}
+            hideTabBar={true}
             back
             initial
             navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
@@ -41,6 +42,7 @@ export default observer(() => (
             key="PIN"
             statusBarStyle="light-content"
             component={PinPage}
+            hideTabBar={true}
             back
             navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
           />
@@ -49,6 +51,7 @@ export default observer(() => (
             statusBarStyle="light-content"
             component={Touchid}
             back
+            hideTabBar={true}
             navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
           />
           <Scene
@@ -56,6 +59,7 @@ export default observer(() => (
             statusBarStyle="light-content"
             component={SecurityPage}
             back
+            hideTabBar={true}
             navBar={() => <NavBar noStyle arrowBack color={COLOR.GREY} />}
           />
           <Scene
@@ -63,6 +67,7 @@ export default observer(() => (
             statusBarStyle="light-content"
             component={DataPage}
             back
+            hideTabBar={true}
             navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
           />
           <Scene
@@ -70,6 +75,7 @@ export default observer(() => (
             statusBarStyle="light-content"
             component={DeleteData}
             back
+            hideTabBar={true}
             navBar={() => <NavBar noStyle color={COLOR.GREY} />}
           />
           <Scene
@@ -77,6 +83,7 @@ export default observer(() => (
             statusBarStyle="light-content"
             component={Notifications}
             back
+            hideTabBar={true}
             navBar={() => <NavBar noStyle color={COLOR.GREY} />}
           />
         </Scene>
@@ -102,6 +109,7 @@ export default observer(() => (
         <Scene
           key="Test"
           statusBarStyle="light-content"
+          hideTabBar={true}
           component={Tests}
           back
           navBar={() => (

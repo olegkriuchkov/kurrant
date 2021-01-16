@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import COLOR from '../../../constants/COLOR';
 
 export default StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: COLOR.BLUE,
+  },
   contaier: {
     backgroundColor: COLOR.BLUE,
     width: '100%',

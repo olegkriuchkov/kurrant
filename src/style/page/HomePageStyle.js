@@ -48,14 +48,15 @@ export default StyleSheet.create({
     backgroundColor: COLOR.WHITE,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: COLOR.BLACK,
-    elevation: 13,
+    shadowColor: '#000',
     shadowOffset: {
-      width: 10,
-      height: 10,
+      width: 0,
+      height: 3,
     },
-    shadowOpacity: 1,
-    shadowRadius: 2.62,
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
   },
   horisontalLine: {width: 30, height: 6, backgroundColor: COLOR.PINK},
   verticalLine: {

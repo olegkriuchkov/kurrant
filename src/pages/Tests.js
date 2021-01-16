@@ -8,12 +8,12 @@ const Tests = () => {
   const testTypes = ['Rectal', 'Throad', 'Urine'];
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={{width: '100%', height: '100%'}}>
         <View style={TestsStyle.main}>
           <View style={TestsStyle.contaier}>
             {allTitle.map((title) => (
-              <TestItem title={title} types={testTypes} />
+              <TestItem title={title} types={testTypes} key={title} />
             ))}
           </View>
         </View>

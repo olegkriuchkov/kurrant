@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import {Calendar} from 'react-native-calendars';
+import {Dimensions, Text, View} from 'react-native';
+import {Calendar, CalendarList} from 'react-native-calendars';
 import moment from 'moment';
 import NavbarStyle from '../style/component/NavbarStyle';
 import COLOR from '../constants/COLOR';
@@ -17,7 +17,7 @@ const CustomCalendar = ({onPress, date}) => {
           <Text style={NavbarStyle.weekdayText}>{day}</Text>
         ))}
       </View>
-      <Calendar
+      <CalendarList
         theme={theme}
         current={date}
         hideExtraDays

@@ -55,7 +55,7 @@ const NavBar = ({
             <View style={NavbarStyle.dateText}>
               {!noStyle && (
                 <Text style={[titleStyle, {fontSize: 20}]}>
-                  {title || moment(date).format('MMMM')}
+                  {moment(date).format('MMMM DD') || title}
                 </Text>
               )}
               {calendar && (

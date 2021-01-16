@@ -1,11 +1,12 @@
-import {Text, TouchableOpacity, View, Image} from 'react-native';
 import React, {useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
 
-const TestItem = ({title, types}) => {
+const TestItem = ({title, types, single = false}) => {
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [singleFlag, setSingleFlag] = useState(false);
   const select = (title) => {
     selected.includes(title)
       ? setSelected((prev) => prev.filter((e) => e !== title))
@@ -18,21 +19,38 @@ const TestItem = ({title, types}) => {
       setConfirm(true);
     } else setFlag(false);
   };
+  const toggleSingle = () => {
+    setFlag(true);
+    if (single) {
+      setSingleFlag(!singleFlag);
+    }
+  };
   return (
     <TouchableOpacity
-      onPress={() => (confirm ? {} : setFlag(true))}
-      style={TestsStyle.mainItem}>
-      {!flag && !confirm && <Text style={TestsStyle.titleStyle}>{title}</Text>}
+      onPress={() => {
+        toggleSingle();
+      }}
+      style={singleFlag ? TestsStyle.singleMainItem : TestsStyle.mainItem}>
+      {(single ? true : !flag) && !confirm && (
+        <Text
+          style={
+            singleFlag ? TestsStyle.titleStyleSingle : TestsStyle.titleStyle
+          }>
+          {title}
+        </Text>
+      )}
       {flag &&
+        !single &&
         types.map((type, index) => (
           <ButtonItem
             index={index}
+            key={type}
             type={type}
             onPress={() => select(type)}
             selected={selected}
           />
         ))}
-      {flag && (
+      {flag && !single && (
         <View style={{alignItems: 'center'}}>
           <TouchableOpacity
             style={TestsStyle.confirmButton}
@@ -44,11 +62,13 @@ const TestItem = ({title, types}) => {
           </TouchableOpacity>
         </View>
       )}
-      {confirm && (
+      {confirm && !flag && (
         <View style={TestsStyle.resultTitle}>
           <Text style={TestsStyle.resultTitleText}>{title}</Text>
           {selected.map((selectedText) => (
-            <Text style={TestsStyle.resultText}>{selectedText}</Text>
+            <Text key={selectedText} style={TestsStyle.resultText}>
+              {selectedText}
+            </Text>
           ))}
         </View>
       )}

@@ -1,7 +1,7 @@
 import React from 'react';
-import {Text, SafeAreaView, View, ScrollView, TextInput} from 'react-native';
-import TestsStyle from '../style/page/Tests/TestsStyle';
+import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import TestItem from '../components/TestItem';
+import TestsStyle from '../style/page/Tests/TestsStyle';
 
 const Tests = () => {
   const allTitle = ['Chlamydia', 'Gonorrhea', 'HIV', 'Syphilis', 'Other'];
@@ -9,7 +9,7 @@ const Tests = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{width: '100%', height: '100%'}}>
+      <ScrollView style={TestsStyle.entryWrapper}>
         <View style={TestsStyle.main}>
           <View style={TestsStyle.contaier}>
             {allTitle.map((title) => (
@@ -18,7 +18,6 @@ const Tests = () => {
           </View>
         </View>
         <View style={TestsStyle.mainNoteWrapper}>
-          <View style={TestsStyle.noteWrapper} />
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
             style={TestsStyle.textInput}

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import COLOR from '../constants/COLOR';
 import TestsStyle from '../style/page/Tests/TestsStyle';
@@ -9,9 +9,6 @@ const ButtonItem = ({type, index, onPress, selected}) => {
     TestsStyle.midelItem,
     TestsStyle.bottomItem,
   ];
-  console.log(selected.includes({type}));
-  console.log(type);
-  console.log(selected);
   return (
     <TouchableOpacity
       style={

@@ -5,13 +5,14 @@ export default StyleSheet.create({
   contaier: {
     backgroundColor: COLOR.BLUE,
     width: '100%',
-    height: '100%',
+
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     marginLeft: 8,
     marginTop: 8,
   },
+  entryWrapper: {width: '100%'},
   main: {
     backgroundColor: COLOR.BLUE,
     width: '100%',
@@ -26,6 +27,16 @@ export default StyleSheet.create({
 
     borderRadius: 20,
     backgroundColor: COLOR.WHITE,
+    margin: 5,
+    marginTop: 5,
+  },
+  singleMainItem: {
+    width: '45%',
+    minHeight: 165,
+    maxHeight: 165,
+
+    borderRadius: 20,
+    backgroundColor: COLOR.PINK,
     margin: 5,
     marginTop: 5,
   },
@@ -77,7 +88,13 @@ export default StyleSheet.create({
     borderColor: COLOR.PINK,
     backgroundColor: COLOR.PINK,
   },
-  titleStyle: {margin: 10, fontSize: 18, opacity: 0.4},
+  titleStyle: {margin: 10, fontSize: 18, opacity: 0.4, color: COLOR.BLACK},
+  titleStyleSingle: {
+    margin: 10,
+    fontSize: 18,
+    color: COLOR.WHITE,
+  },
+
   textColor: {color: COLOR.WHITE, fontSize: 18},
   textColorSelected: {color: COLOR.PINK, fontSize: 18},
   confirmButton: {position: 'absolute', bottom: -18, left: 140, zIndex: 2},
@@ -117,7 +134,7 @@ export default StyleSheet.create({
     fontSize: 20,
     color: COLOR.NOTE,
     width: '90%',
-    marginBottom: 0,
+    marginBottom: 15,
     paddingTop: 10,
     borderWidth: 1,
     borderTopColor: COLOR.TOPLINE,

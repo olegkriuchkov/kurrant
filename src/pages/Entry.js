@@ -29,6 +29,7 @@ const Entry = () => {
             </View>
           </View>
         </View>
+
         <View style={TestsStyle.main}>
           <View style={{flexDirection: 'column'}}>
             <Text style={TestsStyle.textNote}>Substance</Text>
@@ -39,6 +40,7 @@ const Entry = () => {
             </View>
           </View>
         </View>
+
         <View style={TestsStyle.mainNoteWrapper}>
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput

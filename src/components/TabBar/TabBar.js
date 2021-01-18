@@ -2,7 +2,8 @@ import React from 'react';
 import {TouchableOpacity, View, Image, StyleSheet} from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
-import COLOR from '../constants/COLOR';
+import COLOR from '../../constants/COLOR';
+import {TabIcon} from './TabIcon';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,15 +20,13 @@ const styles = StyleSheet.create({
 
 const TabBar = () => (
   <View style={styles.container}>
-    <TouchableOpacity onPress={() => Actions.Log()}>
-      <Image source={require('../assets/Log.png')} style={styles.icon} />
-    </TouchableOpacity>
-    <TouchableOpacity onPress={() => Actions.Home()}>
+    {/* <TabIcon isSelected={true} onPress={() => Actions.Log()} /> */}
+    {/* <TouchableOpacity onPress={() => Actions.Home()}>
       <Image source={require('../assets/home.png')} style={styles.icon} />
-    </TouchableOpacity>
-    <TouchableOpacity onPress={() => Actions.Entry()}>
+    </TouchableOpacity> */}
+    {/* <TouchableOpacity onPress={() => Actions.Entry()}>
       <Image source={require('../assets/contacts.png')} style={styles.icon} />
-    </TouchableOpacity>
+    </TouchableOpacity> */}
   </View>
 );
 

@@ -4,7 +4,7 @@ import {observer} from 'mobx-react';
 import HomePage from '../pages/HomePage';
 
 import NavBar from '../components/NavBar';
-import TabBar from '../components/TabBar';
+import TabBar from '../components/TabBar/TabBar';
 import Settings from '../pages/Settings';
 import COLOR from '../constants/COLOR';
 import Log from '../pages/Log';

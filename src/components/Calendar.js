@@ -1,12 +1,12 @@
+import moment from 'moment';
 import React from 'react';
 import {Text, View} from 'react-native';
-import {Calendar} from 'react-native-calendars';
-import moment from 'moment';
-import NavbarStyle from '../style/component/NavbarStyle';
+import {CalendarList} from 'react-native-calendars';
 import COLOR from '../constants/COLOR';
 import CalendarStyle from '../style/component/CalendarStyle';
+import NavbarStyle from '../style/component/NavbarStyle';
 
-const CustomCalendar = ({onPress, date}) => {
+const CustomCalendar = ({onPress, date, onEndReserch}) => {
   const weekday = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const theme = CalendarStyle(COLOR.PINK);
 
@@ -14,10 +14,15 @@ const CustomCalendar = ({onPress, date}) => {
     <View style={{width: '100%'}}>
       <View style={NavbarStyle.weekdayContainer}>
         {weekday.map((day) => (
-          <Text style={NavbarStyle.weekdayText}>{day}</Text>
+          <Text key={day} style={NavbarStyle.weekdayText}>
+            {day}
+          </Text>
         ))}
       </View>
-      <Calendar
+      <CalendarList
+        onEndReachedThreshold={() => console.log('end')}
+        /** How far from the end to trigger the onEndReached callback */
+        onEndReached={0.1}
         theme={theme}
         current={date}
         hideExtraDays

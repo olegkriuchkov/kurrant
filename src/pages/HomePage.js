@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import HomePageStyle from '../style/page/HomePageStyle';
 

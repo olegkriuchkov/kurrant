@@ -1,38 +1,54 @@
-import {Text, TouchableOpacity, View, Image} from 'react-native';
 import React, {useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {observer} from 'mobx-react';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
+import TestsStore from '../stores/TestsStore';
 
-const TestItem = ({title, types}) => {
+const TestItem = observer(({title, types, single = false}) => {
+  const {TestItem, Test, setTestsItem} = TestsStore;
   const [flag, setFlag] = useState(false);
-  const [selected, setSelected] = useState([]);
-  const select = (title) => {
-    selected.includes(title)
-      ? setSelected((prev) => prev.filter((e) => e !== title))
-      : setSelected((prev) => [...prev, title]);
-  };
+  const [singleFlag, setSingleFlag] = useState(false);
+  console.log(TestItem);
   const [confirm, setConfirm] = useState(false);
   const success = () => {
-    if (selected.length > 0) {
+    if (TestItem.length > 0) {
       setFlag(false);
       setConfirm(true);
     } else setFlag(false);
   };
+  const toggleSingle = () => {
+    setFlag(true);
+    if (single) {
+      setSingleFlag(!singleFlag);
+    }
+  };
   return (
     <TouchableOpacity
-      onPress={() => (confirm ? {} : setFlag(true))}
-      style={TestsStyle.mainItem}>
-      {!flag && !confirm && <Text style={TestsStyle.titleStyle}>{title}</Text>}
+      onPress={() => {
+        toggleSingle();
+      }}
+      style={singleFlag ? TestsStyle.singleMainItem : TestsStyle.mainItem}>
+      {(single ? true : !flag) && !confirm && (
+        <Text
+          style={
+            singleFlag ? TestsStyle.titleStyleSingle : TestsStyle.titleStyle
+          }>
+          {title}
+        </Text>
+      )}
       {flag &&
+        !single &&
         types.map((type, index) => (
           <ButtonItem
             index={index}
+            key={type}
             type={type}
-            onPress={() => select(type)}
-            selected={selected}
+            onPress={() => setTestsItem(type)}
+            selected={TestItem}
           />
         ))}
-      {flag && (
+      {flag && !single && (
         <View style={{alignItems: 'center'}}>
           <TouchableOpacity
             style={TestsStyle.confirmButton}
@@ -44,15 +60,17 @@ const TestItem = ({title, types}) => {
           </TouchableOpacity>
         </View>
       )}
-      {confirm && (
+      {confirm && !flag && (
         <View style={TestsStyle.resultTitle}>
           <Text style={TestsStyle.resultTitleText}>{title}</Text>
-          {selected.map((selectedText) => (
-            <Text style={TestsStyle.resultText}>{selectedText}</Text>
+          {TestItem.map((selectedText) => (
+            <Text key={selectedText} style={TestsStyle.resultText}>
+              {selectedText}
+            </Text>
           ))}
         </View>
       )}
     </TouchableOpacity>
   );
-};
+});
 export default TestItem;

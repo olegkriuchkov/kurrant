@@ -1,24 +1,24 @@
+import {observer} from 'mobx-react';
 import React from 'react';
 import {Router, Scene} from 'react-native-router-flux';
-import {observer} from 'mobx-react';
-import HomePage from '../pages/HomePage';
 
 import NavBar from '../components/NavBar';
 import TabBar from '../components/TabBar';
-import Settings from '../pages/Settings';
+import TestsHeader from '../components/TestHeader';
 import COLOR from '../constants/COLOR';
-import Log from '../pages/Log';
-import SecurityPage from '../pages/Settings/security/SeccurityPage';
-import DataPage from '../pages/Settings/data/DataPage';
 import Contacts from '../pages/Contacts';
-import PinPage from '../pages/Settings/security/pinPage';
+import Entry from '../pages/Entry';
+import HomePage from '../pages/HomePage';
+import Log from '../pages/Log';
+import Settings from '../pages/Settings';
+import DataPage from '../pages/Settings/data/DataPage';
 import DeleteData from '../pages/Settings/data/DeleteData';
 import Notifications from '../pages/Settings/Notifications/Notifications';
+import PinPage from '../pages/Settings/security/pinPage';
+import SecurityPage from '../pages/Settings/security/SeccurityPage';
 import Touchid from '../pages/Settings/security/touchID';
 import Tests from '../pages/Tests';
-import TestsHeader from '../components/TestHeader';
 import TabBarStyle from '../style/component/TabBarStyle';
-import Entry from '../pages/Entry';
 
 export default observer(() => (
   <Router>
@@ -44,15 +44,15 @@ export default observer(() => (
             component={PinPage}
             hideTabBar={true}
             back
-            navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
+            navBar={() => <NavBar color={COLOR.GREY} noStyle cancel />}
           />
           <Scene
             key="TouchID"
             statusBarStyle="light-content"
             component={Touchid}
             back
+            navBar={() => <NavBar color={COLOR.GREY} noStyle cancel />}
             hideTabBar={true}
-            navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
           />
           <Scene
             key="Security"
@@ -67,8 +67,8 @@ export default observer(() => (
             statusBarStyle="light-content"
             component={DataPage}
             back
-            hideTabBar={true}
-            navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+            navBar={() => <NavBar noStyle color={COLOR.GREY} pop />}
+            hideTabBar={true} 
           />
           <Scene
             key="DeleteData"
@@ -83,8 +83,8 @@ export default observer(() => (
             statusBarStyle="light-content"
             component={Notifications}
             back
+            navBar={() => <NavBar noStyle color={COLOR.GREY} pop />}
             hideTabBar={true}
-            navBar={() => <NavBar noStyle color={COLOR.GREY} />}
           />
         </Scene>
 

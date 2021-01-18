@@ -14,7 +14,9 @@ const NavBar = ({
   titleStyle,
   settings,
   noStyle,
+  pop,
   calendar,
+  cancel,
 }) => {
   const [date, setDate] = useState(new Date(Date.now()));
   const [calendarFlag, setCalendarFlag] = useState(false);
@@ -34,7 +36,22 @@ const NavBar = ({
           <TouchableOpacity onPress={() => Actions.pop()}>
             <Image
               source={require('../assets/arrowBack.png')}
-              style={NavbarStyle.arrow}
+              style={NavbarStyle.arrowBack}
+            />
+          </TouchableOpacity>
+        )}
+        {cancel && (
+          <TouchableOpacity
+            style={NavbarStyle.canelWrapper}
+            onPress={() => Actions.replace()}>
+            <Text style={NavbarStyle.cancel}>Cancel</Text>
+          </TouchableOpacity>
+        )}
+        {pop && (
+          <TouchableOpacity onPress={() => Actions.replace()}>
+            <Image
+              source={require('../assets/pop.png')}
+              style={NavbarStyle.pop}
             />
           </TouchableOpacity>
         )}
@@ -43,7 +60,7 @@ const NavBar = ({
             <View style={NavbarStyle.dateText}>
               {!noStyle && (
                 <Text style={[titleStyle, {fontSize: 20}]}>
-                  {title || moment(date).format('MMMM')}
+                  {moment(date).format('MMMM DD') || title}
                 </Text>
               )}
               {calendar && (
@@ -59,12 +76,18 @@ const NavBar = ({
                 onPress={() => Actions.Settings()}>
                 <Image
                   source={require('../assets/settings.png')}
-                  style={NavbarStyle.settingIcon}
+                  style={NavbarStyle.settings}
                 />
               </TouchableOpacity>
             )}
           </View>
-          {calendarFlag && <CustomCalendar onPress={press} date={date} />}
+          {calendarFlag && (
+            <CustomCalendar
+              onPress={press}
+              date={date}
+              onEndReserch={() => setDate((prev) => moment(prev).add('month'))}
+            />
+          )}
         </View>
       </View>
     </View>

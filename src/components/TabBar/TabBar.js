@@ -1,5 +1,6 @@
 import React from 'react';
-import {TouchableOpacity, View, Image, StyleSheet} from 'react-native';
+
+import {Image, TouchableOpacity, View, StyleSheet} from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
 import COLOR from '../../constants/COLOR';

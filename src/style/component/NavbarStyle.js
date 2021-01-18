@@ -43,14 +43,26 @@ export default StyleSheet.create({
   activeCalendarButton: {width: 15, height: 15, marginLeft: 5},
   weekdayContainer: {flexDirection: 'row', marginVertical: 15},
   weekdayText: {marginHorizontal: 22, opacity: 0.3},
-  arrow: {
+  pop: {
     width: 25,
     height: 17,
     margin: 10,
     marginTop: 35,
   },
-  settingBtn: {
-    marginTop: 5,
+
+  cancel: {
+    height: 17,
+    margin: 10,
+    marginTop: 35,
+    color: COLOR.WHITE,
   },
-  settingIcon: {width: 19, height: 14, margin: 10, marginBottom: 15},
+  canelWrapper: {left: 320},
+
+  arrowBack: {
+    width: 25,
+    height: 17,
+    margin: 10,
+    marginTop: 35,
+  },
+  settings: {width: 25, height: 19, margin: 10, marginBottom: 15},
 });

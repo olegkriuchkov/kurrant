@@ -1,13 +1,12 @@
+import moment from 'moment';
 import React, {useState} from 'react';
-import {Text, Image, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
-import moment from 'moment';
 import NavbarStyle from '../style/component/NavbarStyle';
-import COLOR from '../constants/COLOR';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
-import CalendarButton from './CalendarButton';
 import CustomCalendar from './Calendar';
+import CalendarButton from './CalendarButton';
 import Tabs from './Tabs';
 
 const TestsHeader = ({color, noStyle, calendar, tabs}) => {
@@ -30,21 +29,19 @@ const TestsHeader = ({color, noStyle, calendar, tabs}) => {
         <View>
           <TouchableOpacity
             onPress={() => {
-              Actions.pop();
+              Actions.replace('Home');
             }}>
             <Image
               source={require('../assets/back.png')}
-              style={{width: 30, height: 30}}
+              style={TestsHeaderStyle.backImage}
             />
           </TouchableOpacity>
-          <View style={{marginTop: 15}}>
-            <Text style={{fontSize: 24, color: COLOR.PINK}}>
-              New test results
-            </Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{flexDirection: 'column'}}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Text style={{fontSize: 24}}>
+          <View style={TestsHeaderStyle.titlewrapper}>
+            <Text style={TestsHeaderStyle.titleText}>New test results</Text>
+            <View style={TestsHeaderStyle.headWrapper}>
+              <View style={TestsHeaderStyle.columnWrapper}>
+                <View style={TestsHeaderStyle.headWrapper}>
+                  <Text style={TestsHeaderStyle.date}>
                     {moment(date).format('MMMM D')}
                   </Text>
                   {calendar && (
@@ -66,7 +63,7 @@ const TestsHeader = ({color, noStyle, calendar, tabs}) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row', marginBottom: 0, marginRight: 5}}>
+      <View style={TestsHeaderStyle.mainTabsWrapper}>
         <Tabs
           tabs={tabs}
           onPress={(tabId) => setSelect(tabId)}

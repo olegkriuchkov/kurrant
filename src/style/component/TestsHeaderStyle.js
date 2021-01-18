@@ -48,4 +48,11 @@ export default StyleSheet.create({
   selectedText: {fontSize: 18, color: COLOR.PINK},
   unselectedText: {fontSize: 18, opacity: 0.5, color: COLOR.BLACK},
   noStyle: {height: 70},
+  backImage: {width: 30, height: 30},
+  titlewrapper: {marginTop: 15},
+  titleText: {fontSize: 24, color: COLOR.PINK},
+  headWrapper: {flexDirection: 'row', alignItems: 'center'},
+  columnWrapper: {flexDirection: 'column'},
+  date: {fontSize: 24},
+  mainTabsWrapper: {flexDirection: 'row', marginBottom: 0, marginRight: 5},
 });

@@ -43,12 +43,12 @@ const NavBar = ({
         {cancel && (
           <TouchableOpacity
             style={NavbarStyle.canelWrapper}
-            onPress={() => Actions.pop()}>
+            onPress={() => Actions.replace()}>
             <Text style={NavbarStyle.cancel}>Cancel</Text>
           </TouchableOpacity>
         )}
         {pop && (
-          <TouchableOpacity onPress={() => Actions.pop()}>
+          <TouchableOpacity onPress={() => Actions.replace()}>
             <Image
               source={require('../assets/pop.png')}
               style={NavbarStyle.pop}

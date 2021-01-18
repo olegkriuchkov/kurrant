@@ -29,7 +29,7 @@ const TestsHeader = ({color, noStyle, calendar, tabs}) => {
         <View>
           <TouchableOpacity
             onPress={() => {
-              Actions.pop();
+              Actions.reset('Home', 'Home');
             }}>
             <Image
               source={require('../assets/back.png')}

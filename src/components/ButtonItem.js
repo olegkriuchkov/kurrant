@@ -1,9 +1,12 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
+import {observer} from 'mobx-react';
 import COLOR from '../constants/COLOR';
 import TestsStyle from '../style/page/Tests/TestsStyle';
+import TestsStore from '../stores/TestsStore';
 
-const ButtonItem = ({type, index, onPress, selected}) => {
+export default observer(({type, index, onPress}) => {
+  const {TestItem} = TestsStore;
   const style = [
     TestsStyle.topItem,
     TestsStyle.midelItem,
@@ -12,7 +15,7 @@ const ButtonItem = ({type, index, onPress, selected}) => {
   return (
     <TouchableOpacity
       style={
-        selected.includes(type)
+        TestItem.includes(type)
           ? [
               style[index],
               {
@@ -26,7 +29,7 @@ const ButtonItem = ({type, index, onPress, selected}) => {
       onPress={onPress}>
       <Text
         style={
-          selected.includes(type)
+          TestItem.includes(type)
             ? TestsStyle.textColor
             : TestsStyle.textColorSelected
         }>
@@ -34,5 +37,4 @@ const ButtonItem = ({type, index, onPress, selected}) => {
       </Text>
     </TouchableOpacity>
   );
-};
-export default ButtonItem;
+});

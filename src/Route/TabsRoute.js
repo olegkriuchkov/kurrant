@@ -33,6 +33,7 @@ export default observer(() => (
             key="Settings"
             statusBarStyle="light-content"
             component={Settings}
+            hideTabBar={true}
             back
             initial
             navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
@@ -41,6 +42,7 @@ export default observer(() => (
             key="PIN"
             statusBarStyle="light-content"
             component={PinPage}
+            hideTabBar={true}
             back
             navBar={() => <NavBar color={COLOR.GREY} noStyle cancel />}
           />
@@ -50,12 +52,14 @@ export default observer(() => (
             component={Touchid}
             back
             navBar={() => <NavBar color={COLOR.GREY} noStyle cancel />}
+            hideTabBar={true}
           />
           <Scene
             key="Security"
             statusBarStyle="light-content"
             component={SecurityPage}
             back
+            hideTabBar={true}
             navBar={() => <NavBar noStyle arrowBack color={COLOR.GREY} />}
           />
           <Scene
@@ -64,12 +68,14 @@ export default observer(() => (
             component={DataPage}
             back
             navBar={() => <NavBar noStyle color={COLOR.GREY} pop />}
+            hideTabBar={true} 
           />
           <Scene
             key="DeleteData"
             statusBarStyle="light-content"
             component={DeleteData}
             back
+            hideTabBar={true}
             navBar={() => <NavBar noStyle color={COLOR.GREY} />}
           />
           <Scene
@@ -78,6 +84,7 @@ export default observer(() => (
             component={Notifications}
             back
             navBar={() => <NavBar noStyle color={COLOR.GREY} pop />}
+            hideTabBar={true}
           />
         </Scene>
 
@@ -102,6 +109,7 @@ export default observer(() => (
         <Scene
           key="Test"
           statusBarStyle="light-content"
+          hideTabBar={true}
           component={Tests}
           back
           navBar={() => (

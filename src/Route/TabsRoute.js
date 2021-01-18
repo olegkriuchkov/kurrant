@@ -4,7 +4,7 @@ import {observer} from 'mobx-react';
 import HomePage from '../pages/HomePage';
 
 import NavBar from '../components/NavBar';
-import TabBar from '../components/TabBar';
+import TabBar from '../components/TabBar/TabBar';
 import Settings from '../pages/Settings';
 import COLOR from '../constants/COLOR';
 import Log from '../pages/Log';
@@ -19,6 +19,7 @@ import Tests from '../pages/Tests';
 import TestsHeader from '../components/TestHeader';
 import TabBarStyle from '../style/component/TabBarStyle';
 import Entry from '../pages/Entry';
+import globalStore from '../stores/globalStore';
 
 export default observer(() => (
   <Router>
@@ -31,7 +32,9 @@ export default observer(() => (
           component={HomePage}
           initial
           tabBarComponent={TabBar}
-          onEnter={() => {}}
+          onEnter={() => {
+            globalStore.setSelectedTab('home');
+          }}
           navBar={() => <NavBar title="February" calendar settings />}
         />
 
@@ -40,7 +43,7 @@ export default observer(() => (
           statusBarStyle="light-content"
           component={Log}
           tabBarComponent={TabBar}
-          onEnter={() => {}}
+          onEnter={() => globalStore.setSelectedTab('log')}
           back
           navBar={() => <NavBar color={COLOR.WHITE} calendar settings />}
         />
@@ -50,7 +53,7 @@ export default observer(() => (
           statusBarStyle="light-content"
           tabBarComponent={TabBar}
           component={Contacts}
-          onEnter={() => {}}
+          onEnter={() => globalStore.setSelectedTab('contact')}
           back
           navBar={() => <NavBar color={COLOR.WHITE} title="Contact" settings />}
         />

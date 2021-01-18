@@ -1,18 +1,20 @@
 import React, {useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {observer} from 'mobx-react';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
-import TestsStore from '../stores/TestsStore';
 
-const TestItem = observer(({title, types, single = false}) => {
-  const {TestItem, Test, setTestsItem} = TestsStore;
+const TestItem = ({title, types, single = false}) => {
   const [flag, setFlag] = useState(false);
+  const [selected, setSelected] = useState([]);
   const [singleFlag, setSingleFlag] = useState(false);
-  console.log(TestItem);
+  const select = (title) => {
+    selected.includes(title)
+      ? setSelected((prev) => prev.filter((e) => e !== title))
+      : setSelected((prev) => [...prev, title]);
+  };
   const [confirm, setConfirm] = useState(false);
   const success = () => {
-    if (TestItem.length > 0) {
+    if (selected.length > 0) {
       setFlag(false);
       setConfirm(true);
     } else setFlag(false);
@@ -44,8 +46,8 @@ const TestItem = observer(({title, types, single = false}) => {
             index={index}
             key={type}
             type={type}
-            onPress={() => setTestsItem(type)}
-            selected={TestItem}
+            onPress={() => select(type)}
+            selected={selected}
           />
         ))}
       {flag && !single && (
@@ -63,7 +65,7 @@ const TestItem = observer(({title, types, single = false}) => {
       {confirm && !flag && (
         <View style={TestsStyle.resultTitle}>
           <Text style={TestsStyle.resultTitleText}>{title}</Text>
-          {TestItem.map((selectedText) => (
+          {selected.map((selectedText) => (
             <Text key={selectedText} style={TestsStyle.resultText}>
               {selectedText}
             </Text>
@@ -72,5 +74,5 @@ const TestItem = observer(({title, types, single = false}) => {
       )}
     </TouchableOpacity>
   );
-});
+};
 export default TestItem;

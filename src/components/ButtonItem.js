@@ -5,7 +5,7 @@ import COLOR from '../constants/COLOR';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import TestsStore from '../stores/TestsStore';
 
-export default observer(({type, index, onPress}) => {
+export default observer(({type, index, onPress, selected}) => {
   const {TestItem} = TestsStore;
   const style = [
     TestsStyle.topItem,
@@ -15,7 +15,7 @@ export default observer(({type, index, onPress}) => {
   return (
     <TouchableOpacity
       style={
-        TestItem.includes(type)
+        selected.includes(type)
           ? [
               style[index],
               {
@@ -29,7 +29,7 @@ export default observer(({type, index, onPress}) => {
       onPress={onPress}>
       <Text
         style={
-          TestItem.includes(type)
+          selected.includes(type)
             ? TestsStyle.textColor
             : TestsStyle.textColorSelected
         }>

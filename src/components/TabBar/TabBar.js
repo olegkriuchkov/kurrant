@@ -1,9 +1,9 @@
+import {observer} from 'mobx-react';
 import React from 'react';
-
-import {Image, TouchableOpacity, View, StyleSheet} from 'react-native';
-
+import {StyleSheet, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import COLOR from '../../constants/COLOR';
+import globalStore from '../../stores/globalStore';
 import {TabIcon} from './TabIcon';
 
 const styles = StyleSheet.create({
@@ -19,16 +19,26 @@ const styles = StyleSheet.create({
   icon: {width: 20, height: 22, marginTop: 10},
 });
 
-const TabBar = () => (
-  <View style={styles.container}>
-    {/* <TabIcon isSelected={true} onPress={() => Actions.Log()} /> */}
-    {/* <TouchableOpacity onPress={() => Actions.Home()}>
-      <Image source={require('../assets/home.png')} style={styles.icon} />
-    </TouchableOpacity> */}
-    {/* <TouchableOpacity onPress={() => Actions.Entry()}>
-      <Image source={require('../assets/contacts.png')} style={styles.icon} />
-    </TouchableOpacity> */}
-  </View>
-);
+const TabBar = observer(() => {
+  const icons = [
+    {iconName: 'contact', onPress: () => Actions.Contacts()},
+    {iconName: 'home', onPress: () => Actions.Home()},
+    {iconName: 'log', onPress: () => Actions.Log()},
+  ];
+  const {globalState} = globalStore;
+
+  return (
+    <View style={styles.container}>
+      {icons.map((icon) => (
+        <TabIcon
+          iconName={icon.iconName}
+          onPress={icon.onPress}
+          selectedIcon={globalState.selectedTab}
+          key={icon.iconName}
+        />
+      ))}
+    </View>
+  );
+});
 
 export default TabBar;

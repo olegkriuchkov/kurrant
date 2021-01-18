@@ -12,8 +12,13 @@ export default StyleSheet.create({
   main: {height: '100%', backgroundColor: COLOR.GREY},
   redButtonText: {color: COLOR.PINK, fontSize: 24, fontWeight: '600'},
   buttonText: {color: COLOR.WHITE, fontSize: 24, fontWeight: '600'},
+
   bottomButton: {
     width: '95%',
     marginHorizontal: 10,
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: COLOR.GREY,
   },
 });

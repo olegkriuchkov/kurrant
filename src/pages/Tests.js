@@ -14,7 +14,7 @@ const Tests = observer(() => {
         <View style={TestsStyle.main}>
           <View style={TestsStyle.contaier}>
             {allTitle.map((title) => (
-              <TestItem title={title} types={testTypes} />
+              <TestItem title={title} types={testTypes} key={title} />
             ))}
           </View>
         </View>

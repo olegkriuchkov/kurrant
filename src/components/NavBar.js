@@ -72,7 +72,7 @@ const NavBar = ({
             </View>
             {settings && (
               <TouchableOpacity
-                style={{marginTop: 5}}
+                style={NavbarStyle.settingBtn}
                 onPress={() => Actions.Settings()}>
                 <Image
                   source={require('../assets/settings.png')}

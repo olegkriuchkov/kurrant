@@ -4,15 +4,17 @@ import COLOR from '../../constants/COLOR';
 export default StyleSheet.create({
   mainStyle: {
     backgroundColor: COLOR.WHITE,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 25,
+      height: 2,
     },
-    justifyContent: 'space-between',
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    flexDirection: 'row',
-    elevation: 10,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    paddingTop: 20,
   },
   container: {
     margin: 10,
@@ -21,7 +23,10 @@ export default StyleSheet.create({
     flexDirection: 'column',
     width: '95%',
   },
-  noStyle: {height: 70},
+  noStyle: {
+    height: 70,
+    paddingTop: 20,
+  },
   dateContaier: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -44,6 +49,7 @@ export default StyleSheet.create({
     margin: 10,
     marginTop: 35,
   },
+
   cancel: {
     height: 17,
     margin: 10,

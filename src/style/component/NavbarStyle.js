@@ -57,6 +57,7 @@ export default StyleSheet.create({
     color: COLOR.WHITE,
   },
   canelWrapper: {left: 320},
+
   arrowBack: {
     width: 25,
     height: 17,

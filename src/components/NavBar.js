@@ -36,7 +36,6 @@ const NavBar = ({
           <TouchableOpacity onPress={() => Actions.pop()}>
             <Image
               source={require('../assets/arrowBack.png')}
-
               style={NavbarStyle.arrowBack}
             />
           </TouchableOpacity>
@@ -77,7 +76,6 @@ const NavBar = ({
                 onPress={() => Actions.Settings()}>
                 <Image
                   source={require('../assets/settings.png')}
-
                   style={NavbarStyle.settings}
                 />
               </TouchableOpacity>

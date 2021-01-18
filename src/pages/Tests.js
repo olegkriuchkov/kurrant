@@ -11,7 +11,6 @@ const Tests = observer(() => {
   return (
     <SafeAreaView>
       <ScrollView style={TestsStyle.entryWrapper}>
-
         <View style={TestsStyle.main}>
           <View style={TestsStyle.contaier}>
             {allTitle.map((title) => (

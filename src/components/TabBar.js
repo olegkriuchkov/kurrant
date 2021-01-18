@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {Image, TouchableOpacity, View} from 'react-native';
-
+import {Image, TouchableOpacity, View, StyleSheet} from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
 import TabBarStyle from '../style/component/TabBarStyle';
+import COLOR from '../constants/COLOR';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 });
 
 const TabBar = () => (
-
   <View style={TabBarStyle.main}>
     <TouchableOpacity onPress={() => Actions.Log()}>
       <Image source={require('../assets/Log.png')} style={TabBarStyle.image} />
@@ -33,7 +32,6 @@ const TabBar = () => (
         source={require('../assets/contacts.png')}
         style={TabBarStyle.image}
       />
-
     </TouchableOpacity>
   </View>
 );

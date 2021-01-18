@@ -15,9 +15,7 @@ const Entry = () => {
         <View style={TestsStyle.main}>
           <View style={TestsStyle.contaier}>
             {allTitle.map((title) => (
-
               <TestItem title={title} key={title} types={types} />
-
             ))}
           </View>
         </View>
@@ -26,23 +24,23 @@ const Entry = () => {
             <Text style={TestsStyle.textNote}>Protection</Text>
             <View style={TestsStyle.contaier}>
               {protection.map((title) => (
-
                 <TestItem title={title} key={title} single />
               ))}
             </View>
           </View>
         </View>
+
         <View style={TestsStyle.main}>
           <View style={{flexDirection: 'column'}}>
             <Text style={TestsStyle.textNote}>Substance</Text>
             <View style={TestsStyle.contaier}>
               {substance.map((title) => (
                 <TestItem title={title} key={title} single />
-
               ))}
             </View>
           </View>
         </View>
+
         <View style={TestsStyle.mainNoteWrapper}>
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput

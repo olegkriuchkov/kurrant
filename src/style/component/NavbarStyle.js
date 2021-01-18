@@ -44,7 +44,6 @@ export default StyleSheet.create({
   weekdayContainer: {flexDirection: 'row', marginVertical: 15},
   weekdayText: {marginHorizontal: 22, opacity: 0.3},
   pop: {
-
     width: 25,
     height: 17,
     margin: 10,
@@ -58,6 +57,7 @@ export default StyleSheet.create({
     color: COLOR.WHITE,
   },
   canelWrapper: {left: 320},
+
   arrowBack: {
     width: 25,
     height: 17,
@@ -65,5 +65,4 @@ export default StyleSheet.create({
     marginTop: 35,
   },
   settings: {width: 25, height: 19, margin: 10, marginBottom: 15},
-
 });

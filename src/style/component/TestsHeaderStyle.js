@@ -55,4 +55,9 @@ export default StyleSheet.create({
   columnWrapper: {flexDirection: 'column'},
   date: {fontSize: 24},
   mainTabsWrapper: {flexDirection: 'row', marginBottom: 0, marginRight: 5},
+  inputStyle: {
+    fontSize: 24,
+    margin: 0,
+    padding: 0,
+  },
 });

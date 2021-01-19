@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {observer} from 'mobx-react';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
+import TestsStore from '../stores/TestsStore';
+import HookupStore from '../stores/HookupStore';
 
-const TestItem = ({title, types, single = false}) => {
+export default observer(({title, types, single = false, hookup = false}) => {
+  const {setTestsItem} = TestsStore;
+  const {setHookupItem} = HookupStore;
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState([]);
   const [singleFlag, setSingleFlag] = useState(false);
@@ -17,12 +22,18 @@ const TestItem = ({title, types, single = false}) => {
     if (selected.length > 0) {
       setFlag(false);
       setConfirm(true);
-    } else setFlag(false);
+      hookup
+        ? setHookupItem({title, result: selected})
+        : setTestsItem({title, result: selected});
+    } else {
+      setFlag(false);
+    }
   };
   const toggleSingle = () => {
     setFlag(true);
     if (single) {
       setSingleFlag(!singleFlag);
+      setHookupItem({title, result: title});
     }
   };
   return (
@@ -74,5 +85,4 @@ const TestItem = ({title, types, single = false}) => {
       )}
     </TouchableOpacity>
   );
-};
-export default TestItem;
+});

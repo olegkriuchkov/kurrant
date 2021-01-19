@@ -1,14 +1,28 @@
 import {makeObservable, observable, action} from 'mobx';
 
 class TestsStore {
-  @observable Test = [];
+  @observable Tests = [];
+
+  @observable Date = '';
 
   @observable TestItem = [];
 
+  @observable Note = '';
+
   @action setTestsItem = (item) => {
-    this.TestItem.includes(item)
-      ? (this.TestItem = this.TestItem.filter((e) => e !== item))
-      : this.TestItem.push(item);
+    this.TestItem.push(item);
+  };
+
+  @action setTest = () => {
+    this.Tests.push({date: this.Date, test: this.TestItem, note: this.Note});
+  };
+
+  @action setTestDate = (date) => {
+    this.Date = date;
+  };
+
+  @action setTestNote = (note) => {
+    this.Note = note;
   };
 
   constructor() {

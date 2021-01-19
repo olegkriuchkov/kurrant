@@ -21,7 +21,6 @@ const NavBar = ({
   const [date, setDate] = useState(new Date(Date.now()));
   const [calendarFlag, setCalendarFlag] = useState(false);
   const press = (day) => {
-    console.log(day);
     setDate(new Date(day.timestamp));
   };
   return (

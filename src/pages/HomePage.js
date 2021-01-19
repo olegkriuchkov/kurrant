@@ -26,7 +26,7 @@ const HomePage = () => {
 
       {!modalFlag && (
         <View style={HomePageStyle.modal}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => Actions.Entry()}>
             <Text style={HomePageStyle.modalText}>New hookup</Text>
           </TouchableOpacity>
           <TouchableOpacity

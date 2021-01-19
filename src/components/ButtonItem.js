@@ -3,10 +3,8 @@ import {Text, TouchableOpacity} from 'react-native';
 import {observer} from 'mobx-react';
 import COLOR from '../constants/COLOR';
 import TestsStyle from '../style/page/Tests/TestsStyle';
-import TestsStore from '../stores/TestsStore';
 
 export default observer(({type, index, onPress, selected}) => {
-  const {TestItem} = TestsStore;
   const style = [
     TestsStyle.topItem,
     TestsStyle.midelItem,

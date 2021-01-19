@@ -140,6 +140,8 @@ export default observer(() => (
         navBar={() => (
           <TestsHeader
             calendar
+            entry
+            hookup // for set hookups to Hookups store
             tabs={['Activity', 'Protection', 'Substance', 'Notes']}
           />
         )}

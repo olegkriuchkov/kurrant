@@ -6,7 +6,7 @@ import COLOR from '../constants/COLOR';
 import CalendarStyle from '../style/component/CalendarStyle';
 import NavbarStyle from '../style/component/NavbarStyle';
 
-const CustomCalendar = ({onPress, date, onEndReserch}) => {
+const CustomCalendar = ({onPress, date}) => {
   const weekday = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const theme = CalendarStyle(COLOR.PINK);
 
@@ -14,15 +14,12 @@ const CustomCalendar = ({onPress, date, onEndReserch}) => {
     <View style={{width: '100%'}}>
       <View style={NavbarStyle.weekdayContainer}>
         {weekday.map((day) => (
-          <Text key={day} style={NavbarStyle.weekdayText}>
+          <Text key={day + Math.random()} style={NavbarStyle.weekdayText}>
             {day}
           </Text>
         ))}
       </View>
       <CalendarList
-        onEndReachedThreshold={() => console.log('end')}
-        /** How far from the end to trigger the onEndReached callback */
-        onEndReached={0.1}
         theme={theme}
         current={date}
         hideExtraDays

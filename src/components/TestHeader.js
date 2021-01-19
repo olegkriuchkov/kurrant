@@ -16,8 +16,14 @@ import HookupStore from '../stores/HookupStore';
 export default observer(
   ({color, noStyle, calendar, tabs, hookup = false, entry = false}) => {
     const [calendarFlag, setCalendarFlag] = useState(false);
-    const {setTestDate, setTest, setTestNote} = TestsStore;
-    const {setHookups, setHookupDate, setHookupNote, setName} = HookupStore;
+    const {setTestDate, setTest, setTestNote, Tests} = TestsStore;
+    const {
+      setHookups,
+      setHookupDate,
+      setHookupNote,
+      Hookups,
+      setName,
+    } = HookupStore;
 
     useEffect(() => {
       hookup
@@ -33,6 +39,8 @@ export default observer(
         setTest();
         setTestNote();
       }
+      console.log('TEST', toJS(Tests));
+      console.log('Hookups', toJS(Hookups));
     };
     const press = (day) => {
       setDate(new Date(day.timestamp));

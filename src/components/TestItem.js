@@ -33,7 +33,7 @@ export default observer(({title, types, single = false, hookup = false}) => {
     setFlag(true);
     if (single) {
       setSingleFlag(!singleFlag);
-      setHookupItem({title, result: title});
+      setHookupItem({title, result: [title]});
     }
   };
   return (

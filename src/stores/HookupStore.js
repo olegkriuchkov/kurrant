@@ -9,10 +9,16 @@ class HookupStore {
 
   @observable Note = '';
 
+  @observable HookupSuccess = true;
+
   @observable Name = '';
 
   @action setHookupItem = (item) => {
     this.HookupItem.push(item);
+  };
+
+  @action setHookupSuccess = (bool) => {
+    this.HookupSuccess = bool;
   };
 
   @action setHookups = () => {

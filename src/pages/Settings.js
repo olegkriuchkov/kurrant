@@ -1,12 +1,13 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import ButtonWithArrow from '../components/ButtonWithArrow';
+import COLOR from '../constants/COLOR';
 import DataStyle from '../style/page/Settings/DataStyle';
 
 const Settings = () => {
   return (
-    <ScrollView style={DataStyle.main}>
+    <View style={DataStyle.main}>
       <ButtonWithArrow
         hideArrow
         style={DataStyle.button}
@@ -34,7 +35,12 @@ const Settings = () => {
         title="Data"
         icon="rightArrow"
       />
-    </ScrollView>
+      <TouchableOpacity style={{margin: 10, top: '55%'}}>
+        <Text style={{color: COLOR.WHITE, fontWeight: '600', fontSize: 16}}>
+          Send Feedback
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 

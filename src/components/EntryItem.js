@@ -3,12 +3,13 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
-import TestsStore from '../stores/TestsStore';
+import HookupStore from '../stores/HookupStore';
 
-export default observer(({title, types}) => {
-  const {setTestsItem, TestSuccess} = TestsStore;
+export default observer(({title, types, single = false}) => {
+  const {setHookupItem, HookupSuccess} = HookupStore;
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [singleFlag, setSingleFlag] = useState(false);
   const select = (title) => {
     selected.includes(title)
       ? setSelected((prev) => prev.filter((e) => e !== title))
@@ -19,22 +20,24 @@ export default observer(({title, types}) => {
     setFlag(false);
     if (selected.length > 0) {
       setConfirm(true);
-      setTestsItem({title, result: selected});
+      setHookupItem({title, result: selected});
     }
-  }, [TestSuccess]);
-
+  }, [HookupSuccess]);
   const toggleSingleSelect = () => {
-    if (TestSuccess) {
+    if (HookupSuccess) {
       setFlag(true);
+      setHookupItem({title, result: [title]});
+      if (single) {
+        setSingleFlag(!singleFlag);
+      }
     }
   };
   const testSuccess = () => {
-    if (TestSuccess) {
-      setFlag(true);
+    if (HookupSuccess) {
       if (selected.length > 0) {
         setFlag(false);
         setConfirm(true);
-        setTestsItem({title, result: selected});
+        setHookupItem({title, result: selected});
       } else {
         setFlag(false);
       }
@@ -45,9 +48,17 @@ export default observer(({title, types}) => {
       onPress={() => {
         toggleSingleSelect();
       }}
-      style={TestsStyle.mainItem}>
-      {!flag && !confirm && <Text style={TestsStyle.titleStyle}>{title}</Text>}
+      style={singleFlag ? TestsStyle.singleMainItem : TestsStyle.mainItem}>
+      {(single ? true : !flag) && !confirm && (
+        <Text
+          style={
+            singleFlag ? TestsStyle.titleStyleSingle : TestsStyle.titleStyle
+          }>
+          {title}
+        </Text>
+      )}
       {flag &&
+        !single &&
         types.map((type, index) => (
           <ButtonItem
             index={index}
@@ -57,7 +68,7 @@ export default observer(({title, types}) => {
             selected={selected}
           />
         ))}
-      {flag && (
+      {flag && !single && (
         <View style={{alignItems: 'center'}}>
           <TouchableOpacity
             style={TestsStyle.confirmButton}

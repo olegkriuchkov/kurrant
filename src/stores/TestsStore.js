@@ -9,6 +9,12 @@ class TestsStore {
 
   @observable Note = '';
 
+  @observable TestSuccess = true;
+
+  @action setTestSuccess = (bool) => {
+    this.TestSuccess = bool;
+  };
+
   @action setTestsItem = (item) => {
     this.TestItem.push(item);
   };

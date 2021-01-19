@@ -21,7 +21,6 @@ const NavBar = ({
   const [date, setDate] = useState(new Date(Date.now()));
   const [calendarFlag, setCalendarFlag] = useState(false);
   const press = (day) => {
-    console.log(day);
     setDate(new Date(day.timestamp));
   };
   return (
@@ -33,7 +32,7 @@ const NavBar = ({
       }>
       <View style={{flexDirection: 'row'}}>
         {arrowBack && (
-          <TouchableOpacity onPress={() => Actions.pop()}>
+          <TouchableOpacity style={{bottom: 20}} onPress={() => Actions.pop()}>
             <Image
               source={require('../assets/arrowBack.png')}
               style={NavbarStyle.arrowBack}
@@ -43,12 +42,12 @@ const NavBar = ({
         {cancel && (
           <TouchableOpacity
             style={NavbarStyle.canelWrapper}
-            onPress={() => Actions.replace()}>
+            onPress={() => Actions.pop()}>
             <Text style={NavbarStyle.cancel}>Cancel</Text>
           </TouchableOpacity>
         )}
         {pop && (
-          <TouchableOpacity onPress={() => Actions.replace()}>
+          <TouchableOpacity style={{bottom: 20}} onPress={() => Actions.pop()}>
             <Image
               source={require('../assets/pop.png')}
               style={NavbarStyle.pop}

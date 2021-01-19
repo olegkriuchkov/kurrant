@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import {observer} from 'mobx-react';
 import TestItem from '../components/TestItem';
+import TestsStore from '../stores/TestsStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
 const Tests = observer(() => {
   const allTitle = ['Chlamydia', 'Gonorrhea', 'HIV', 'Syphilis', 'Other'];
   const testTypes = ['Rectal', 'Throad', 'Urine'];
-
+  const [note, setNote] = useState('');
+  const {setTestNote, TestSuccess} = TestsStore;
+  const setText = (text) => {
+    setNote(text);
+    setTestNote(text);
+  };
   return (
     <SafeAreaView>
       <ScrollView style={TestsStyle.entryWrapper}>
@@ -21,6 +27,8 @@ const Tests = observer(() => {
         <View style={TestsStyle.mainNoteWrapper}>
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
+            value={note}
+            onChangeText={(text) => TestSuccess && setText(text)}
             style={TestsStyle.textInput}
             underlineColorAndroid="transparent"
             placeholder="Add note"

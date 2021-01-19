@@ -1,6 +1,7 @@
 import React from 'react';
 import {Router, Scene, Stack} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import HookupHeader from '../components/HookupHeader';
 import HomePage from '../pages/HomePage';
 
 import NavBar from '../components/NavBar';
@@ -78,7 +79,7 @@ export default observer(() => (
           component={PinPage}
           hideTabBar={true}
           back
-          navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
+          navBar={() => <NavBar color={COLOR.GREY} noStyle cancel />}
         />
         <Scene
           key="TouchID"
@@ -86,7 +87,7 @@ export default observer(() => (
           component={Touchid}
           back
           hideTabBar={true}
-          navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
+          navBar={() => <NavBar color={COLOR.GREY} noStyle cancel />}
         />
         <Scene
           key="Security"
@@ -94,7 +95,7 @@ export default observer(() => (
           component={SecurityPage}
           back
           hideTabBar={true}
-          navBar={() => <NavBar noStyle arrowBack color={COLOR.GREY} />}
+          navBar={() => <NavBar noStyle pop color={COLOR.GREY} />}
         />
         <Scene
           key="Data"
@@ -102,7 +103,7 @@ export default observer(() => (
           component={DataPage}
           back
           hideTabBar={true}
-          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
+          navBar={() => <NavBar noStyle color={COLOR.GREY} pop />}
         />
         <Scene
           key="DeleteData"
@@ -118,7 +119,7 @@ export default observer(() => (
           component={Notifications}
           back
           hideTabBar={true}
-          navBar={() => <NavBar noStyle color={COLOR.GREY} />}
+          navBar={() => <NavBar noStyle color={COLOR.GREY} arrowBack />}
         />
       </Stack>
       <Scene
@@ -138,7 +139,7 @@ export default observer(() => (
         component={Entry}
         back
         navBar={() => (
-          <TestsHeader
+          <HookupHeader
             calendar
             tabs={['Activity', 'Protection', 'Substance', 'Notes']}
           />

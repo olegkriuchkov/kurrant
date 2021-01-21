@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Plus} from '../assets/buttonPlus';
 import ArrowBack from '../assets/ArrowBack';
+import {Plus} from '../assets/buttonPlus';
 import RightArrow from '../assets/rightArrow';
 
 const icons = {

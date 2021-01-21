@@ -1,6 +1,6 @@
 import COLOR from '../../constants/COLOR';
 
-export default (selectedColor: string) => ({
+export default (selectedColor) => ({
   selectedDayBackgroundColor: selectedColor,
   selectedDayTextColor: COLOR.WHITE,
   todayTextColor: selectedColor,
@@ -25,6 +25,24 @@ export default (selectedColor: string) => ({
       margin: 0,
       padding: 0,
       marginTop: 30,
+      bottom: 65,
+    },
+    container: {
+      paddingLeft: 0,
+      paddingRight: 0,
+      margin: 0,
+      backgroundColor: COLOR.WHITE,
+      width: '100%',
+      borderColor: COLOR.WHITE,
+      borderWidth: 1,
+      height: 300,
+    },
+    week: {
+      marginTop: 0,
+      marginBottom: 0,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 0,
     },
   },
   'stylesheet.calendar.main': {

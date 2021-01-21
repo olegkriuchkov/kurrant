@@ -1,36 +1,62 @@
-import React from 'react';
-import {Text, SafeAreaView, View, ScrollView, TextInput} from 'react-native';
+import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
+import EntryItem from '../components/EntryItem';
 import TestsStyle from '../style/page/Tests/TestsStyle';
-import TestItem from '../components/TestItem';
+import HookupStore from '../stores/HookupStore';
 
-const Entry = () => {
+export default observer(() => {
   const allTitle = ['Makeout', 'Handjob', 'Blowjob', 'Rimjob', 'Anal', 'Other'];
+  const types = ['Give', 'Receive', 'Give & Receive'];
   const protection = ['Condom', 'No Condom'];
-  const types = ['Give', 'Rimjob', 'Give & Receive'];
-
+  const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other'];
+  const [note, setNote] = useState('');
+  const {setHookupNote, HookupSuccess, Note, Hookups} = HookupStore;
+  const setText = (text) => {
+    setNote(text);
+    setHookupNote(text);
+  };
+  console.log(toJS(Note));
   return (
     <SafeAreaView>
-      <ScrollView style={{width: '100%', height: '100%'}}>
-        <View style={TestsStyle.main}>
-          <View style={TestsStyle.contaier}>
-            {allTitle.map((title) => (
-              <TestItem title={title} types={types} key={title} />
-            ))}
-          </View>
-        </View>
-        <View style={TestsStyle.main}>
-          <View style={{flexDirection: 'column'}}>
-            <Text style={TestsStyle.textNote}>Protection</Text>
+      <ScrollView style={TestsStyle.entryWrapper}>
+        <View>
+          <View style={TestsStyle.main}>
             <View style={TestsStyle.contaier}>
-              {protection.map((title) => (
-                <TestItem title={title} types={protection} key={title} />
+              {allTitle.map((title) => (
+                <EntryItem title={title} key={title} types={types} />
               ))}
             </View>
           </View>
+          <View style={TestsStyle.main}>
+            <View style={{flexDirection: 'column'}}>
+              <Text style={TestsStyle.textNote}>Protection</Text>
+              <View style={TestsStyle.contaier}>
+                {protection.map((title) => (
+                  <EntryItem title={title} key={title} single />
+                ))}
+              </View>
+            </View>
+          </View>
+
+          <View style={TestsStyle.main}>
+            <View style={{flexDirection: 'column'}}>
+              <Text style={TestsStyle.textNote}>Substance</Text>
+              <View style={TestsStyle.contaier}>
+                {substance.map((title) => (
+                  <EntryItem title={title} key={title} single />
+                ))}
+              </View>
+            </View>
+          </View>
         </View>
+
         <View style={TestsStyle.mainNoteWrapper}>
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
+            onChangeText={(text) => HookupSuccess && setText(text)}
+            value={Note}
             style={TestsStyle.textInput}
             underlineColorAndroid="transparent"
             placeholder="Add note"
@@ -42,6 +68,4 @@ const Entry = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
-
-export default Entry;
+});

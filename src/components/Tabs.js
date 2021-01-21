@@ -1,5 +1,5 @@
-import {ScrollView, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {ScrollView, Text, TouchableOpacity} from 'react-native';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 
 export default ({tabs, onPress, defaultTab}) => {
@@ -18,6 +18,7 @@ export default ({tabs, onPress, defaultTab}) => {
       {tabs.map((el) => {
         return (
           <TouchableOpacity
+            key={el}
             onPress={onPressHandler(el)}
             style={
               current === el

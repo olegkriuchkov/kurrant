@@ -1,17 +1,8 @@
 import React from 'react';
-import {TouchableOpacity, Image, Text, View} from 'react-native';
-import Icon from './Icon';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import ButtonWithArrowStyle from '../style/component/ButtonWithArrowStyle';
 
-export default ({
-  style,
-  textStyle,
-  title,
-  onPress,
-  hideArrow,
-  icon,
-  iconStyle,
-}) => (
+export default ({style, textStyle, title, onPress, hideArrow}) => (
   <TouchableOpacity
     style={[ButtonWithArrowStyle.mainStyle, style]}
     onPress={onPress}>

@@ -8,4 +8,5 @@ export default {
   TOPLINE: '#A8C3CE',
   NAVBARBORDER: '#727272',
   NOTE: '#727272',
+  TAB_ICON: '#B7B7B7',
 };

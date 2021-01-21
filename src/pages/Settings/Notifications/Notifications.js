@@ -3,7 +3,6 @@ import {ScrollView, Text, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import ButtonWithArrow from '../../../components/ButtonWithArrow';
 import DataStyle from '../../../style/page/Settings/DataStyle';
-import COLOR from '../../../constants/COLOR';
 import NotificationStyle from '../../../style/page/Settings/NotificationStyle';
 
 const Notifications = () => {

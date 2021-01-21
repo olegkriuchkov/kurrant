@@ -60,4 +60,27 @@ export default StyleSheet.create({
     margin: 0,
     padding: 0,
   },
+  deletScreenWrapper: {
+    position: 'absolute',
+    zIndex: 2,
+    height: '1000%',
+    opacity: 0.93,
+    backgroundColor: 'white',
+    width: '100%',
+  },
+  deleteImage: {width: 20, height: 20, margin: 20, marginTop: 40},
+  mainDeleteTextWrapper: {margin: 20, marginVertical: 0},
+  deleteTextWrapper: {
+    width: '100%',
+    borderWidth: 1,
+    borderBottomColor: COLOR.TOPLINE,
+    paddingBottom: 10,
+    borderColor: COLOR.WHITE,
+  },
+  deleteText: {fontSize: 24, color: COLOR.BLACK, opacity: 0.6},
+  cancelWrapper: {
+    width: '100%',
+    marginTop: 5,
+  },
+  mainDeleteText: {fontSize: 24, color: COLOR.PINK},
 });

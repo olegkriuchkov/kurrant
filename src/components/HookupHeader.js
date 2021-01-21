@@ -3,40 +3,43 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import {v4 as uuidv4} from 'uuid';
+import COLOR from '../constants/COLOR';
 import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
 import Tabs from './Tabs';
 import HookupStore from '../stores/HookupStore';
+import TouchebltText from './TouchebltText';
 
 export default observer(({calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [select, setSelect] = useState(true);
+  const [deleteFlag, setDeleteFlag] = useState(false);
+  const [id, setId] = useState(uuidv4());
   const {
     setHookups,
     setHookupDate,
-    setHookupNote,
+    clearForm,
     setHookupSuccess,
     setName,
+    Name,
     HookupSuccess,
   } = HookupStore;
 
   useEffect(() => {
     setHookupDate(new Date(Date.now()));
   }, []);
-
   const save = () => {
-    setHookups();
-    setHookupNote();
+    setHookups(id);
     setHookupSuccess(false);
   };
   const press = (day) => {
     setDate(new Date(day.timestamp));
     setHookupDate(date);
   };
-
-  const [date, setDate] = useState(new Date(Date.now()));
-  const [select, setSelect] = useState(true);
   return (
     <View style={TestsHeaderStyle.mainStyle}>
       <View style={TestsHeaderStyle.mainWrapper}>
@@ -45,6 +48,7 @@ export default observer(({calendar, tabs}) => {
             onPress={() => {
               Actions.replace('Home');
               setHookupSuccess(true);
+              clearForm();
             }}
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}
@@ -65,11 +69,16 @@ export default observer(({calendar, tabs}) => {
                 </View>
                 {calendarFlag && <CustomCalendar onPress={press} date={date} />}
 
-                <TextInput
-                  onChangeText={(text) => setName(text)}
-                  placeholder="Enter name"
-                  style={TestsHeaderStyle.inputStyle}
-                />
+                {!HookupSuccess ? (
+                  <Text style={TestsHeaderStyle.inputStyle}>{Name}</Text>
+                ) : (
+                  <TextInput
+                    onChangeText={(text) => setName(text)}
+                    placeholder="Enter name"
+                    style={TestsHeaderStyle.inputStyle}
+                    value={Name}
+                  />
+                )}
               </View>
             </View>
           </View>
@@ -92,6 +101,7 @@ export default observer(({calendar, tabs}) => {
             <Image
               style={{width: 25, height: 25, marginLeft: 20}}
               path={require('../assets/delete.png')}
+              onPress={() => setDeleteFlag(true)}
             />
           </View>
         )}
@@ -103,6 +113,37 @@ export default observer(({calendar, tabs}) => {
           defaultTab={tabs[0]}
         />
       </View>
+      {deleteFlag && (
+        <View style={TestsHeaderStyle.deletScreenWrapper}>
+          <Image
+            path={require('../assets/deleteConfirm.png')}
+            containerStyle={{alignSelf: 'flex-end'}}
+            style={TestsHeaderStyle.deleteImage}
+            onPress={() => setDeleteFlag(false)}
+          />
+          <View style={TestsHeaderStyle.mainDeleteTextWrapper}>
+            <TouchebltText
+              text="Delete entry?"
+              containerStyle={TestsHeaderStyle.deleteTextWrapper}
+              style={TestsHeaderStyle.mainDeleteText}
+            />
+            <TouchebltText
+              text="Delete entry"
+              containerStyle={[
+                TestsHeaderStyle.deleteTextWrapper,
+                {marginTop: 5},
+              ]}
+              style={TestsHeaderStyle.deleteText}
+            />
+            <TouchebltText
+              text="Cancel"
+              containerStyle={TestsHeaderStyle.cancelWrapper}
+              onPress={() => setDeleteFlag(false)}
+              style={TestsHeaderStyle.deleteText}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 });

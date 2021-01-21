@@ -9,7 +9,6 @@ export default StyleSheet.create({
   contaier: {
     backgroundColor: COLOR.BLUE,
     width: '100%',
-
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',

@@ -18,6 +18,7 @@ export default ({tabs, onPress, defaultTab}) => {
       {tabs.map((el) => {
         return (
           <TouchableOpacity
+            key={el}
             onPress={onPressHandler(el)}
             style={
               current === el

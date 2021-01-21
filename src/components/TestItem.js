@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
+import Image from './Image';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
 import TestsStore from '../stores/TestsStore';
@@ -17,9 +18,8 @@ export default observer(({title, types}) => {
   const [confirm, setConfirm] = useState(false);
   useEffect(() => {
     setFlag(false);
-    if (selected.length > 0) {
-      setConfirm(true);
-      setTestsItem({title, result: selected});
+    if (!confirm) {
+      setSelected([]);
     }
   }, [TestSuccess]);
 
@@ -59,14 +59,12 @@ export default observer(({title, types}) => {
         ))}
       {flag && (
         <View style={{alignItems: 'center'}}>
-          <TouchableOpacity
-            style={TestsStyle.confirmButton}
-            onPress={() => testSuccess()}>
-            <Image
-              source={require('../assets/confirmButton.png')}
-              style={TestsStyle.confirmImage}
-            />
-          </TouchableOpacity>
+          <Image
+            path={require('../assets/confirmButton.png')}
+            style={TestsStyle.confirmImage}
+            containerStyle={TestsStore.confirmButton}
+            onPress={() => testSuccess()}
+          />
         </View>
       )}
       {confirm && !flag && (

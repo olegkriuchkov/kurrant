@@ -1,10 +1,9 @@
-import {toJS} from 'mobx';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Image, Text, TouchableOpacity, View, TextInput} from 'react-native';
-
+import {Text, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import Image from './Image';
 import COLOR from '../constants/COLOR';
 import NavbarStyle from '../style/component/NavbarStyle';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
@@ -48,16 +47,14 @@ export default observer(({color, noStyle, calendar, tabs}) => {
       }>
       <View style={TestsHeaderStyle.mainWrapper}>
         <View>
-          <TouchableOpacity
+          <Image
+            path={require('../assets/back.png')}
+            style={TestsHeaderStyle.backImage}
             onPress={() => {
               Actions.replace('Home');
               setTestSuccess(true);
-            }}>
-            <Image
-              source={require('../assets/back.png')}
-              style={TestsHeaderStyle.backImage}
-            />
-          </TouchableOpacity>
+            }}
+          />
           <View style={TestsHeaderStyle.titlewrapper}>
             <Text
               style={
@@ -86,29 +83,24 @@ export default observer(({color, noStyle, calendar, tabs}) => {
           </View>
         </View>
         {TestSuccess && (
-          <TouchableOpacity
-            style={TestsHeaderStyle.imageWrapper}
-            onPress={() => save()}>
-            <Image
-              style={TestsHeaderStyle.image}
-              source={require('../assets/okButton.png')}
-            />
-          </TouchableOpacity>
+          <Image
+            style={TestsHeaderStyle.image}
+            path={require('../assets/okButton.png')}
+            containerStyle={TestsHeaderStyle.imageWrapper}
+            onPress={() => save()}
+          />
         )}
         {!TestSuccess && (
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity onPress={() => setTestSuccess(true)}>
-              <Image
-                style={{width: 25, height: 25}}
-                source={require('../assets/change.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{width: 25, height: 25, marginLeft: 20}}
-                source={require('../assets/delete.png')}
-              />
-            </TouchableOpacity>
+            <Image
+              style={{width: 25, height: 25}}
+              path={require('../assets/change.png')}
+              onPress={() => setTestSuccess(true)}
+            />
+            <Image
+              style={{width: 25, height: 25, marginLeft: 20}}
+              path={require('../assets/delete.png')}
+            />
           </View>
         )}
       </View>

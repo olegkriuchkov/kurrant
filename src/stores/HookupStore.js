@@ -1,4 +1,4 @@
-import {makeObservable, observable, action} from 'mobx';
+import {makeObservable, observable, action, toJS, reaction} from 'mobx';
 
 class HookupStore {
   @observable Hookups = [];
@@ -14,7 +14,8 @@ class HookupStore {
   @observable Name = '';
 
   @action setHookupItem = (item) => {
-    this.HookupItem.push(item);
+    this.HookupItem.push({...item, id: item.id});
+    console.log(toJS(this.HookupItem));
   };
 
   @action setHookupSuccess = (bool) => {
@@ -28,6 +29,7 @@ class HookupStore {
       note: this.Note,
       name: this.Name,
     });
+    console.log(toJS(this.HookupItem));
   };
 
   @action setName = (name) => {

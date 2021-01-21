@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
+import {v4 as uuidv4} from 'uuid';
+import Image from './Image';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
 import HookupStore from '../stores/HookupStore';
 
 export default observer(({title, types, single = false}) => {
-  const {setHookupItem, HookupSuccess} = HookupStore;
+  const {setHookupItem, HookupSuccess, HookupItem} = HookupStore;
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState([]);
   const [singleFlag, setSingleFlag] = useState(false);
@@ -18,16 +20,16 @@ export default observer(({title, types, single = false}) => {
   const [confirm, setConfirm] = useState(false);
   useEffect(() => {
     setFlag(false);
-    if (selected.length > 0) {
-      setConfirm(true);
-      setHookupItem({title, result: selected});
+    if (!confirm) {
+      setSelected([]);
     }
   }, [HookupSuccess]);
+
   const toggleSingleSelect = () => {
     if (HookupSuccess) {
       setFlag(true);
-      setHookupItem({title, result: [title]});
       if (single) {
+        setHookupItem({title, result: [title], id: uuidv4()});
         setSingleFlag(!singleFlag);
       }
     }
@@ -37,7 +39,7 @@ export default observer(({title, types, single = false}) => {
       if (selected.length > 0) {
         setFlag(false);
         setConfirm(true);
-        setHookupItem({title, result: selected});
+        setHookupItem({title, result: selected, id: uuidv4()});
       } else {
         setFlag(false);
       }
@@ -70,14 +72,12 @@ export default observer(({title, types, single = false}) => {
         ))}
       {flag && !single && (
         <View style={{alignItems: 'center'}}>
-          <TouchableOpacity
-            style={TestsStyle.confirmButton}
-            onPress={() => testSuccess()}>
-            <Image
-              source={require('../assets/confirmButton.png')}
-              style={TestsStyle.confirmImage}
-            />
-          </TouchableOpacity>
+          <Image
+            path={require('../assets/confirmButton.png')}
+            style={TestsStyle.confirmImage}
+            containerStyle={TestsStyle.confirmButton}
+            onPress={() => testSuccess()}
+          />
         </View>
       )}
       {confirm && !flag && (

@@ -1,4 +1,4 @@
-import {makeObservable, observable, action} from 'mobx';
+import {makeObservable, observable, action, toJS} from 'mobx';
 
 class TestsStore {
   @observable Tests = [];
@@ -21,6 +21,7 @@ class TestsStore {
 
   @action setTest = () => {
     this.Tests.push({date: this.Date, test: this.TestItem, note: this.Note});
+    console.log(toJS(this.Tests));
   };
 
   @action setTestDate = (date) => {

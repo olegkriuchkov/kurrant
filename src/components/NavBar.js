@@ -1,7 +1,8 @@
 import moment from 'moment';
 import React, {useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import Image from './Image';
 import NavbarStyle from '../style/component/NavbarStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
@@ -32,12 +33,12 @@ const NavBar = ({
       }>
       <View style={{flexDirection: 'row'}}>
         {arrowBack && (
-          <TouchableOpacity style={{bottom: 20}} onPress={() => Actions.pop()}>
-            <Image
-              source={require('../assets/arrowBack.png')}
-              style={NavbarStyle.arrowBack}
-            />
-          </TouchableOpacity>
+          <Image
+            path={require('../assets/arrowBack.png')}
+            style={NavbarStyle.arrowBack}
+            containerStyle={{bottom: 30}}
+            onPress={() => Actions.pop()}
+          />
         )}
         {cancel && (
           <TouchableOpacity
@@ -47,12 +48,12 @@ const NavBar = ({
           </TouchableOpacity>
         )}
         {pop && (
-          <TouchableOpacity style={{bottom: 20}} onPress={() => Actions.pop()}>
-            <Image
-              source={require('../assets/pop.png')}
-              style={NavbarStyle.pop}
-            />
-          </TouchableOpacity>
+          <Image
+            path={require('../assets/pop.png')}
+            style={NavbarStyle.pop}
+            containerStyle={{bottom: 20}}
+            onPress={() => Actions.pop()}
+          />
         )}
         <View style={NavbarStyle.container}>
           <View style={NavbarStyle.dateContaier}>
@@ -70,14 +71,12 @@ const NavBar = ({
               )}
             </View>
             {settings && (
-              <TouchableOpacity
-                style={NavbarStyle.settingBtn}
-                onPress={() => Actions.Settings()}>
-                <Image
-                  source={require('../assets/settings.png')}
-                  style={NavbarStyle.settings}
-                />
-              </TouchableOpacity>
+              <Image
+                path={require('../assets/settings.png')}
+                style={NavbarStyle.settings}
+                containerStyle={NavbarStyle.settingsBtn}
+                onPress={() => Actions.Settings()}
+              />
             )}
           </View>
           {calendarFlag && (

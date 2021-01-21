@@ -65,4 +65,5 @@ export default StyleSheet.create({
     marginTop: 35,
   },
   settings: {width: 25, height: 19, margin: 10, marginBottom: 15},
+  settingsBtn: {width: 25, height: 19, margin: 10, marginBottom: 25},
 });

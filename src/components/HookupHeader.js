@@ -1,9 +1,9 @@
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Image, Text, TouchableOpacity, View, TextInput} from 'react-native';
-
+import {Text, TouchableOpacity, View, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
@@ -41,16 +41,14 @@ export default observer(({calendar, tabs}) => {
     <View style={TestsHeaderStyle.mainStyle}>
       <View style={TestsHeaderStyle.mainWrapper}>
         <View>
-          <TouchableOpacity
+          <Image
             onPress={() => {
               Actions.replace('Home');
               setHookupSuccess(true);
-            }}>
-            <Image
-              source={require('../assets/back.png')}
-              style={TestsHeaderStyle.backImage}
-            />
-          </TouchableOpacity>
+            }}
+            path={require('../assets/back.png')}
+            style={TestsHeaderStyle.backImage}
+          />
           <View style={TestsHeaderStyle.titlewrapper}>
             <View style={TestsHeaderStyle.headWrapper}>
               <View style={TestsHeaderStyle.columnWrapper}>
@@ -77,29 +75,24 @@ export default observer(({calendar, tabs}) => {
           </View>
         </View>
         {HookupSuccess && (
-          <TouchableOpacity
-            style={TestsHeaderStyle.imageWrapper}
-            onPress={() => save()}>
-            <Image
-              style={TestsHeaderStyle.image}
-              source={require('../assets/okButton.png')}
-            />
-          </TouchableOpacity>
+          <Image
+            style={TestsHeaderStyle.image}
+            containerStyle={TestsHeaderStyle.imageWrapper}
+            onPress={() => save()}
+            path={require('../assets/okButton.png')}
+          />
         )}
         {!HookupSuccess && (
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity onPress={() => setHookupSuccess(true)}>
-              <Image
-                style={{width: 25, height: 25}}
-                source={require('../assets/change.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{width: 25, height: 25, marginLeft: 20}}
-                source={require('../assets/delete.png')}
-              />
-            </TouchableOpacity>
+            <Image
+              style={{width: 25, height: 25}}
+              path={require('../assets/change.png')}
+              onPress={() => setHookupSuccess(true)}
+            />
+            <Image
+              style={{width: 25, height: 25, marginLeft: 20}}
+              path={require('../assets/delete.png')}
+            />
           </View>
         )}
       </View>

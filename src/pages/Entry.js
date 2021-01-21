@@ -10,7 +10,7 @@ const Entry = () => {
   const protection = ['Condom', 'No Condom'];
   const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other'];
   const [note, setNote] = useState('');
-  const {setHookupNote, HookupSuccess} = HookupStore;
+  const {setHookupNote, HookupSuccess, Note} = HookupStore;
   const setText = (text) => {
     setNote(text);
     setHookupNote(text);
@@ -56,7 +56,7 @@ const Entry = () => {
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
             onChangeText={(text) => HookupSuccess && setText(text)}
-            value={note}
+            value={Note}
             style={TestsStyle.textInput}
             underlineColorAndroid="transparent"
             placeholder="Add note"

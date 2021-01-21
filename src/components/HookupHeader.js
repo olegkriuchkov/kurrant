@@ -20,9 +20,10 @@ export default observer(({calendar, tabs}) => {
     setHookups,
     setHookupDate,
     setHookupNote,
-    clearHookupItem,
+    clearForm,
     setHookupSuccess,
     setName,
+    Name,
     HookupSuccess,
   } = HookupStore;
 
@@ -46,7 +47,7 @@ export default observer(({calendar, tabs}) => {
             onPress={() => {
               Actions.replace('Home');
               setHookupSuccess(true);
-              clearHookupItem();
+              clearForm();
             }}
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}
@@ -67,11 +68,16 @@ export default observer(({calendar, tabs}) => {
                 </View>
                 {calendarFlag && <CustomCalendar onPress={press} date={date} />}
 
-                <TextInput
-                  onChangeText={(text) => setName(text)}
-                  placeholder="Enter name"
-                  style={TestsHeaderStyle.inputStyle}
-                />
+                {!HookupSuccess ? (
+                  <Text style={TestsHeaderStyle.inputStyle}>{Name}</Text>
+                ) : (
+                  <TextInput
+                    onChangeText={(text) => setName(text)}
+                    placeholder="Enter name"
+                    style={TestsHeaderStyle.inputStyle}
+                    value={Name}
+                  />
+                )}
               </View>
             </View>
           </View>

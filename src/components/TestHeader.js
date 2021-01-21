@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import {v4 as uuidv4} from 'uuid';
 import Image from './Image';
 import COLOR from '../constants/COLOR';
 import NavbarStyle from '../style/component/NavbarStyle';
@@ -14,10 +15,15 @@ import TestsStore from '../stores/TestsStore';
 
 export default observer(({color, noStyle, calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
+  const [id, setId] = useState(uuidv4());
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [select, setSelect] = useState(true);
+
   const {
     setTestDate,
     setTest,
     setTestNote,
+    clearTestItem,
     setTestSuccess,
     TestSuccess,
   } = TestsStore;
@@ -25,9 +31,8 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   useEffect(() => {
     setTestDate(new Date(Date.now()));
   }, []);
-
   const save = () => {
-    setTest();
+    setTest(id);
     setTestNote();
     setTestSuccess(false);
   };
@@ -36,8 +41,6 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setTestDate(date);
   };
 
-  const [date, setDate] = useState(new Date(Date.now()));
-  const [select, setSelect] = useState(true);
   return (
     <View
       style={
@@ -53,6 +56,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             onPress={() => {
               Actions.replace('Home');
               setTestSuccess(true);
+              clearTestItem();
             }}
           />
           <View style={TestsHeaderStyle.titlewrapper}>

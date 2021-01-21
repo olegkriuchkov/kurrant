@@ -15,6 +15,11 @@ class TestsStore {
     this.TestSuccess = bool;
   };
 
+  @action clearTestItem = () => {
+    this.TestItem = [];
+    this.Note = '';
+  };
+
   @action setTestsItem = (item) => {
     const currentItem = this.TestItem.find((e) => e.id === item.id);
     if (currentItem) {
@@ -26,8 +31,20 @@ class TestsStore {
     console.log(toJS(this.TestItem));
   };
 
-  @action setTest = () => {
-    this.Tests.push({date: this.Date, test: this.TestItem, note: this.Note});
+  @action setTest = (id) => {
+    const currentTest = this.TestItem.find((e) => e.id === id);
+    if (currentTest) {
+      currentTest.test = this.TestItem;
+      currentTest.note = this.Note;
+      this.Tests = this.TestItem.filter((e) => e.test.length > 0);
+    } else {
+      this.Tests.push({
+        date: this.Date,
+        test: this.TestItem,
+        note: this.Note,
+        id,
+      });
+    }
     console.log(toJS(this.Tests));
   };
 

@@ -32,8 +32,10 @@ class HookupStore {
     console.log(toJS(this.HookupItem));
   };
 
-  @action clearHookupItem = () => {
+  @action clearForm = () => {
     this.HookupItem = [];
+    this.Name = '';
+    this.Note = '';
   };
 
   @action setHookupSuccess = (bool) => {
@@ -41,9 +43,11 @@ class HookupStore {
   };
 
   @action setHookups = (id) => {
-    const currentTest = this.Hookups.find((e) => e.id === id);
-    if (currentTest) {
-      currentTest.hookup = this.HookupItem;
+    const currentHookup = this.Hookups.find((e) => e.id === id);
+    if (currentHookup) {
+      currentHookup.hookup = this.HookupItem;
+      currentHookup.name = this.Name;
+      currentHookup.note = this.Note;
       this.Hookups = this.Hookups.filter((e) => e.hookup.length > 0);
     } else {
       this.Hookups.push({

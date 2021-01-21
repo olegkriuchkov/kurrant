@@ -9,7 +9,7 @@ const Tests = observer(() => {
   const allTitle = ['Chlamydia', 'Gonorrhea', 'HIV', 'Syphilis', 'Other'];
   const testTypes = ['Rectal', 'Throad', 'Urine'];
   const [note, setNote] = useState('');
-  const {setTestNote, TestSuccess} = TestsStore;
+  const {setTestNote, TestSuccess, Note} = TestsStore;
   const setText = (text) => {
     setNote(text);
     setTestNote(text);
@@ -27,7 +27,7 @@ const Tests = observer(() => {
         <View style={TestsStyle.mainNoteWrapper}>
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
-            value={note}
+            value={Note}
             onChangeText={(text) => TestSuccess && setText(text)}
             style={TestsStyle.textInput}
             underlineColorAndroid="transparent"

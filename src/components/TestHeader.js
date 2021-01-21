@@ -12,17 +12,18 @@ import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
 import Tabs from './Tabs';
 import TestsStore from '../stores/TestsStore';
+import TouchebltText from './TouchebltText';
 
 export default observer(({color, noStyle, calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
   const [id, setId] = useState(uuidv4());
   const [date, setDate] = useState(new Date(Date.now()));
   const [select, setSelect] = useState(true);
+  const [deleteFlag, setDeleteFlag] = useState(false);
 
   const {
     setTestDate,
     setTest,
-    setTestNote,
     clearTestItem,
     setTestSuccess,
     TestSuccess,
@@ -33,7 +34,6 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   }, []);
   const save = () => {
     setTest(id);
-    setTestNote();
     setTestSuccess(false);
   };
   const press = (day) => {
@@ -104,6 +104,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             <Image
               style={{width: 25, height: 25, marginLeft: 20}}
               path={require('../assets/delete.png')}
+              onPress={() => setDeleteFlag(true)}
             />
           </View>
         )}
@@ -115,6 +116,37 @@ export default observer(({color, noStyle, calendar, tabs}) => {
           defaultTab={tabs[0]}
         />
       </View>
+      {deleteFlag && (
+        <View style={TestsHeaderStyle.deletScreenWrapper}>
+          <Image
+            path={require('../assets/deleteConfirm.png')}
+            containerStyle={{alignSelf: 'flex-end'}}
+            style={TestsHeaderStyle.deleteImage}
+            onPress={() => setDeleteFlag(false)}
+          />
+          <View style={TestsHeaderStyle.mainDeleteTextWrapper}>
+            <TouchebltText
+              text="Delete entry?"
+              containerStyle={TestsHeaderStyle.deleteTextWrapper}
+              style={TestsHeaderStyle.mainDeleteText}
+            />
+            <TouchebltText
+              text="Delete entry"
+              containerStyle={[
+                TestsHeaderStyle.deleteTextWrapper,
+                {marginTop: 5},
+              ]}
+              style={TestsHeaderStyle.deleteText}
+            />
+            <TouchebltText
+              text="Cancel"
+              containerStyle={TestsHeaderStyle.cancelWrapper}
+              onPress={() => setDeleteFlag(false)}
+              style={TestsHeaderStyle.deleteText}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 });

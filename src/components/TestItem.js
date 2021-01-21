@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
@@ -7,12 +8,12 @@ import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
 import TestsStore from '../stores/TestsStore';
 
-export default observer(({title, types}) => {
-  const {setTestsItem, TestSuccess, TestItem} = TestsStore;
+export default observer(({title, types, sucess = false, result}) => {
+  const {setTestsItem, TestSuccess, TestItems} = TestsStore;
   const [flag, setFlag] = useState(false);
-  const [selected, setSelected] = useState([]);
-  const [confirm, setConfirm] = useState(false);
-  const currentItem = TestItem.find((e) => e.title === title);
+  const [selected, setSelected] = useState(result || []);
+  const [confirm, setConfirm] = useState(sucess);
+  const currentItem = TestItems.find((e) => e.title === title);
   const select = (title) => {
     selected.includes(title)
       ? setSelected((prev) => prev.filter((e) => e !== title))
@@ -83,7 +84,7 @@ export default observer(({title, types}) => {
       {confirm && !flag && (
         <View style={TestsStyle.resultTitle}>
           <Text style={TestsStyle.resultTitleText}>{title}</Text>
-          {selected.map((selectedText) => (
+          {(result || selected).map((selectedText) => (
             <Text key={selectedText} style={TestsStyle.resultText}>
               {selectedText}
             </Text>

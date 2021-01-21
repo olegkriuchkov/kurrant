@@ -5,7 +5,7 @@ class TestsStore {
 
   @observable Date = '';
 
-  @observable TestItem = [];
+  @observable TestItems = [];
 
   @observable Note = '';
 
@@ -16,31 +16,31 @@ class TestsStore {
   };
 
   @action clearTestItem = () => {
-    this.TestItem = [];
+    this.TestItems = [];
     this.Note = '';
   };
 
   @action setTestsItem = (item) => {
-    const currentItem = this.TestItem.find((e) => e.id === item.id);
+    const currentItem = this.TestItems.find((e) => e.id === item.id);
     if (currentItem) {
       currentItem.result = item.result;
-      this.TestItem = this.TestItem.filter((e) => e.result.length > 0);
+      this.TestItems = this.TestItems.filter((e) => e.result.length > 0);
     } else {
-      this.TestItem.push(item);
+      this.TestItems.push(item);
     }
-    console.log(toJS(this.TestItem));
+    console.log('TESTITEM', toJS(this.TestItems));
   };
 
   @action setTest = (id) => {
-    const currentTest = this.TestItem.find((e) => e.id === id);
+    const currentTest = this.TestItems.find((e) => e.id === id);
     if (currentTest) {
-      currentTest.test = this.TestItem;
+      currentTest.test = this.TestItems;
       currentTest.note = this.Note;
-      this.Tests = this.TestItem.filter((e) => e.test.length > 0);
+      this.Tests = this.TestItems.filter((e) => e.test.length > 0);
     } else {
       this.Tests.push({
         date: this.Date,
-        test: this.TestItem,
+        test: this.TestItems,
         note: this.Note,
         id,
       });
@@ -50,6 +50,10 @@ class TestsStore {
 
   @action setTestDate = (date) => {
     this.Date = date;
+  };
+
+  @action deleteHookup = (id) => {
+    this.Tests = this.Tests.filter((e) => e.id !== id);
   };
 
   @action setTestNote = (note) => {

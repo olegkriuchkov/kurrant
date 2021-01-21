@@ -1,5 +1,4 @@
-import {makeObservable, observable, action, toJS, reaction} from 'mobx';
-import {log} from 'react-native-reanimated';
+import {makeObservable, observable, action, toJS} from 'mobx';
 
 class HookupStore {
   @observable Hookups = [];
@@ -60,6 +59,10 @@ class HookupStore {
     }
 
     console.log(toJS(this.Hookups));
+  };
+
+  @action deleteHookup = (id) => {
+    this.Hookups = this.Hookups.filter((e) => e.id !== id);
   };
 
   @action setName = (name) => {

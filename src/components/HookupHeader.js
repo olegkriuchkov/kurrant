@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import {v4 as uuidv4} from 'uuid';
 import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import CustomCalendar from './Calendar';
@@ -12,10 +13,14 @@ import HookupStore from '../stores/HookupStore';
 
 export default observer(({calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [select, setSelect] = useState(true);
+  const [id, setId] = useState(uuidv4());
   const {
     setHookups,
     setHookupDate,
     setHookupNote,
+    clearHookupItem,
     setHookupSuccess,
     setName,
     HookupSuccess,
@@ -24,9 +29,8 @@ export default observer(({calendar, tabs}) => {
   useEffect(() => {
     setHookupDate(new Date(Date.now()));
   }, []);
-
   const save = () => {
-    setHookups();
+    setHookups(id);
     setHookupNote();
     setHookupSuccess(false);
   };
@@ -34,9 +38,6 @@ export default observer(({calendar, tabs}) => {
     setDate(new Date(day.timestamp));
     setHookupDate(date);
   };
-
-  const [date, setDate] = useState(new Date(Date.now()));
-  const [select, setSelect] = useState(true);
   return (
     <View style={TestsHeaderStyle.mainStyle}>
       <View style={TestsHeaderStyle.mainWrapper}>
@@ -45,6 +46,7 @@ export default observer(({calendar, tabs}) => {
             onPress={() => {
               Actions.replace('Home');
               setHookupSuccess(true);
+              clearHookupItem();
             }}
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}

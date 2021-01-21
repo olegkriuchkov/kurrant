@@ -1,21 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
+import {v4 as uuidv4} from 'uuid';
 import Image from './Image';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
 import TestsStore from '../stores/TestsStore';
 
 export default observer(({title, types}) => {
-  const {setTestsItem, TestSuccess} = TestsStore;
+  const {setTestsItem, TestSuccess, TestItem} = TestsStore;
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [confirm, setConfirm] = useState(false);
+  const currentItem = TestItem.find((e) => e.title === title);
   const select = (title) => {
     selected.includes(title)
       ? setSelected((prev) => prev.filter((e) => e !== title))
       : setSelected((prev) => [...prev, title]);
   };
-  const [confirm, setConfirm] = useState(false);
+
   useEffect(() => {
     setFlag(false);
     if (!confirm) {
@@ -23,6 +26,13 @@ export default observer(({title, types}) => {
     }
   }, [TestSuccess]);
 
+  const setTest = (result) => {
+    setTestsItem({
+      title,
+      result,
+      id: currentItem ? currentItem.id : uuidv4(),
+    });
+  };
   const toggleSingleSelect = () => {
     if (TestSuccess) {
       setFlag(true);
@@ -30,13 +40,16 @@ export default observer(({title, types}) => {
   };
   const testSuccess = () => {
     if (TestSuccess) {
-      setFlag(true);
       if (selected.length > 0) {
         setFlag(false);
         setConfirm(true);
-        setTestsItem({title, result: selected});
+        setTest(selected);
       } else {
         setFlag(false);
+        setTest(selected);
+      }
+      if (selected.length === 0) {
+        setConfirm(false);
       }
     }
   };
@@ -62,7 +75,7 @@ export default observer(({title, types}) => {
           <Image
             path={require('../assets/confirmButton.png')}
             style={TestsStyle.confirmImage}
-            containerStyle={TestsStore.confirmButton}
+            containerStyle={[TestsStore.confirmButton, {bottom: 30, left: 80}]}
             onPress={() => testSuccess()}
           />
         </View>

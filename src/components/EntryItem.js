@@ -12,12 +12,14 @@ export default observer(({title, types, single = false}) => {
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState([]);
   const [singleFlag, setSingleFlag] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const currentItem = HookupItem.find((e) => e.title === title);
+
   const select = (title) => {
     selected.includes(title)
       ? setSelected((prev) => prev.filter((e) => e !== title))
       : setSelected((prev) => [...prev, title]);
   };
-  const [confirm, setConfirm] = useState(false);
   useEffect(() => {
     setFlag(false);
     if (!confirm) {
@@ -25,23 +27,36 @@ export default observer(({title, types, single = false}) => {
     }
   }, [HookupSuccess]);
 
+  const setHookup = (result, singleItem = false) => {
+    setHookupItem({
+      title,
+      result,
+      id: currentItem ? currentItem.id : uuidv4(),
+      single: singleItem,
+    });
+  };
   const toggleSingleSelect = () => {
     if (HookupSuccess) {
       setFlag(true);
       if (single) {
-        setHookupItem({title, result: [title], id: uuidv4()});
+        setHookup([title], true);
         setSingleFlag(!singleFlag);
       }
     }
   };
+
   const testSuccess = () => {
     if (HookupSuccess) {
       if (selected.length > 0) {
         setFlag(false);
         setConfirm(true);
-        setHookupItem({title, result: selected, id: uuidv4()});
+        setHookup(selected);
       } else {
         setFlag(false);
+        setHookup(selected);
+      }
+      if (selected.length === 0 && !single) {
+        setConfirm(false);
       }
     }
   };
@@ -75,7 +90,11 @@ export default observer(({title, types, single = false}) => {
           <Image
             path={require('../assets/confirmButton.png')}
             style={TestsStyle.confirmImage}
-            containerStyle={TestsStyle.confirmButton}
+            containerStyle={
+              single
+                ? [TestsStyle.confirmButton, {top: 90}]
+                : TestsStyle.confirmButton
+            }
             onPress={() => testSuccess()}
           />
         </View>

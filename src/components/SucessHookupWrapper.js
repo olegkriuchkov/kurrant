@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import HookupStore from '../stores/HookupStore';
-import TestsStyle from '../style/page/Tests/TestsStyle';
-import EntryItem from './EntryItem';
+import CompleteEntry from './CompleteEntry';
 
 export default ({single = false}) => {
   const {hookupItem, hookupSuccess} = HookupStore;
@@ -54,50 +53,24 @@ export default ({single = false}) => {
   return (
     <>
       <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 10}}>
-        {hookup.activities.map((e) => (
-          <>
-            <EntryItem
-              title={e.title}
-              key={e.title}
-              result={e.result}
-              single={single}
-              sucess={true}
-            />
-          </>
-        ))}
+        <CompleteEntry arr={hookup.activities} single={single} />
+        {!!hookup.protection.length > 0 && (
+          <CompleteEntry
+            arr={hookup.protection}
+            withText={true}
+            text="Protection"
+            single={single}
+          />
+        )}
+        {!!hookup.substance.length > 0 && (
+          <CompleteEntry
+            arr={hookup.protection}
+            withText={true}
+            text="Substance"
+            single={single}
+          />
+        )}
       </View>
-      {!!hookup.protection.length > 0 && (
-        <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 10}}>
-          <Text style={[TestsStyle.textNote, {right: 10}]}>Protection</Text>
-          {hookup.protection.map((e) => (
-            <>
-              <EntryItem
-                title={e.title}
-                key={e.title}
-                result={e.result}
-                single={single}
-                sucess={true}
-              />
-            </>
-          ))}
-        </View>
-      )}
-      {!!hookup.substance.length > 0 && (
-        <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 10}}>
-          <Text style={TestsStyle.textNote}>Substance</Text>
-          {hookup.protection.map((e) => (
-            <>
-              <EntryItem
-                title={e.title}
-                key={e.title}
-                result={e.result}
-                single={single}
-                sucess={true}
-              />
-            </>
-          ))}
-        </View>
-      )}
     </>
   );
 };

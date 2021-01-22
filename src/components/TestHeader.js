@@ -12,25 +12,25 @@ import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
 import Tabs from './Tabs';
 import TestsStore from '../stores/TestsStore';
-import TouchebltText from './TouchebltText';
+import TouchebltText from './TouchebleText';
 
 export default observer(({color, noStyle, calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
   const [id, setId] = useState(uuidv4());
-  const [date, setDate] = useState(new Date(Date.now()));
+  const [date, setDate] = useState(new Date());
   const [select, setSelect] = useState(true);
   const [deleteFlag, setDeleteFlag] = useState(false);
-
+  const resultTabs = ['Results', 'Notes'];
   const {
     setTestDate,
     setTest,
     clearTestItem,
     setTestSuccess,
-    TestSuccess,
+    testSuccess,
   } = TestsStore;
 
   useEffect(() => {
-    setTestDate(new Date(Date.now()));
+    setTestDate(new Date());
   }, []);
   const save = () => {
     setTest(id);
@@ -62,11 +62,11 @@ export default observer(({color, noStyle, calendar, tabs}) => {
           <View style={TestsHeaderStyle.titlewrapper}>
             <Text
               style={
-                TestSuccess
+                testSuccess
                   ? TestsHeaderStyle.titleText
                   : [TestsHeaderStyle.titleText, {color: COLOR.BLACK}]
               }>
-              {TestSuccess ? 'New test results' : 'Test result'}
+              {testSuccess ? 'New test results' : 'Test result'}
             </Text>
             <View style={TestsHeaderStyle.headWrapper}>
               <View style={TestsHeaderStyle.columnWrapper}>
@@ -74,7 +74,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
                   <Text style={TestsHeaderStyle.date}>
                     {moment(date).format('MMMM D')}
                   </Text>
-                  {calendar && TestSuccess && (
+                  {calendar && testSuccess && (
                     <CalendarButton
                       onPress={() => setCalendarFlag(!calendarFlag)}
                       calendarFlag={calendarFlag}
@@ -86,7 +86,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             </View>
           </View>
         </View>
-        {TestSuccess && (
+        {testSuccess && (
           <Image
             style={TestsHeaderStyle.image}
             path={require('../assets/okButton.png')}
@@ -94,7 +94,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             onPress={() => save()}
           />
         )}
-        {!TestSuccess && (
+        {!testSuccess && (
           <View style={{flexDirection: 'row'}}>
             <Image
               style={{width: 25, height: 25}}
@@ -111,9 +111,9 @@ export default observer(({color, noStyle, calendar, tabs}) => {
       </View>
       <View style={TestsHeaderStyle.mainTabsWrapper}>
         <Tabs
-          tabs={tabs}
+          tabs={testSuccess ? tabs : resultTabs}
           onPress={(tabId) => setSelect(tabId)}
-          defaultTab={tabs[0]}
+          defaultTab={testSuccess ? tabs[0] : resultTabs[0]}
         />
       </View>
       {deleteFlag && (

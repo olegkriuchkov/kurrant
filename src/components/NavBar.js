@@ -19,18 +19,16 @@ const NavBar = ({
   calendar,
   cancel,
 }) => {
-  const [date, setDate] = useState(new Date(Date.now()));
+  const [date, setDate] = useState(new Date());
   const [calendarFlag, setCalendarFlag] = useState(false);
   const press = (day) => {
     setDate(new Date(day.timestamp));
   };
+  const wrapperStyle = noStyle
+    ? [NavbarStyle.noStyle, {backgroundColor: color}]
+    : NavbarStyle.mainStyle;
   return (
-    <View
-      style={
-        noStyle
-          ? [NavbarStyle.noStyle, {backgroundColor: color}]
-          : NavbarStyle.mainStyle
-      }>
+    <View style={wrapperStyle}>
       <View style={{flexDirection: 'row'}}>
         {arrowBack && (
           <Image

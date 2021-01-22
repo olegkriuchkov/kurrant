@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
@@ -9,11 +8,11 @@ import ButtonItem from './ButtonItem';
 import TestsStore from '../stores/TestsStore';
 
 export default observer(({title, types, sucess = false, result}) => {
-  const {setTestsItem, TestSuccess, TestItems} = TestsStore;
+  const {setTestsItem, testSuccess, testItems} = TestsStore;
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState(result || []);
   const [confirm, setConfirm] = useState(sucess);
-  const currentItem = TestItems.find((e) => e.title === title);
+  const currentItem = testItems.find((e) => e.title === title);
   const select = (title) => {
     selected.includes(title)
       ? setSelected((prev) => prev.filter((e) => e !== title))
@@ -25,7 +24,7 @@ export default observer(({title, types, sucess = false, result}) => {
     if (!confirm) {
       setSelected([]);
     }
-  }, [TestSuccess]);
+  }, [testSuccess]);
 
   const setTest = (result) => {
     setTestsItem({
@@ -35,12 +34,12 @@ export default observer(({title, types, sucess = false, result}) => {
     });
   };
   const toggleSingleSelect = () => {
-    if (TestSuccess) {
+    if (testSuccess) {
       setFlag(true);
     }
   };
-  const testSuccess = () => {
-    if (TestSuccess) {
+  const testsSuccess = () => {
+    if (testSuccess) {
       if (selected.length > 0) {
         setFlag(false);
         setConfirm(true);
@@ -77,7 +76,7 @@ export default observer(({title, types, sucess = false, result}) => {
             path={require('../assets/confirmButton.png')}
             style={TestsStyle.confirmImage}
             containerStyle={[TestsStore.confirmButton, {bottom: 30, left: 80}]}
-            onPress={() => testSuccess()}
+            onPress={() => testsSuccess()}
           />
         </View>
       )}

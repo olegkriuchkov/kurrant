@@ -4,16 +4,12 @@ import {Image, TouchableOpacity} from 'react-native';
 import NavbarStyle from '../style/component/NavbarStyle';
 
 const CalendarButton = ({onPress, calendarFlag}) => {
+  const imageStyle = calendarFlag
+    ? NavbarStyle.calendarButton
+    : NavbarStyle.activeCalendarButton;
   return (
     <TouchableOpacity onPress={onPress} style={{alignSelf: 'center'}}>
-      <Image
-        style={
-          calendarFlag
-            ? NavbarStyle.calendarButton
-            : NavbarStyle.activeCalendarButton
-        }
-        source={require('../assets/more.png')}
-      />
+      <Image style={imageStyle} source={require('../assets/more.png')} />
     </TouchableOpacity>
   );
 };

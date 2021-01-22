@@ -32,14 +32,8 @@ const CustomCalendar = ({onPress, date}) => {
         markedDates={{
           [moment(date).format('YYYY-MM-DD')]: {
             customStyles: {
-              container: {
-                backgroundColor: COLOR.PINK,
-                borderRadius: 10,
-              },
-              text: {
-                color: COLOR.WHITE,
-                opacity: 1,
-              },
+              container: NavbarStyle.markerContainer,
+              text: NavbarStyle.maerkerText,
             },
           },
         }}

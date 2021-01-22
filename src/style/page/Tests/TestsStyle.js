@@ -12,7 +12,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    marginLeft: 8,
+    marginLeft: 10,
     marginTop: 8,
   },
   entryWrapper: {width: '100%'},
@@ -21,6 +21,7 @@ export default StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
+
     justifyContent: 'flex-start',
   },
   mainItem: {
@@ -31,6 +32,7 @@ export default StyleSheet.create({
     borderRadius: 20,
     backgroundColor: COLOR.WHITE,
     margin: 5,
+
     marginTop: 5,
   },
   singleMainItem: {
@@ -154,4 +156,19 @@ export default StyleSheet.create({
     textAlignVertical: 'top',
     marginTop: 0,
   },
+  selectedItem: {
+    borderColor: COLOR.PINK,
+    backgroundColor: COLOR.PINK,
+    borderBottomColor: COLOR.BLUE,
+  },
+  allClearWrapper: {
+    width: '45%',
+    minHeight: 165,
+    maxHeight: 165,
+    borderRadius: 20,
+    backgroundColor: COLOR.WHITE,
+    margin: 5,
+    marginTop: 5,
+  },
+  allClearText: {color: COLOR.PINK, margin: 10, fontSize: 18},
 });

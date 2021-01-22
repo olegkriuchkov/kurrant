@@ -10,29 +10,16 @@ export default observer(({type, index, onPress, selected}) => {
     TestsStyle.midelItem,
     TestsStyle.bottomItem,
   ];
+  const selectedConteiner = selected.includes(type)
+    ? [style[index], TestsStyle.selectedItem]
+    : style[index];
+  const selectedText = selected.includes(type)
+    ? TestsStyle.textColor
+    : TestsStyle.textColorSelected;
+
   return (
-    <TouchableOpacity
-      style={
-        selected.includes(type)
-          ? [
-              style[index],
-              {
-                borderColor: COLOR.PINK,
-                backgroundColor: COLOR.PINK,
-                borderBottomColor: COLOR.BLUE,
-              },
-            ]
-          : style[index]
-      }
-      onPress={onPress}>
-      <Text
-        style={
-          selected.includes(type)
-            ? TestsStyle.textColor
-            : TestsStyle.textColorSelected
-        }>
-        {type}
-      </Text>
+    <TouchableOpacity style={selectedConteiner} onPress={onPress}>
+      <Text style={selectedText}>{type}</Text>
     </TouchableOpacity>
   );
 });

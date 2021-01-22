@@ -10,18 +10,18 @@ import TestsStyle from '../style/page/Tests/TestsStyle';
 export default observer(() => {
   const allTitle = ['Chlamydia', 'Gonorrhea', 'HIV', 'Syphilis', 'Other'];
   const testTypes = ['Rectal', 'Throad', 'Urine'];
-  const [note, setNote] = useState('');
-  const {setTestNote, TestSuccess, Note, Tests, TestItems} = TestsStore;
+  const [notes, setNote] = useState('');
+  const {setTestNote, testSuccess, note, tests, testItems} = TestsStore;
   const setText = (text) => {
     setNote(text);
     setTestNote(text);
   };
-  console.log(toJS(TestSuccess));
-  console.log(toJS(TestItems.length));
+  console.log(toJS(testSuccess));
+  console.log(toJS(testItems.length));
   return (
-    <SafeAreaView>
+    <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper}>
-        {TestSuccess && (
+        {testSuccess && (
           <View style={TestsStyle.main}>
             <View style={TestsStyle.contaier}>
               {allTitle.map((title) => (
@@ -31,10 +31,10 @@ export default observer(() => {
           </View>
         )}
 
-        {!TestSuccess && TestItems.length > 0 && (
+        {!testSuccess && testItems.length > 0 && (
           <View style={TestsStyle.main}>
-            <View style={[TestsStyle.contaier, {minHeight: 280}]}>
-              {TestItems.map((e) => {
+            <View style={[TestsStyle.contaier]}>
+              {testItems.map((e) => {
                 return (
                   <TestItem
                     title={e.title}
@@ -48,22 +48,11 @@ export default observer(() => {
             </View>
           </View>
         )}
-        {!TestSuccess && TestItems.length === 0 && (
+        {!testSuccess && testItems.length === 0 && (
           <View style={TestsStyle.main}>
-            <View style={[TestsStyle.contaier, {minHeight: 280}]}>
-              <View
-                style={{
-                  width: '45%',
-                  minHeight: 165,
-                  maxHeight: 165,
-                  borderRadius: 20,
-                  backgroundColor: COLOR.WHITE,
-                  margin: 5,
-                  marginTop: 5,
-                }}>
-                <Text style={{color: COLOR.PINK, margin: 10, fontSize: 18}}>
-                  All clear
-                </Text>
+            <View style={[TestsStyle.contaier]}>
+              <View style={TestsStyle.allClearWrapper}>
+                <Text style={TestsStyle.allClearText}>All clear</Text>
               </View>
             </View>
           </View>
@@ -71,8 +60,8 @@ export default observer(() => {
         <View style={TestsStyle.mainNoteWrapper}>
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
-            value={Note}
-            onChangeText={(text) => TestSuccess && setText(text)}
+            value={note}
+            onChangeText={(text) => testSuccess && setText(text)}
             style={TestsStyle.textInput}
             underlineColorAndroid="transparent"
             placeholder="Add note"

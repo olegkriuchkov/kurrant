@@ -66,4 +66,12 @@ export default StyleSheet.create({
   },
   settings: {width: 25, height: 19, margin: 10, marginBottom: 15},
   settingsBtn: {width: 25, height: 19, margin: 10, marginBottom: 25},
+  markerContainer: {
+    backgroundColor: COLOR.PINK,
+    borderRadius: 10,
+  },
+  maerkerText: {
+    color: COLOR.WHITE,
+    opacity: 1,
+  },
 });

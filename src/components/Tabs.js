@@ -1,14 +1,23 @@
+import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity} from 'react-native';
+import TestsStore from '../stores/TestsStore';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 
-export default ({tabs, onPress, defaultTab}) => {
+export default observer(({tabs, onPress, defaultTab}) => {
   const [current, setCurrent] = useState('');
+  const {testSuccess} = TestsStore;
   useEffect(() => {
     if (defaultTab) {
       setCurrent(defaultTab);
     }
   }, []);
+
+  useEffect(() => {
+    if (defaultTab) {
+      setCurrent(defaultTab);
+    }
+  }, [testSuccess]);
   const onPressHandler = (text) => () => {
     setCurrent(text);
     onPress(text);
@@ -38,4 +47,4 @@ export default ({tabs, onPress, defaultTab}) => {
       })}
     </ScrollView>
   );
-};
+});

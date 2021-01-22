@@ -27,8 +27,6 @@ class HookupStore {
     } else {
       this.hookupItem.push(item);
     }
-
-    console.log(toJS(this.hookupItem));
   };
 
   @action clearForm = () => {

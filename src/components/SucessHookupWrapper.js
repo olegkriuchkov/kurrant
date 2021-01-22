@@ -64,7 +64,7 @@ export default ({single = false}) => {
         )}
         {!!hookup.substance.length > 0 && (
           <CompleteEntry
-            arr={hookup.protection}
+            arr={hookup.substance}
             withText={true}
             text="Substance"
             single={single}

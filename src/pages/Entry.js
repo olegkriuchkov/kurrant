@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
@@ -13,12 +12,11 @@ export default observer(() => {
   const protection = ['Condom', 'No Condom'];
   const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other'];
   const [notes, setNote] = useState('');
-  const {setHookupNote, hookupSuccess, note, hookups, hookupItem} = HookupStore;
+  const {setHookupNote, hookupSuccess, note} = HookupStore;
   const setText = (text) => {
     setNote(text);
     setHookupNote(text);
   };
-  console.log(toJS(note));
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper}>

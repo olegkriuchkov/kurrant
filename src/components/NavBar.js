@@ -81,13 +81,13 @@ const NavBar = ({
               </TouchableOpacity>
             )}
           </View>
-          {calendarFlag && (
+          {/* {calendarFlag && (
             <CustomCalendar
               onPress={press}
               date={date}
               onEndReserch={() => setDate((prev) => moment(prev).add('month'))}
             />
-          )}
+          )} */}
         </View>
       </View>
     </View>

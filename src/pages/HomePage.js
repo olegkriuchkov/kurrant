@@ -10,10 +10,12 @@ const HomePage = () => {
       <View style={modalFlag ? {} : {opacity: 0.1}}>
         <ScrollView style={HomePageStyle.main}>
           <View style={HomePageStyle.daysView}>
-            <View style={HomePageStyle.lastDayTest}>
+            <TouchableOpacity
+              style={HomePageStyle.lastDayTest}
+              onPress={() => Actions.AnalyticsPage()}>
               <Text style={HomePageStyle.days}>90</Text>
               <Text style={HomePageStyle.text}>Days since last test</Text>
-            </View>
+            </TouchableOpacity>
             <View style={HomePageStyle.hookupView}>
               <View style={HomePageStyle.lastHookup}>
                 <Text style={HomePageStyle.days}>8</Text>

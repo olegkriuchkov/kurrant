@@ -22,6 +22,8 @@ import TabBarStyle from '../style/component/TabBarStyle';
 import Entry from '../pages/Entry';
 import globalStore from '../stores/globalStore';
 import ContactsHeader from '../pages/Contacts/ContactsHeader';
+import {AnalyticsPage} from '../pages/AnalyticsPage';
+import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
 
 export default observer(() => (
   <Router>
@@ -145,6 +147,14 @@ export default observer(() => (
             tabs={['Activity', 'Protection', 'Substance', 'Notes']}
           />
         )}
+      />
+      <Scene
+        key="AnalyticsPage"
+        statusBarStyle="light-content"
+        hideTabBar={true}
+        component={AnalyticsPage}
+        modal={true}
+        navBar={() => <AnalyticsHeader />}
       />
     </Stack>
   </Router>

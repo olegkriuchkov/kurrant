@@ -1,4 +1,5 @@
 import {makeObservable, observable, action, toJS} from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class HookupStore {
   @observable hookups = [];
@@ -10,6 +11,8 @@ class HookupStore {
   @observable note = '';
 
   @observable hookupSuccess = true;
+
+  @observable keys = [];
 
   @observable name = '';
 
@@ -27,7 +30,6 @@ class HookupStore {
     } else {
       this.hookupItem.push(item);
     }
-    console.log('HookupItem', toJS(this.hookupItem));
   };
 
   @action clearForm = () => {
@@ -40,7 +42,7 @@ class HookupStore {
     this.hookupSuccess = bool;
   };
 
-  @action setHookups = (id) => {
+  @action setHookups = async (id) => {
     const currentHookup = this.hookups.find((e) => e.id === id);
     if (currentHookup) {
       currentHookup.hookup = this.hookupItem;
@@ -55,8 +57,53 @@ class HookupStore {
         name: this.name,
         id,
       });
+
+      this.keys.includes('@Hookups')
+        ? this.mergeHookup()
+        : this.setAsyncHookups();
+      this.getHookups();
+      this.getAllKeys();
     }
-    console.log('Hookup result', toJS(this.hookups));
+  };
+
+  // TODO multi merge https://react-native-async-storage.github.io/async-storage/docs/api#multimerge
+  // TODO перезаписывается сет айтем
+  @action mergeHookup = async () => {
+    try {
+      await AsyncStorage.mergeItem('@Hookups', JSON.stringify(this.hookups));
+      const getHiikup = await AsyncStorage.getItem('@Hookups');
+      console.log(JSON.parse(getHiikup));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  @action getAllKeys = async () => {
+    try {
+      this.keys = await AsyncStorage.getAllKeys();
+      console.log(toJS(this.keys));
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action setAsyncHookups = async () => {
+    try {
+      const hookups = JSON.stringify(this.hookups);
+      await AsyncStorage.setItem('@Hookups', hookups);
+    } catch (e) {
+      throw new Error('Something wrong', e);
+    }
+  };
+
+  @action getHookups = async () => {
+    try {
+      const hookups = await AsyncStorage.getItem('@Hookups');
+      console.log(JSON.parse(hookups));
+      return hookups != null ? JSON.parse(hookups) : null;
+    } catch (e) {
+      throw new Error(e);
+    }
   };
 
   @action deleteHookup = (id) => {

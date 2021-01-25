@@ -21,32 +21,35 @@ export default ({single = false}) => {
   }, [hookupSuccess]);
   const pars = () => {
     hookupItem.forEach((e) => {
-      if (e.colection === 'Substance') {
-        setHookup((prev) => {
-          return {
-            protection: [...prev.protection],
-            activities: [...prev.activities],
-            substance: [...prev.substance, e],
-          };
-        });
-      }
-      if (e.colection === 'Protection') {
-        setHookup((prev) => {
-          return {
-            protection: [...prev.protection, e],
-            activities: [...prev.activities],
-            substance: [...prev.substance],
-          };
-        });
-      }
-      if (e.colection === undefined) {
-        setHookup((prev) => {
-          return {
-            protection: [...prev.protection],
-            activities: [...prev.activities, e],
-            substance: [...prev.substance],
-          };
-        });
+      switch (e.colection) {
+        case 'Substance':
+          setHookup((prev) => {
+            return {
+              protection: [...prev.protection],
+              activities: [...prev.activities],
+              substance: [...prev.substance, e],
+            };
+          });
+          break;
+        case 'Protection':
+          setHookup((prev) => {
+            return {
+              protection: [...prev.protection, e],
+              activities: [...prev.activities],
+              substance: [...prev.substance],
+            };
+          });
+          break;
+
+        default:
+          setHookup((prev) => {
+            return {
+              protection: [...prev.protection],
+              activities: [...prev.activities, e],
+              substance: [...prev.substance],
+            };
+          });
+          break;
       }
     });
   };

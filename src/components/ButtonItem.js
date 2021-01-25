@@ -1,7 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {observer} from 'mobx-react';
-import COLOR from '../constants/COLOR';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
 export default observer(({type, index, onPress, selected}) => {

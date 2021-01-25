@@ -27,6 +27,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     clearTestItem,
     setTestSuccess,
     testSuccess,
+    deleteTest,
   } = TestsStore;
 
   useEffect(() => {
@@ -126,16 +127,17 @@ export default observer(({color, noStyle, calendar, tabs}) => {
           />
           <View style={TestsHeaderStyle.mainDeleteTextWrapper}>
             <TouchebltText
-              text="Delete entry?"
+              text="Delete test?"
               containerStyle={TestsHeaderStyle.deleteTextWrapper}
               style={TestsHeaderStyle.mainDeleteText}
             />
             <TouchebltText
-              text="Delete entry"
+              text="Delete test"
               containerStyle={[
                 TestsHeaderStyle.deleteTextWrapper,
                 {marginTop: 5},
               ]}
+              onPress={() => deleteTest(id)}
               style={TestsHeaderStyle.deleteText}
             />
             <TouchebltText

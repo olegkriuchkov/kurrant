@@ -1,5 +1,5 @@
 import {observer} from 'mobx-react';
-import React from 'react';
+import React, {Fragment} from 'react';
 import {Text, View} from 'react-native';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import EntryItem from './EntryItem';
@@ -11,15 +11,14 @@ export default observer(({arr, withText = false, single, text}) => {
         <Text style={[TestsStyle.textNote, {right: 10}]}>{text}</Text>
       )}
       {arr.map((e) => (
-        <>
+        <Fragment key={e.title}>
           <EntryItem
             title={e.title}
-            key={e.title}
             result={e.result}
             single={single}
             sucess={true}
           />
-        </>
+        </Fragment>
       ))}
     </View>
   );

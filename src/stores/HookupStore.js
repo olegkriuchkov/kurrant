@@ -27,6 +27,7 @@ class HookupStore {
     } else {
       this.hookupItem.push(item);
     }
+    console.log('HookupItem', toJS(this.hookupItem));
   };
 
   @action clearForm = () => {
@@ -55,12 +56,13 @@ class HookupStore {
         id,
       });
     }
-
-    console.log(toJS(this.hookups));
+    console.log('Hookup result', toJS(this.hookups));
   };
 
   @action deleteHookup = (id) => {
     this.hookups = this.hookups.filter((e) => e.id !== id);
+    this.setHookupSuccess(true);
+    console.log(toJS(this.hookups));
   };
 
   @action setName = (name) => {

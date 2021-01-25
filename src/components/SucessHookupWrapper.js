@@ -41,7 +41,7 @@ export default ({single = false}) => {
           });
           break;
 
-        default:
+        case undefined:
           setHookup((prev) => {
             return {
               protection: [...prev.protection],
@@ -53,6 +53,7 @@ export default ({single = false}) => {
       }
     });
   };
+
   return (
     <>
       <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 10}}>

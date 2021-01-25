@@ -26,6 +26,7 @@ export default observer(({calendar, tabs}) => {
     setName,
     name,
     hookupSuccess,
+    deleteHookup,
   } = HookupStore;
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export default observer(({calendar, tabs}) => {
                   <Text style={TestsHeaderStyle.date}>
                     {moment(date).format('MMMM D')}
                   </Text>
-                  {calendar && (
+                  {hookupSuccess && calendar && (
                     <CalendarButton
                       onPress={() => setCalendarFlag(!calendarFlag)}
                       calendarFlag={calendarFlag}
@@ -134,6 +135,7 @@ export default observer(({calendar, tabs}) => {
                 {marginTop: 5},
               ]}
               style={TestsHeaderStyle.deleteText}
+              onPress={() => deleteHookup(id)}
             />
             <TouchebleText
               text="Cancel"

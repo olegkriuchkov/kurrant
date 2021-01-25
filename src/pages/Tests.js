@@ -16,8 +16,7 @@ export default observer(() => {
     setNote(text);
     setTestNote(text);
   };
-  console.log(toJS(testSuccess));
-  console.log(toJS(testItems.length));
+
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper}>

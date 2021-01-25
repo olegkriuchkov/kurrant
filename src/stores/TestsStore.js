@@ -28,15 +28,15 @@ class TestsStore {
     } else {
       this.testItems.push(item);
     }
-    console.log('TESTITEM', toJS(this.testItems));
+    console.log('TestItem', toJS(this.testItems));
   };
 
   @action setTest = (id) => {
-    const currentTest = this.testItems.find((e) => e.id === id);
+    const currentTest = this.tests.find((e) => e.id === id);
     if (currentTest) {
-      currentTest.tests = this.testItems;
+      currentTest.test = this.testItems;
       currentTest.note = this.note;
-      this.tests = this.testItems.filter((e) => e.test.length > 0);
+      this.tests = this.tests.filter((e) => e.test.length > 0);
     } else {
       this.tests.push({
         date: this.date,
@@ -45,15 +45,17 @@ class TestsStore {
         id,
       });
     }
-    console.log(toJS(this.tests));
+    console.log('TESTRESULT', toJS(this.tests));
   };
 
   @action setTestDate = (date) => {
     this.date = date;
   };
 
-  @action deleteHookup = (id) => {
+  @action deleteTest = (id) => {
     this.tests = this.tests.filter((e) => e.id !== id);
+    this.setTestSuccess(true);
+    console.log(toJS(this.tests));
   };
 
   @action setTestNote = (note) => {

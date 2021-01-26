@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import COLOR from '../../constants/COLOR';
+import {AnalyticsList} from './AnalyticsList';
 import {Chart} from './Chart';
 
 const styles = StyleSheet.create({
@@ -15,6 +16,7 @@ export const TrackerTab = () => {
   return (
     <View style={styles.container}>
       <Chart />
+      <AnalyticsList title="Recent results" isFilter={true} />
     </View>
   );
 };

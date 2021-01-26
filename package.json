@@ -24,6 +24,7 @@
     "react-native-calendar-picker": "^7.0.8",
     "react-native-calendars": "^1.1129.0",
     "react-native-gesture-handler": "^1.9.0",
+    "react-native-get-random-values": "^1.5.1",
     "react-native-reanimated": "^1.13.2",
     "react-native-router-flux": "^4.2.0",
     "react-native-safe-area-context": "^3.1.9",
@@ -31,7 +32,7 @@
     "react-native-smooth-pincode-input": "^1.0.9",
     "react-native-touch-id": "^4.4.1",
     "react-native-vector-icons": "^7.1.0",
-    "uuid": "^8.3.2"
+    "uuid": "~8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

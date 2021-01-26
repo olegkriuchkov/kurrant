@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
+import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 import Image from './Image';
 import TestsStyle from '../style/page/Tests/TestsStyle';

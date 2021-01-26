@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';

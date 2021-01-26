@@ -1,4 +1,4 @@
-import {makeObservable, observable, action, toJS, reaction} from 'mobx';
+import {makeObservable, observable, action, toJS} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class HookupStore {
@@ -11,10 +11,6 @@ class HookupStore {
   @observable note = '';
 
   @observable hookupSuccess = true;
-
-  @observable keys = [];
-
-  @observable asyncHookups = [];
 
   @observable name = '';
 
@@ -40,22 +36,24 @@ class HookupStore {
     this.note = '';
   };
 
-  @action removeAsyncHookups = () => {
-    this.asyncHookups = [];
-  };
-
   @action setHookupSuccess = (bool) => {
     this.hookupSuccess = bool;
   };
 
   @action setHookups = async (id) => {
-    const currentHookup = this.hookups.find((e) => e.id === id);
+    this.getHookups();
+    const currentHookup =
+      this.hookups !== null ? this.hookups.find((e) => e.id === id) : false;
     if (currentHookup) {
+      this.removeHookup();
+
       currentHookup.hookup = this.hookupItem;
       currentHookup.name = this.name;
       currentHookup.note = this.note;
       this.hookups = this.hookups.filter((e) => e.hookup.length > 0);
+      this.setAsyncHookups();
     } else {
+      this.removeHookup();
       this.hookups.push({
         date: this.date,
         hookup: this.hookupItem,
@@ -64,18 +62,14 @@ class HookupStore {
         id,
         type: 'hookup',
       });
+      this.setAsyncHookups();
     }
-    if (this.keys.includes(`@${id}`)) {
-      this.removeHookup(id);
-    }
-    this.setAsyncHookups(id);
-    this.getAllKeys();
   };
 
-  @action setAsyncHookups = async (id) => {
+  @action setAsyncHookups = async () => {
     try {
       const hookups = JSON.stringify(this.hookups);
-      await AsyncStorage.setItem(`@${id}`, hookups);
+      await AsyncStorage.setItem(`@Hookups`, hookups);
     } catch (e) {
       throw new Error('Something wrong', e);
     }
@@ -90,20 +84,20 @@ class HookupStore {
     }
   };
 
-  @action removeHookup = async (id) => {
+  @action removeHookup = async () => {
     try {
-      await AsyncStorage.removeItem(`@${id}`);
+      await AsyncStorage.removeItem(`@Hookups`);
     } catch (e) {
       throw new Error(e);
     }
   };
 
-  @action getHookups = async (id) => {
+  @action getHookups = async () => {
     try {
-      this.asyncHookups = [
-        ...this.asyncHookups,
-        ...JSON.parse(await AsyncStorage.getItem(id)),
-      ];
+      this.hookups =
+        JSON.parse(await AsyncStorage.getItem('@Hookups')) !== null
+          ? JSON.parse(await AsyncStorage.getItem('@Hookups'))
+          : [];
     } catch (e) {
       throw new Error(e);
     }

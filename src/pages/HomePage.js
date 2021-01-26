@@ -7,12 +7,12 @@ import HookupStore from '../stores/HookupStore';
 
 const HomePage = () => {
   const [modalFlag, setModalFlag] = useState(true);
-  const {getAllKeys, getHookups, asyncHookups, keys} = HookupStore;
+  const {getHookups, hookups} = HookupStore;
   useEffect(() => {
-    getAllKeys();
-    keys.forEach((e) => getHookups(e));
-  }, [keys.length]);
-  useEffect(() => console.log(toJS(asyncHookups)), [asyncHookups.length]);
+    getHookups();
+    console.log(toJS(hookups));
+  }, []);
+  useEffect(() => console.log(toJS(hookups)), [hookups]);
   return (
     <View>
       <View style={modalFlag ? {} : {opacity: 0.1}}>

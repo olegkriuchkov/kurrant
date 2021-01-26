@@ -1,4 +1,5 @@
-import {makeObservable, observable, action, toJS, reaction} from 'mobx';
+import {makeObservable, observable, action, toJS} from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class TestsStore {
   @observable tests = [];
@@ -32,20 +33,63 @@ class TestsStore {
   };
 
   @action setTest = (id) => {
-    const currentTest = this.tests.find((e) => e.id === id);
+    this.getTests();
+    const currentTest =
+      this.tests !== null ? this.tests.find((e) => e.id === id) : false;
     if (currentTest) {
+      this.removeTests();
       currentTest.test = this.testItems;
       currentTest.note = this.note;
       this.tests = this.tests.filter((e) => e.test.length > 0);
+      this.setAsyncTests();
     } else {
+      this.removeTests();
       this.tests.push({
         date: this.date,
         test: this.testItems,
         note: this.note,
         id,
       });
+      this.setAsyncTests();
     }
     console.log('TESTRESULT', toJS(this.tests));
+  };
+
+  @action setAsyncTests = async () => {
+    try {
+      const tests = JSON.stringify(this.tests);
+      await AsyncStorage.setItem(`@Tests`, tests);
+    } catch (e) {
+      throw new Error('Something wrong', e);
+    }
+  };
+
+  @action getAllKeys = async () => {
+    try {
+      this.keys = await AsyncStorage.getAllKeys();
+      console.log('ALL kaeys', toJS(this.keys));
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action removeTests = async () => {
+    try {
+      await AsyncStorage.removeItem(`@Tests`);
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action getTests = async () => {
+    try {
+      this.hookups =
+        JSON.parse(await AsyncStorage.getItem('@Tests')) !== null
+          ? JSON.parse(await AsyncStorage.getItem('@Tests'))
+          : [];
+    } catch (e) {
+      throw new Error(e);
+    }
   };
 
   @action setTestDate = (date) => {

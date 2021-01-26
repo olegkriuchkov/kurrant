@@ -4,14 +4,11 @@ import {Actions} from 'react-native-router-flux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonWithArrow from '../../../components/ButtonWithArrow';
 import DataStyle from '../../../style/page/Settings/DataStyle';
-import HookupStore from '../../../stores/HookupStore';
 
 const DeleteData = () => {
-  const {removeAsyncHookups} = HookupStore;
   const clearAll = async () => {
     try {
       await AsyncStorage.clear();
-      removeAsyncHookups();
     } catch (e) {
       throw new Error(e);
     }

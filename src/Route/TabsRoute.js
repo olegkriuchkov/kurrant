@@ -11,7 +11,7 @@ import COLOR from '../constants/COLOR';
 import Log from '../pages/Log';
 import SecurityPage from '../pages/Settings/security/SeccurityPage';
 import DataPage from '../pages/Settings/data/DataPage';
-import Contacts from '../pages/Contacts';
+import Contacts from '../pages/Contacts/Contacts';
 import PinPage from '../pages/Settings/security/pinPage';
 import DeleteData from '../pages/Settings/data/DeleteData';
 import Notifications from '../pages/Settings/Notifications/Notifications';
@@ -21,6 +21,7 @@ import TestsHeader from '../components/TestHeader';
 import TabBarStyle from '../style/component/TabBarStyle';
 import Entry from '../pages/Entry';
 import globalStore from '../stores/globalStore';
+import ContactsHeader from '../pages/Contacts/ContactsHeader';
 import {AnalyticsPage} from '../pages/AnalyticsPage';
 import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
 
@@ -58,7 +59,7 @@ export default observer(() => (
           component={Contacts}
           onEnter={() => globalStore.setSelectedTab('contact')}
           back
-          navBar={() => <NavBar color={COLOR.WHITE} title="Contact" settings />}
+          navBar={() => <ContactsHeader />}
         />
       </Stack>
       <Stack

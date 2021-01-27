@@ -16,9 +16,8 @@ const ContactsHeader = () => {
                 onChangeText={(value)=> setSearchValue(value.toLowerCase())}
                 value={searchValue}
                 lightTheme={true}
-                inputStyle={ContactsStyle.searchField}
-                containerStyle={{backgroundColor: 'transparent', padding: 10, }}
-                inputContainerStyle={{backgroundColor: 'white', borderRadius: 15, borderWidth: 2, borderColor: 'lightgrey'}}
+                containerStyle={styles.containerStyle}
+                inputContainerStyle={styles.inputContainerStyle}
                 searchIcon={
                 <Icon
                     Component={() => <Image source={require('../../assets/search.png')} />}
@@ -39,5 +38,15 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 24,
         color: 'black',
+    },
+    containerStyle: {
+        backgroundColor: 'transparent',
+        padding: 10,
+        borderBottomWidth: 0,
+        borderTopWidth: 0,
+    },
+    inputContainerStyle: {
+        backgroundColor: '#F6F6F6',
+        borderRadius: 15,
     },
 });

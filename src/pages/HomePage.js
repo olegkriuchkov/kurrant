@@ -1,10 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import {toJS} from 'mobx';
 import HomePageStyle from '../style/page/HomePageStyle';
+import HookupStore from '../stores/HookupStore';
 
 const HomePage = () => {
   const [modalFlag, setModalFlag] = useState(true);
+  const {getHookups, hookups} = HookupStore;
+  useEffect(() => {
+    getHookups();
+    console.log(toJS(hookups));
+  }, []);
+  useEffect(() => console.log(toJS(hookups)), [hookups]);
   return (
     <View>
       <View style={modalFlag ? {} : {opacity: 0.1}}>

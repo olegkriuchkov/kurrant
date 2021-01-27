@@ -1,80 +1,124 @@
 import {makeObservable, observable, action, toJS} from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class HookupStore {
-  @observable Hookups = [];
+  @observable hookups = [];
 
-  @observable Date = '';
+  @observable date = '';
 
-  @observable HookupItem = [];
+  @observable hookupItem = [];
 
-  @observable Note = '';
+  @observable note = '';
 
-  @observable HookupSuccess = true;
+  @observable hookupSuccess = true;
 
-  @observable Name = '';
+  @observable name = '';
 
   @action setHookupItem = (item) => {
-    const currentItem = this.HookupItem.find((e) => e.id === item.id);
-    const currentSingleItem = this.HookupItem.find(
+    const currentItem = this.hookupItem.find((e) => e.id === item.id);
+    const currentSingleItem = this.hookupItem.find(
       (e) => e.title === item.title && e.single,
     );
     if (currentSingleItem) {
-      this.HookupItem = this.HookupItem.filter((e) => e !== currentSingleItem);
+      this.hookupItem = this.hookupItem.filter((e) => e !== currentSingleItem);
     }
     if (currentItem) {
       currentItem.result = item.result;
-      this.HookupItem = this.HookupItem.filter((e) => e.result.length > 0);
+      this.hookupItem = this.hookupItem.filter((e) => e.result.length > 0);
     } else {
-      this.HookupItem.push(item);
+      this.hookupItem.push(item);
     }
-
-    console.log(toJS(this.HookupItem));
   };
 
   @action clearForm = () => {
-    this.HookupItem = [];
-    this.Name = '';
-    this.Note = '';
+    this.hookupItem = [];
+    this.name = '';
+    this.note = '';
   };
 
   @action setHookupSuccess = (bool) => {
-    this.HookupSuccess = bool;
+    this.hookupSuccess = bool;
   };
 
-  @action setHookups = (id) => {
-    const currentHookup = this.Hookups.find((e) => e.id === id);
+  @action setHookups = async (id) => {
+    this.getHookups();
+    const currentHookup =
+      this.hookups !== null ? this.hookups.find((e) => e.id === id) : false;
     if (currentHookup) {
-      currentHookup.hookup = this.HookupItem;
-      currentHookup.name = this.Name;
-      currentHookup.note = this.Note;
-      this.Hookups = this.Hookups.filter((e) => e.hookup.length > 0);
-    } else {
-      this.Hookups.push({
-        date: this.Date,
-        hookup: this.HookupItem,
-        note: this.Note,
-        name: this.Name,
-        id,
-      });
-    }
+      this.removeHookup();
 
-    console.log(toJS(this.Hookups));
+      currentHookup.hookup = this.hookupItem;
+      currentHookup.name = this.name;
+      currentHookup.note = this.note;
+      this.hookups = this.hookups.filter((e) => e.hookup.length > 0);
+      this.setAsyncHookups();
+    } else {
+      this.removeHookup();
+      this.hookups.push({
+        date: this.date,
+        hookup: this.hookupItem,
+        note: this.note,
+        name: this.name,
+        id,
+        type: 'hookup',
+      });
+      this.setAsyncHookups();
+    }
+  };
+
+  @action setAsyncHookups = async () => {
+    try {
+      const hookups = JSON.stringify(this.hookups);
+      await AsyncStorage.setItem(`@Hookups`, hookups);
+    } catch (e) {
+      throw new Error('Something wrong', e);
+    }
+  };
+
+  @action getAllKeys = async () => {
+    try {
+      this.keys = await AsyncStorage.getAllKeys();
+      console.log('ALL kaeys', toJS(this.keys));
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action removeHookup = async () => {
+    try {
+      await AsyncStorage.removeItem(`@Hookups`);
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action getHookups = async () => {
+    try {
+      this.hookups =
+        JSON.parse(await AsyncStorage.getItem('@Hookups')) !== null
+          ? JSON.parse(await AsyncStorage.getItem('@Hookups'))
+          : [];
+    } catch (e) {
+      throw new Error(e);
+    }
   };
 
   @action deleteHookup = (id) => {
-    this.Hookups = this.Hookups.filter((e) => e.id !== id);
+    this.hookups = this.hookups.filter((e) => e.id !== id);
+    this.setHookupSuccess(true);
+    console.log(toJS(this.hookups));
   };
 
   @action setName = (name) => {
-    this.Name = name;
+    this.name = name;
   };
 
   @action setHookupDate = (date) => {
-    this.Date = date;
+    this.date = date;
   };
 
   @action setHookupNote = (note) => {
-    this.Note = note;
+    this.note = note;
   };
 
   constructor() {

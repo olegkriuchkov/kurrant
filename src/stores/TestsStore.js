@@ -1,63 +1,109 @@
 import {makeObservable, observable, action, toJS} from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class TestsStore {
-  @observable Tests = [];
+  @observable tests = [];
 
-  @observable Date = '';
+  @observable date = '';
 
-  @observable TestItems = [];
+  @observable testItems = [];
 
-  @observable Note = '';
+  @observable note = '';
 
-  @observable TestSuccess = true;
+  @observable testSuccess = true;
 
   @action setTestSuccess = (bool) => {
-    this.TestSuccess = bool;
+    this.testSuccess = bool;
   };
 
   @action clearTestItem = () => {
-    this.TestItems = [];
-    this.Note = '';
+    this.testItems = [];
+    this.note = '';
   };
 
   @action setTestsItem = (item) => {
-    const currentItem = this.TestItems.find((e) => e.id === item.id);
+    const currentItem = this.testItems.find((e) => e.id === item.id);
     if (currentItem) {
       currentItem.result = item.result;
-      this.TestItems = this.TestItems.filter((e) => e.result.length > 0);
+      this.testItems = this.testItems.filter((e) => e.result.length > 0);
     } else {
-      this.TestItems.push(item);
+      this.testItems.push(item);
     }
-    console.log('TESTITEM', toJS(this.TestItems));
+    console.log('TestItem', toJS(this.testItems));
   };
 
   @action setTest = (id) => {
-    const currentTest = this.TestItems.find((e) => e.id === id);
+    this.getTests();
+    const currentTest =
+      this.tests !== null ? this.tests.find((e) => e.id === id) : false;
     if (currentTest) {
-      currentTest.test = this.TestItems;
-      currentTest.note = this.Note;
-      this.Tests = this.TestItems.filter((e) => e.test.length > 0);
+      this.removeTests();
+      currentTest.test = this.testItems;
+      currentTest.note = this.note;
+      this.tests = this.tests.filter((e) => e.test.length > 0);
+      this.setAsyncTests();
     } else {
-      this.Tests.push({
-        date: this.Date,
-        test: this.TestItems,
-        note: this.Note,
+      this.removeTests();
+      this.tests.push({
+        date: this.date,
+        test: this.testItems,
+        note: this.note,
         id,
       });
+      this.setAsyncTests();
     }
-    console.log(toJS(this.Tests));
+    console.log('TESTRESULT', toJS(this.tests));
+  };
+
+  @action setAsyncTests = async () => {
+    try {
+      const tests = JSON.stringify(this.tests);
+      await AsyncStorage.setItem(`@Tests`, tests);
+    } catch (e) {
+      throw new Error('Something wrong', e);
+    }
+  };
+
+  @action getAllKeys = async () => {
+    try {
+      this.keys = await AsyncStorage.getAllKeys();
+      console.log('ALL kaeys', toJS(this.keys));
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action removeTests = async () => {
+    try {
+      await AsyncStorage.removeItem(`@Tests`);
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action getTests = async () => {
+    try {
+      this.hookups =
+        JSON.parse(await AsyncStorage.getItem('@Tests')) !== null
+          ? JSON.parse(await AsyncStorage.getItem('@Tests'))
+          : [];
+    } catch (e) {
+      throw new Error(e);
+    }
   };
 
   @action setTestDate = (date) => {
-    this.Date = date;
+    this.date = date;
   };
 
-  @action deleteHookup = (id) => {
-    this.Tests = this.Tests.filter((e) => e.id !== id);
+  @action deleteTest = (id) => {
+    this.tests = this.tests.filter((e) => e.id !== id);
+    this.setTestSuccess(true);
+    console.log(toJS(this.tests));
   };
 
   @action setTestNote = (note) => {
-    this.Note = note;
+    this.note = note;
   };
 
   constructor() {

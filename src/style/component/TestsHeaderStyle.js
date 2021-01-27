@@ -83,4 +83,6 @@ export default StyleSheet.create({
     marginTop: 5,
   },
   mainDeleteText: {fontSize: 24, color: COLOR.PINK},
+  undDeleteImage: {width: 25, height: 25, marginLeft: 20},
+  changeImage: {width: 25, height: 25},
 });

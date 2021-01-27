@@ -7,14 +7,10 @@ export default ({style, textStyle, title, onPress, hideArrow}) => (
     style={[ButtonWithArrowStyle.mainStyle, style]}
     onPress={onPress}>
     <Text style={[{fontSize: 15}, textStyle]}>{title}</Text>
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-      }}>
+    <View style={ButtonWithArrowStyle.imageWrapper}>
       {!hideArrow && (
         <Image
-          style={{width: 15, height: 15, marginRight: 5}}
+          style={ButtonWithArrowStyle.image}
           source={require('../assets/buttonArrow.png')}
         />
       )}

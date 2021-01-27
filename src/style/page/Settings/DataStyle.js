@@ -21,4 +21,6 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: COLOR.GREY,
   },
+  sendFeedbackWrapper: {margin: 10, top: '55%'},
+  sendFeedbackText: {color: COLOR.WHITE, fontWeight: '600', fontSize: 16},
 });

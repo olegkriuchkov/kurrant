@@ -9,4 +9,9 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  image: {width: 15, height: 15, marginRight: 5},
+  imageWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 });

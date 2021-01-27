@@ -14,8 +14,8 @@ import analyticsStore from '../../stores/analyticsStore';
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 10,
     backgroundColor: COLOR.DARKPINK,
-    paddingLeft: 100,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

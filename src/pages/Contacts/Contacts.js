@@ -5,6 +5,28 @@ import { SearchBar, Icon } from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
 
 const contacts = ['Pete Davidson', 'Ryan Raynolds', 'Chad', 'Alan Wong', 'Bill', 'Zill', 'Mike', 'Adam', 'Chris', 'Cody', 'Paul', 'Bob', 'Michael', 'Henry', 'Harry'];
+const hookups = [
+  {
+    name: 'Chris',
+    time: 1610111040600,
+    number: 4,
+  },
+  {
+    name: 'Chad',
+    time: 1610568040600,
+    number: 1,
+  },
+  {
+    name: 'Zill',
+    time: 1610311040600,
+    number: 3,
+  },
+  {
+    name: 'Alan Wong',
+    time: 1610361040600,
+    number: 2,
+  },
+];
 
 const Contacts = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -36,11 +58,19 @@ const Contacts = () => {
           />
         }
       /> */}
+      <View>
+        <Text style={ContactsStyle.mostFrequent}>Most frequent (90 days)</Text>
+        {hookups
+          .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
+          .slice(0, 3)
+          .map((hookup, i, hookups) => <Text key={i} style={[ContactsStyle.mostFrequentHookups, i < hookups.length - 1 ? ContactsStyle.bottomBorder : null]}>{hookup.name}</Text>)
+        }
+      </View>
       {!searchValue 
         ? getLetters().map((letter, i) => {
           return (
             <View key={i} style={ContactsStyle.letterBlock}>
-              <Text>{letter}</Text>
+              <Text style={ContactsStyle.letter}>{letter}</Text>
               {contacts.map((contact, i) => {
                 if(contact.charAt(0) === letter) {
                   return <Text style={ContactsStyle.contact} key={i}>{contact}</Text>

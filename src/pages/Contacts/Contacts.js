@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Text, View, ScrollView} from 'react-native';
-import ContactsStyle from '../../style/page/ContactsStyle';
-import { SearchBar, Icon } from 'react-native-elements';
+import {SearchBar, Icon} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
+import ContactsStyle from '../../style/page/ContactsStyle';
 
-const contacts = ['Pete Davidson', 'Ryan Raynolds', 'Chad', 'Alan Wong', 'Bill', 'Zill', 'Mike', 'Adam', 'Chris', 'Cody', 'Paul', 'Bob', 'Michael', 'Henry', 'Harry'];
+const contacts = [
+  'Pete Davidson',
+  'Ryan Raynolds',
+  'Chad',
+  'Alan Wong',
+  'Bill',
+  'Zill',
+  'Mike',
+  'Adam',
+  'Chris',
+  'Cody',
+  'Paul',
+  'Bob',
+  'Michael',
+  'Henry',
+  'Harry',
+];
 
 const Contacts = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -17,7 +33,6 @@ const Contacts = () => {
 
     return letters;
   };
-  console.log('------',Actions.currentScene);
   return (
     <ScrollView style={ContactsStyle.scrollViewBlock}>
       {/* <SearchBar
@@ -36,23 +51,30 @@ const Contacts = () => {
           />
         }
       /> */}
-      {!searchValue 
+      {!searchValue
         ? getLetters().map((letter, i) => {
-          return (
-            <View key={i} style={ContactsStyle.letterBlock}>
-              <Text>{letter}</Text>
-              {contacts.map((contact, i) => {
-                if(contact.charAt(0) === letter) {
-                  return <Text style={ContactsStyle.contact} key={i}>{contact}</Text>
-                }
-              })}
-            </View>
-          )
-        })
-        : contacts.map((contact, i) => {
-            return contact.toLowerCase().startsWith(searchValue) ? <Text style={ContactsStyle.contact} key={i}>{contact}</Text> : null;
+            return (
+              <View key={i} style={ContactsStyle.letterBlock}>
+                <Text>{letter}</Text>
+                {contacts.map((contact, i) => {
+                  if (contact.charAt(0) === letter) {
+                    return (
+                      <Text style={ContactsStyle.contact} key={i}>
+                        {contact}
+                      </Text>
+                    );
+                  }
+                })}
+              </View>
+            );
           })
-      }
+        : contacts.map((contact, i) => {
+            return contact.toLowerCase().startsWith(searchValue) ? (
+              <Text style={ContactsStyle.contact} key={i}>
+                {contact}
+              </Text>
+            ) : null;
+          })}
     </ScrollView>
   );
 };

@@ -1,5 +1,7 @@
-import {makeObservable, observable, action, toJS} from 'mobx';
+import {makeObservable, observable, action, toJS, reaction} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
+import COLOR from '../constants/COLOR';
 
 class TestsStore {
   @observable tests = [];
@@ -7,6 +9,8 @@ class TestsStore {
   @observable date = '';
 
   @observable testItems = [];
+
+  @observable markedTest = {};
 
   @observable note = '';
 
@@ -29,7 +33,6 @@ class TestsStore {
     } else {
       this.testItems.push(item);
     }
-    console.log('TestItem', toJS(this.testItems));
   };
 
   @action setTest = (id) => {
@@ -38,6 +41,7 @@ class TestsStore {
       this.tests !== null ? this.tests.find((e) => e.id === id) : false;
     if (currentTest) {
       this.removeTests();
+
       currentTest.test = this.testItems;
       currentTest.note = this.note;
       this.tests = this.tests.filter((e) => e.test.length > 0);
@@ -49,10 +53,10 @@ class TestsStore {
         test: this.testItems,
         note: this.note,
         id,
+        type: 'test',
       });
       this.setAsyncTests();
     }
-    console.log('TESTRESULT', toJS(this.tests));
   };
 
   @action setAsyncTests = async () => {
@@ -60,16 +64,7 @@ class TestsStore {
       const tests = JSON.stringify(this.tests);
       await AsyncStorage.setItem(`@Tests`, tests);
     } catch (e) {
-      throw new Error('Something wrong', e);
-    }
-  };
-
-  @action getAllKeys = async () => {
-    try {
-      this.keys = await AsyncStorage.getAllKeys();
-      console.log('ALL kaeys', toJS(this.keys));
-    } catch (e) {
-      throw new Error(e);
+      throw new Error('AsyncTest ', e);
     }
   };
 
@@ -82,14 +77,13 @@ class TestsStore {
   };
 
   @action getTests = async () => {
+    const result = JSON.parse(await AsyncStorage.getItem('@Tests'));
     try {
-      this.hookups =
-        JSON.parse(await AsyncStorage.getItem('@Tests')) !== null
-          ? JSON.parse(await AsyncStorage.getItem('@Tests'))
-          : [];
+      this.tests = result !== null ? result : [];
     } catch (e) {
       throw new Error(e);
     }
+    this.markedTestDate();
   };
 
   @action setTestDate = (date) => {
@@ -99,14 +93,40 @@ class TestsStore {
   @action deleteTest = (id) => {
     this.tests = this.tests.filter((e) => e.id !== id);
     this.setTestSuccess(true);
-    console.log(toJS(this.tests));
   };
 
   @action setTestNote = (note) => {
     this.note = note;
   };
 
+  @action markedTestDate = () => {
+    let result = {};
+
+    this.tests.forEach((e) => {
+      result = {
+        ...result,
+        [moment(e.date).format('YYYY-MM-DD')]: {
+          customStyles: {
+            container: {
+              backgroundColor: COLOR.PINK,
+              borderRadius: 50,
+            },
+            text: {
+              color: COLOR.WHITE,
+              opacity: 1,
+            },
+          },
+        },
+      };
+    });
+    this.markedTest = {...this.markedTest, ...result};
+  };
+
   constructor() {
+    reaction(
+      () => this.tests.length,
+      () => this.getTests(),
+    );
     makeObservable(this);
   }
 }

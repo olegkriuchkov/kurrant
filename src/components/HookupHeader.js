@@ -5,6 +5,7 @@ import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
+import globalStore from '../stores/globalStore';
 import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import CustomCalendar from './Calendar';
@@ -19,6 +20,8 @@ export default observer(({calendar, tabs}) => {
   const [select, setSelect] = useState(true);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [id, setId] = useState(uuidv4());
+  const {globalState} = globalStore;
+
   const {
     setHookups,
     setHookupDate,
@@ -29,7 +32,7 @@ export default observer(({calendar, tabs}) => {
     hookupSuccess,
     deleteHookup,
   } = HookupStore;
-
+  useEffect(() => setCalendarFlag(false), [globalState.selectedTab.length]);
   useEffect(() => {
     setHookupDate(new Date());
   }, []);
@@ -39,7 +42,7 @@ export default observer(({calendar, tabs}) => {
   };
   const press = (day) => {
     setDate(new Date(day.timestamp));
-    setHookupDate(date);
+    setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
     Actions.replace('Home');

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Scene, Stack} from 'react-native-router-flux';
+import {Actions, Router, Scene, Stack} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import HookupHeader from '../components/HookupHeader';
 import HomePage from '../pages/HomePage';
@@ -39,7 +39,7 @@ export default observer(() => (
           onEnter={() => {
             globalStore.setSelectedTab('home');
           }}
-          navBar={() => <NavBar title="February" calendar settings />}
+          navBar={() => <NavBar calendar settings />}
         />
 
         <Scene
@@ -49,7 +49,9 @@ export default observer(() => (
           tabBarComponent={TabBar}
           onEnter={() => globalStore.setSelectedTab('log')}
           back
-          navBar={() => <NavBar color={COLOR.WHITE} calendar settings />}
+          navBar={() => (
+            <NavBar color={COLOR.WHITE} logCalendar calendar settings />
+          )}
         />
 
         <Scene

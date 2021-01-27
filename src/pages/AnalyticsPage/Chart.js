@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
   },
   chart: {
     width: '100%',
-    height: '100%',
     alignItems: 'center',
   },
   analyticsDescription: {
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     top: 135,
-    left: 130,
+    left: 110,
   },
 });
 

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Image from './Image';
 import NavbarStyle from '../style/component/NavbarStyle';
@@ -28,7 +28,7 @@ const NavBar = ({
     ? [NavbarStyle.noStyle, {backgroundColor: color}]
     : NavbarStyle.mainStyle;
   return (
-    <View style={wrapperStyle}>
+    <SafeAreaView style={wrapperStyle}>
       <View style={{flexDirection: 'row'}}>
         {arrowBack && (
           <Image
@@ -86,7 +86,7 @@ const NavBar = ({
           )} */}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

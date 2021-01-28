@@ -12,7 +12,7 @@ class HookupStore {
 
   @observable note = '';
 
-  @observable markedHookups = {};
+  markedHookups = {};
 
   @observable hookupSuccess = true;
 

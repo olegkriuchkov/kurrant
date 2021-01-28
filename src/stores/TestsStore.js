@@ -10,7 +10,7 @@ class TestsStore {
 
   @observable testItems = [];
 
-  @observable markedTest = {};
+  markedTest = {};
 
   @observable note = '';
 

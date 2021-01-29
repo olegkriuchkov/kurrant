@@ -21,7 +21,7 @@ export default StyleSheet.create({
     height: 50,
     marginBottom: 5,
     padding: 10,
-    addingBottom: 17,
+    paddingBottom: 17,
     borderColor: COLOR.BORDERBUTTOM,
     borderBottomWidth: 1,
   },

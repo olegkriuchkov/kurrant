@@ -3,7 +3,6 @@ import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, Text, View} from 'react-native';
-import COLOR from '../constants/COLOR';
 import globalStore from '../stores/globalStore';
 import HookupStore from '../stores/HookupStore';
 import TestsStore from '../stores/TestsStore';
@@ -79,30 +78,40 @@ export default observer(() => {
       {logData.map((e) => {
         return (
           <View style={LogStyle.main}>
-            <View style={LogStyle.title} key={e.date + Math.random()}>
+            <View
+              style={e.date.length > 0 ? LogStyle.title : LogStyle.singletitle}
+              key={e.date + Math.random()}>
               <Text style={LogStyle.titleText}>{e.title}</Text>
             </View>
-            {e.date.map((el) => {
+            {e.date.map((el, index) => {
               return (
                 <View style={LogStyle.infoWrapper}>
-                  <Text style={LogStyle.time}>
-                    {moment(el.eventDate).format('ddd D')}
-                  </Text>
-                  {el.type === 'hookup' ? (
-                    <Text style={LogStyle.titleText}>
-                      {el.name.length > 0 ? el.name : 'Noname'}
+                  <View
+                    style={
+                      index === e.date.length - 1
+                        ? LogStyle.itemWrapper
+                        : LogStyle.lastItemWrapper
+                    }>
+                    <Text style={LogStyle.time}>
+                      {moment(el.eventDate).format('ddd D')}
                     </Text>
-                  ) : (
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Image
-                        source={require('../assets/positiveTest.png')}
-                        style={LogStyle.image}
-                      />
-                      <Text style={LogStyle.titleText}>
-                        {el.length > 0 ? 'Test - Positive' : 'Test Negative'}
+                    {el.type === 'hookup' ? (
+                      <Text style={LogStyle.name}>
+                        {el.name.length > 0 ? el.name : 'Noname'}
                       </Text>
-                    </View>
-                  )}
+                    ) : (
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Image
+                          source={require('../assets/positiveTest.png')}
+                          style={LogStyle.image}
+                        />
+                        <Text style={LogStyle.titleText}>
+                          {el.length > 0 ? 'Test - Positive' : 'Test Negative'}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
                 </View>
               );
             })}

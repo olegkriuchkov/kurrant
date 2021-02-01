@@ -1,14 +1,22 @@
-import React, {useState} from 'react';
+import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TextInput, View} from 'react-native';
-import HookupWrapepr from '../components/HookupWrapepr';
-import HookupStore from '../stores/HookupStore';
+import FriendWrapper from '../components/FriendWrapper';
+import FiendEntryStore from '../stores/FiendEntryStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
-const AddFriendEntry = () => {
+export default observer(() => {
   const status = ['Negative', 'Negative, on PrEP', 'Positive', 'Positive, U'];
   const position = ['Bottom', 'Top', 'Versatile'];
   const [note, setNote] = useState('');
-  const {friendEntrySuccess, friendEntryNote, setFriendNote} = HookupStore;
+  const {
+    friendEntrySuccess,
+    friendEntryNote,
+    setFriendNote,
+    contact,
+  } = FiendEntryStore;
+  useEffect(() => console.log('Contact', toJS(contact)), []);
   const setText = (text) => {
     setNote(text);
     setFriendNote(text);
@@ -16,8 +24,8 @@ const AddFriendEntry = () => {
   return (
     <ScrollView style={TestsStyle.entryWrapper}>
       <View>
-        <HookupWrapepr withOutText array={status} single={true} />
-        <HookupWrapepr title="Protection" array={position} single={true} />
+        <FriendWrapper withOutText array={status} single={true} />
+        <FriendWrapper title="Position" array={position} single={true} />
       </View>
 
       <View style={TestsStyle.mainNoteWrapper}>
@@ -35,5 +43,4 @@ const AddFriendEntry = () => {
       </View>
     </ScrollView>
   );
-};
-export default AddFriendEntry;
+});

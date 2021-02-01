@@ -24,6 +24,7 @@ import globalStore from '../stores/globalStore';
 import ContactsHeader from '../pages/Contacts/ContactsHeader';
 import {AnalyticsPage} from '../pages/AnalyticsPage';
 import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
+import Filters from '../pages/Flters/Filters';
 
 export default observer(() => (
   <Router>
@@ -149,6 +150,14 @@ export default observer(() => (
             tabs={['Activity', 'Protection', 'Substance', 'Notes']}
           />
         )}
+      />
+      <Scene
+        key="Filters"
+        statusBarStyle="light-content"
+        component={Filters}
+        hideTabBar={true}
+        back
+        navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
       />
       <Scene
         key="AnalyticsPage"

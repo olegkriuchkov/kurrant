@@ -75,12 +75,20 @@ const NavBar = observer(
                   />
                 )}
               </View>
-              {settings && (
+              {settings && !logCalendar && (
                 <Image
                   path={require('../assets/settings.png')}
                   style={NavbarStyle.settings}
                   containerStyle={NavbarStyle.settingsBtn}
                   onPress={() => Actions.Settings()}
+                />
+              )}
+              {settings && logCalendar && (
+                <Image
+                  path={require('../assets/settings.png')}
+                  style={NavbarStyle.settings}
+                  containerStyle={NavbarStyle.settingsBtn}
+                  onPress={() => Actions.Filters()}
                 />
               )}
             </View>

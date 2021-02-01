@@ -35,10 +35,8 @@ const Settings = () => {
         title="Data"
         icon="rightArrow"
       />
-      <TouchableOpacity style={{margin: 10, top: '55%'}}>
-        <Text style={{color: COLOR.WHITE, fontWeight: '600', fontSize: 16}}>
-          Send Feedback
-        </Text>
+      <TouchableOpacity style={DataStyle.sendFeedbackWrapper}>
+        <Text style={DataStyle.sendFeedbackText}>Send Feedback</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,36 +1,40 @@
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View, TextInput} from 'react-native';
+import {Text, View, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
-import COLOR from '../constants/COLOR';
+import globalStore from '../stores/globalStore';
 import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
 import Tabs from './Tabs';
 import HookupStore from '../stores/HookupStore';
-import TouchebltText from './TouchebltText';
+import TouchebleText from './TouchebleText';
 
 export default observer(({calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
-  const [date, setDate] = useState(new Date(Date.now()));
+  const [date, setDate] = useState(new Date());
   const [select, setSelect] = useState(true);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [id, setId] = useState(uuidv4());
+  const {globalState} = globalStore;
+
   const {
     setHookups,
     setHookupDate,
     clearForm,
     setHookupSuccess,
     setName,
-    Name,
-    HookupSuccess,
+    name,
+    hookupSuccess,
+    deleteHookup,
   } = HookupStore;
-
+  useEffect(() => setCalendarFlag(false), [globalState.selectedTab.length]);
   useEffect(() => {
-    setHookupDate(new Date(Date.now()));
+    setHookupDate(new Date());
   }, []);
   const save = () => {
     setHookups(id);
@@ -38,18 +42,19 @@ export default observer(({calendar, tabs}) => {
   };
   const press = (day) => {
     setDate(new Date(day.timestamp));
-    setHookupDate(date);
+    setHookupDate(new Date(day.timestamp));
+  };
+  const home = () => {
+    Actions.replace('Home');
+    setHookupSuccess(true);
+    clearForm();
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>
       <View style={TestsHeaderStyle.mainWrapper}>
         <View>
           <Image
-            onPress={() => {
-              Actions.replace('Home');
-              setHookupSuccess(true);
-              clearForm();
-            }}
+            onPress={() => home()}
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}
           />
@@ -60,7 +65,7 @@ export default observer(({calendar, tabs}) => {
                   <Text style={TestsHeaderStyle.date}>
                     {moment(date).format('MMMM D')}
                   </Text>
-                  {calendar && (
+                  {hookupSuccess && calendar && (
                     <CalendarButton
                       onPress={() => setCalendarFlag(!calendarFlag)}
                       calendarFlag={calendarFlag}
@@ -69,21 +74,21 @@ export default observer(({calendar, tabs}) => {
                 </View>
                 {calendarFlag && <CustomCalendar onPress={press} date={date} />}
 
-                {!HookupSuccess ? (
-                  <Text style={TestsHeaderStyle.inputStyle}>{Name}</Text>
+                {!hookupSuccess ? (
+                  <Text style={TestsHeaderStyle.inputStyle}>{name}</Text>
                 ) : (
                   <TextInput
                     onChangeText={(text) => setName(text)}
                     placeholder="Enter name"
                     style={TestsHeaderStyle.inputStyle}
-                    value={Name}
+                    value={name}
                   />
                 )}
               </View>
             </View>
           </View>
         </View>
-        {HookupSuccess && (
+        {hookupSuccess && (
           <Image
             style={TestsHeaderStyle.image}
             containerStyle={TestsHeaderStyle.imageWrapper}
@@ -91,15 +96,15 @@ export default observer(({calendar, tabs}) => {
             path={require('../assets/okButton.png')}
           />
         )}
-        {!HookupSuccess && (
+        {!hookupSuccess && (
           <View style={{flexDirection: 'row'}}>
             <Image
-              style={{width: 25, height: 25}}
+              style={TestsHeaderStyle.changeImage}
               path={require('../assets/change.png')}
               onPress={() => setHookupSuccess(true)}
             />
             <Image
-              style={{width: 25, height: 25, marginLeft: 20}}
+              style={TestsHeaderStyle.undDeleteImage}
               path={require('../assets/delete.png')}
               onPress={() => setDeleteFlag(true)}
             />
@@ -122,20 +127,21 @@ export default observer(({calendar, tabs}) => {
             onPress={() => setDeleteFlag(false)}
           />
           <View style={TestsHeaderStyle.mainDeleteTextWrapper}>
-            <TouchebltText
+            <TouchebleText
               text="Delete entry?"
               containerStyle={TestsHeaderStyle.deleteTextWrapper}
               style={TestsHeaderStyle.mainDeleteText}
             />
-            <TouchebltText
+            <TouchebleText
               text="Delete entry"
               containerStyle={[
                 TestsHeaderStyle.deleteTextWrapper,
                 {marginTop: 5},
               ]}
               style={TestsHeaderStyle.deleteText}
+              onPress={() => deleteHookup(id)}
             />
-            <TouchebltText
+            <TouchebleText
               text="Cancel"
               containerStyle={TestsHeaderStyle.cancelWrapper}
               onPress={() => setDeleteFlag(false)}

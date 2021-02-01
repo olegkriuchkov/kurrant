@@ -10,12 +10,32 @@ export default StyleSheet.create({
         borderBottomColor: COLOR.GREY,
         paddingVertical: 12,
     },
-    contact: {
-        fontSize: 18,
-        color: COLOR.GREY,
-        fontWeight: '700',
+    letter: {
+        fontSize: 15,
+        paddingBottom: 20,
     },
-    searchField: {
-        
+    contact: {
+        fontSize: 24,
+        color: 727272,
+        fontWeight: 'normal',
+        paddingBottom: 15,
+        paddingTop: 8,
+        backgroundColor: '#F6F6F6',
+    },
+    mostFrequent: {
+        color: 727272,
+        fontSize: 15,
+        paddingBottom: 20,
+        borderBottomColor: '#D5D5D5',
+        borderBottomWidth: 1,
+    },
+    mostFrequentHookups: {
+        color: 727272,
+        fontSize: 24,
+        paddingBottom: 15,
+    },
+    bottomBorder: {
+        borderBottomColor: '#D5D5D5',
+        borderBottomWidth: 1,
     },
 });

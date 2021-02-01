@@ -1,7 +1,10 @@
 import React from 'react';
-import {Router, Scene, Stack} from 'react-native-router-flux';
+import {Actions, Router, Scene, Stack} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import HookupHeader from '../components/HookupHeader';
+import ContactsFilters from '../pages/Flters/ContactsFilters';
+import LogFilters from '../pages/Flters/LogFilters';
+import AddFriendEntry from '../pages/FriendEntry';
 import HomePage from '../pages/HomePage';
 
 import NavBar from '../components/NavBar';
@@ -24,6 +27,7 @@ import globalStore from '../stores/globalStore';
 import ContactsHeader from '../pages/Contacts/ContactsHeader';
 import {AnalyticsPage} from '../pages/AnalyticsPage';
 import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
+import Filters from '../pages/Flters/ContactsFilters';
 
 export default observer(() => (
   <Router>
@@ -39,7 +43,7 @@ export default observer(() => (
           onEnter={() => {
             globalStore.setSelectedTab('home');
           }}
-          navBar={() => <NavBar title="February" calendar settings />}
+          navBar={() => <NavBar calendar settings />}
         />
 
         <Scene
@@ -49,7 +53,9 @@ export default observer(() => (
           tabBarComponent={TabBar}
           onEnter={() => globalStore.setSelectedTab('log')}
           back
-          navBar={() => <NavBar color={COLOR.WHITE} calendar settings />}
+          navBar={() => (
+            <NavBar color={COLOR.WHITE} logCalendar calendar settings />
+          )}
         />
 
         <Scene
@@ -147,6 +153,35 @@ export default observer(() => (
             tabs={['Activity', 'Protection', 'Substance', 'Notes']}
           />
         )}
+      />
+      <Scene
+        key="AddFriendEntry"
+        statusBarStyle="light-content"
+        tabBarComponent={TabBar}
+        component={AddFriendEntry}
+        back
+        navBar={() => (
+          <HookupHeader
+            calendar
+            tabs={['Activity', 'Protection', 'Substance', 'Notes']}
+          />
+        )}
+      />
+      <Scene
+        key="ContactsFilters"
+        statusBarStyle="light-content"
+        component={ContactsFilters}
+        hideTabBar={true}
+        back
+        navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
+      />
+      <Scene
+        key="LogFilters"
+        statusBarStyle="light-content"
+        component={LogFilters}
+        hideTabBar={true}
+        back
+        navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
       />
       <Scene
         key="AnalyticsPage"

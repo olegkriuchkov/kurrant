@@ -1,66 +1,132 @@
-import {makeObservable, observable, action, toJS} from 'mobx';
+import {makeObservable, observable, action, toJS, reaction} from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
+import COLOR from '../constants/COLOR';
 
 class TestsStore {
-  @observable Tests = [];
+  @observable tests = [];
 
-  @observable Date = '';
+  @observable date = '';
 
-  @observable TestItems = [];
+  @observable testItems = [];
 
-  @observable Note = '';
+  markedTest = {};
 
-  @observable TestSuccess = true;
+  @observable note = '';
+
+  @observable testSuccess = true;
 
   @action setTestSuccess = (bool) => {
-    this.TestSuccess = bool;
+    this.testSuccess = bool;
   };
 
   @action clearTestItem = () => {
-    this.TestItems = [];
-    this.Note = '';
+    this.testItems = [];
+    this.note = '';
   };
 
   @action setTestsItem = (item) => {
-    const currentItem = this.TestItems.find((e) => e.id === item.id);
+    const currentItem = this.testItems.find((e) => e.id === item.id);
     if (currentItem) {
       currentItem.result = item.result;
-      this.TestItems = this.TestItems.filter((e) => e.result.length > 0);
+      this.testItems = this.testItems.filter((e) => e.result.length > 0);
     } else {
-      this.TestItems.push(item);
+      this.testItems.push(item);
     }
-    console.log('TESTITEM', toJS(this.TestItems));
   };
 
   @action setTest = (id) => {
-    const currentTest = this.TestItems.find((e) => e.id === id);
+    this.getTests();
+    const currentTest =
+      this.tests !== null ? this.tests.find((e) => e.id === id) : false;
     if (currentTest) {
-      currentTest.test = this.TestItems;
-      currentTest.note = this.Note;
-      this.Tests = this.TestItems.filter((e) => e.test.length > 0);
+      this.removeTests();
+
+      currentTest.test = this.testItems;
+      currentTest.note = this.note;
+      this.tests = this.tests.filter((e) => e.test.length > 0);
+      this.setAsyncTests();
     } else {
-      this.Tests.push({
-        date: this.Date,
-        test: this.TestItems,
-        note: this.Note,
+      this.removeTests();
+      this.tests.push({
+        date: this.date,
+        test: this.testItems,
+        note: this.note,
         id,
+        type: 'test',
       });
+      this.setAsyncTests();
     }
-    console.log(toJS(this.Tests));
+  };
+
+  @action setAsyncTests = async () => {
+    try {
+      const tests = JSON.stringify(this.tests);
+      await AsyncStorage.setItem(`@Tests`, tests);
+    } catch (e) {
+      throw new Error('AsyncTest ', e);
+    }
+  };
+
+  @action removeTests = async () => {
+    try {
+      await AsyncStorage.removeItem(`@Tests`);
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action getTests = async () => {
+    const result = JSON.parse(await AsyncStorage.getItem('@Tests'));
+    try {
+      this.tests = result !== null ? result : [];
+    } catch (e) {
+      throw new Error(e);
+    }
+    this.markedTestDate();
   };
 
   @action setTestDate = (date) => {
-    this.Date = date;
+    this.date = date;
   };
 
-  @action deleteHookup = (id) => {
-    this.Tests = this.Tests.filter((e) => e.id !== id);
+  @action deleteTest = (id) => {
+    this.tests = this.tests.filter((e) => e.id !== id);
+    this.setTestSuccess(true);
   };
 
   @action setTestNote = (note) => {
-    this.Note = note;
+    this.note = note;
+  };
+
+  @action markedTestDate = () => {
+    let result = {};
+
+    this.tests.forEach((e) => {
+      result = {
+        ...result,
+        [moment(e.date).format('YYYY-MM-DD')]: {
+          customStyles: {
+            container: {
+              backgroundColor: COLOR.PINK,
+              borderRadius: 50,
+            },
+            text: {
+              color: COLOR.WHITE,
+              opacity: 1,
+            },
+          },
+        },
+      };
+    });
+    this.markedTest = {...this.markedTest, ...result};
   };
 
   constructor() {
+    reaction(
+      () => this.tests.length,
+      () => this.getTests(),
+    );
     makeObservable(this);
   }
 }

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
+import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 import Image from './Image';
 import TestsStyle from '../style/page/Tests/TestsStyle';
@@ -8,13 +9,21 @@ import ButtonItem from './ButtonItem';
 import HookupStore from '../stores/HookupStore';
 
 export default observer(
-  ({title, types, single = false, result = [], sucess = false}) => {
-    const {setHookupItem, HookupSuccess, HookupItem} = HookupStore;
+  ({title, types, single = false, result = [], sucess = false, colections}) => {
+    const {setHookupItem, hookupSuccess, hookupItem} = HookupStore;
     const [flag, setFlag] = useState(false);
     const [selected, setSelected] = useState(result);
     const [singleFlag, setSingleFlag] = useState(false);
     const [confirm, setConfirm] = useState(sucess);
-    const currentItem = HookupItem.find((e) => e.title === title);
+    const currentItem = hookupItem.find((e) => e.title === title);
+
+    const containerStyle = single
+      ? [TestsStyle.confirmButton, {top: 90}]
+      : TestsStyle.confirmButton;
+
+    const singleTextStyle = singleFlag
+      ? TestsStyle.titleStyleSingle
+      : TestsStyle.titleStyle;
 
     const select = (title) => {
       selected.includes(title)
@@ -26,18 +35,18 @@ export default observer(
       if (!confirm) {
         setSelected([]);
       }
-    }, [HookupSuccess]);
-
+    }, [hookupSuccess]);
     const setHookup = (result, singleItem = false) => {
       setHookupItem({
         title,
         result,
         id: currentItem ? currentItem.id : uuidv4(),
         single: singleItem,
+        colection: colections,
       });
     };
     const toggleSingleSelect = () => {
-      if (HookupSuccess) {
+      if (hookupSuccess) {
         setFlag(true);
         if (single) {
           setHookup([title], true);
@@ -45,9 +54,8 @@ export default observer(
         }
       }
     };
-
     const testSuccess = () => {
-      if (HookupSuccess) {
+      if (hookupSuccess) {
         if (selected.length > 0) {
           setFlag(false);
           setConfirm(true);
@@ -61,6 +69,7 @@ export default observer(
         }
       }
     };
+
     return (
       <TouchableOpacity
         onPress={() => {
@@ -68,12 +77,7 @@ export default observer(
         }}
         style={singleFlag ? TestsStyle.singleMainItem : TestsStyle.mainItem}>
         {(single ? true : !flag) && !confirm && (
-          <Text
-            style={
-              singleFlag ? TestsStyle.titleStyleSingle : TestsStyle.titleStyle
-            }>
-            {title}
-          </Text>
+          <Text style={singleTextStyle}>{title}</Text>
         )}
         {flag &&
           !single &&
@@ -91,11 +95,7 @@ export default observer(
             <Image
               path={require('../assets/confirmButton.png')}
               style={TestsStyle.confirmImage}
-              containerStyle={
-                single
-                  ? [TestsStyle.confirmButton, {top: 90}]
-                  : TestsStyle.confirmButton
-              }
+              containerStyle={containerStyle}
               onPress={() => testSuccess()}
             />
           </View>
@@ -103,11 +103,12 @@ export default observer(
         {confirm && !flag && (
           <View style={TestsStyle.resultTitle}>
             <Text style={TestsStyle.resultTitleText}>{title}</Text>
-            {selected.map((selectedText) => (
-              <Text key={selectedText} style={TestsStyle.resultText}>
-                {selectedText}
-              </Text>
-            ))}
+            {!single &&
+              selected.map((selectedText) => (
+                <Text key={selectedText} style={TestsStyle.resultText}>
+                  {selectedText}
+                </Text>
+              ))}
           </View>
         )}
       </TouchableOpacity>

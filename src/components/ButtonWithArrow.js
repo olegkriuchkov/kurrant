@@ -1,23 +1,53 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import ButtonWithArrowStyle from '../style/component/ButtonWithArrowStyle';
+import COLOR from '../constants/COLOR';
 
-export default ({style, textStyle, title, onPress, hideArrow}) => (
-  <TouchableOpacity
-    style={[ButtonWithArrowStyle.mainStyle, style]}
-    onPress={onPress}>
-    <Text style={[{fontSize: 15}, textStyle]}>{title}</Text>
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
+export default ({
+  style,
+  textStyle,
+  title,
+  onPress,
+  hideArrow,
+  filters,
+  text,
+  transformarrow,
+}) => {
+  const [arrowFalg, setArrowFalg] = useState(false);
+  return (
+    <TouchableOpacity
+      style={[ButtonWithArrowStyle.mainStyle, style]}
+      onPress={() => {
+        onPress();
+        transformarrow && setArrowFalg(!arrowFalg);
       }}>
-      {!hideArrow && (
-        <Image
-          style={{width: 15, height: 15, marginRight: 5}}
-          source={require('../assets/buttonArrow.png')}
-        />
+      {!filters && <Text style={[{fontSize: 15}, textStyle]}>{title}</Text>}
+      {filters && (
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+          }}>
+          <Text style={[{fontSize: 15}, textStyle]}>{title}</Text>
+          <Text style={{alignSelf: 'flex-end', color: COLOR.WHITE}}>
+            {text}
+          </Text>
+        </View>
       )}
-    </View>
-  </TouchableOpacity>
-);
+      <View style={ButtonWithArrowStyle.imageWrapper}>
+        {!hideArrow && (
+          <Image
+            style={
+              arrowFalg
+                ? [ButtonWithArrowStyle.image, {transform: [{rotate: '90deg'}]}]
+                : ButtonWithArrowStyle.image
+            }
+            source={require('../assets/buttonArrow.png')}
+          />
+        )}
+      </View>
+    </TouchableOpacity>
+  );
+};

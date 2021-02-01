@@ -1,14 +1,24 @@
-import moment from 'moment';
-import React from 'react';
+import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {CalendarList} from 'react-native-calendars';
 import COLOR from '../constants/COLOR';
+import HookupStore from '../stores/HookupStore';
+import TestsStore from '../stores/TestsStore';
 import CalendarStyle from '../style/component/CalendarStyle';
 import NavbarStyle from '../style/component/NavbarStyle';
 
-const CustomCalendar = ({onPress, date}) => {
+export default observer(({date}) => {
   const weekday = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const theme = CalendarStyle(COLOR.PINK);
+  const {markedTest, tests} = TestsStore;
+  const {markedHookups, hookups} = HookupStore;
+  const [marker, setMarker] = useState();
+  useEffect(() => {
+    setMarker({...markedTest, ...markedHookups});
+    console.log(toJS(markedTest), toJS(markedHookups));
+  }, [tests.length, hookups.length]);
 
   return (
     <View style={{width: '100%'}}>
@@ -26,19 +36,10 @@ const CustomCalendar = ({onPress, date}) => {
         hideDayNames
         markingType="custom"
         hideArrows
-        onDayPress={(day) => {
-          onPress(day);
-        }}
         markedDates={{
-          [moment(date).format('YYYY-MM-DD')]: {
-            customStyles: {
-              container: NavbarStyle.markerContainer,
-              text: NavbarStyle.maerkerText,
-            },
-          },
+          ...marker,
         }}
       />
     </View>
   );
-};
-export default CustomCalendar;
+});

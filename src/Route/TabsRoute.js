@@ -2,6 +2,9 @@ import React from 'react';
 import {Actions, Router, Scene, Stack} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import HookupHeader from '../components/HookupHeader';
+import ContactsFilters from '../pages/Flters/ContactsFilters';
+import LogFilters from '../pages/Flters/LogFilters';
+import AddFriendEntry from '../pages/FriendEntry';
 import HomePage from '../pages/HomePage';
 
 import NavBar from '../components/NavBar';
@@ -24,7 +27,7 @@ import globalStore from '../stores/globalStore';
 import ContactsHeader from '../pages/Contacts/ContactsHeader';
 import {AnalyticsPage} from '../pages/AnalyticsPage';
 import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
-import Filters from '../pages/Flters/Filters';
+import Filters from '../pages/Flters/ContactsFilters';
 
 export default observer(() => (
   <Router>
@@ -152,9 +155,30 @@ export default observer(() => (
         )}
       />
       <Scene
-        key="Filters"
+        key="AddFriendEntry"
         statusBarStyle="light-content"
-        component={Filters}
+        tabBarComponent={TabBar}
+        component={AddFriendEntry}
+        back
+        navBar={() => (
+          <HookupHeader
+            calendar
+            tabs={['Activity', 'Protection', 'Substance', 'Notes']}
+          />
+        )}
+      />
+      <Scene
+        key="ContactsFilters"
+        statusBarStyle="light-content"
+        component={ContactsFilters}
+        hideTabBar={true}
+        back
+        navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
+      />
+      <Scene
+        key="LogFilters"
+        statusBarStyle="light-content"
+        component={LogFilters}
         hideTabBar={true}
         back
         navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}

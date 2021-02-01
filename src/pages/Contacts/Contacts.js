@@ -35,22 +35,6 @@ const Contacts = () => {
   };
   return (
     <ScrollView style={ContactsStyle.scrollViewBlock}>
-      {/* <SearchBar
-        placeholder="Search"
-        onChangeText={(value)=> setSearchValue(value.toLowerCase())}
-        value={searchValue}
-        lightTheme={true}
-        inputStyle={ContactsStyle.searchField}
-        containerStyle={{backgroundColor: 'transparent', padding: 10, }}
-        inputContainerStyle={{backgroundColor: 'white', borderRadius: 15, borderWidth: 2, borderColor: 'lightgrey'}}
-        searchIcon={
-          <Icon
-            name='sc-telegram'
-            type='evilicon'
-            color='#517fa4'
-          />
-        }
-      /> */}
       {!searchValue
         ? getLetters().map((letter, i) => {
             return (

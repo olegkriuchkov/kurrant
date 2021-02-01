@@ -88,7 +88,7 @@ const NavBar = observer(
                   path={require('../assets/settings.png')}
                   style={NavbarStyle.settings}
                   containerStyle={NavbarStyle.settingsBtn}
-                  onPress={() => Actions.Filters()}
+                  onPress={() => Actions.LogFilters()}
                 />
               )}
             </View>

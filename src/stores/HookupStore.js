@@ -16,6 +16,10 @@ class HookupStore {
 
   @observable hookupSuccess = true;
 
+  @observable friendEntrySuccess = true;
+
+  @observable friendEntryNote = '';
+
   @observable name = '';
 
   @action setHookupItem = (item) => {
@@ -32,6 +36,10 @@ class HookupStore {
     } else {
       this.hookupItem.push(item);
     }
+  };
+
+  @action setFriendNote = (note) => {
+    this.friendEntryNote = note;
   };
 
   @action clearForm = () => {

@@ -1,17 +1,15 @@
-import {toJS} from 'mobx';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import {observer} from 'mobx-react';
 import TestItem from '../components/TestItem';
-import COLOR from '../constants/COLOR';
 import TestsStore from '../stores/TestsStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
 export default observer(() => {
   const allTitle = ['Chlamydia', 'Gonorrhea', 'HIV', 'Syphilis', 'Other'];
   const testTypes = ['Rectal', 'Throad', 'Urine'];
-  const [notes, setNote] = useState('');
-  const {setTestNote, testSuccess, note, tests, testItems} = TestsStore;
+  const [setNote] = useState('');
+  const {setTestNote, testSuccess, note, testItems} = TestsStore;
   const setText = (text) => {
     setNote(text);
     setTestNote(text);

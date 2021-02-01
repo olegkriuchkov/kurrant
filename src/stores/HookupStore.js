@@ -1,5 +1,7 @@
-import {makeObservable, observable, action, toJS} from 'mobx';
+import {makeObservable, observable, action, toJS, reaction} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
+import COLOR from '../constants/COLOR';
 
 class HookupStore {
   @observable hookups = [];
@@ -10,7 +12,13 @@ class HookupStore {
 
   @observable note = '';
 
+  markedHookups = {};
+
   @observable hookupSuccess = true;
+
+  @observable friendEntrySuccess = true;
+
+  @observable friendEntryNote = '';
 
   @observable name = '';
 
@@ -28,6 +36,10 @@ class HookupStore {
     } else {
       this.hookupItem.push(item);
     }
+  };
+
+  @action setFriendNote = (note) => {
+    this.friendEntryNote = note;
   };
 
   @action clearForm = () => {
@@ -75,15 +87,6 @@ class HookupStore {
     }
   };
 
-  @action getAllKeys = async () => {
-    try {
-      this.keys = await AsyncStorage.getAllKeys();
-      console.log('ALL kaeys', toJS(this.keys));
-    } catch (e) {
-      throw new Error(e);
-    }
-  };
-
   @action removeHookup = async () => {
     try {
       await AsyncStorage.removeItem(`@Hookups`);
@@ -93,20 +96,18 @@ class HookupStore {
   };
 
   @action getHookups = async () => {
+    const result = JSON.parse(await AsyncStorage.getItem('@Hookups'));
     try {
-      this.hookups =
-        JSON.parse(await AsyncStorage.getItem('@Hookups')) !== null
-          ? JSON.parse(await AsyncStorage.getItem('@Hookups'))
-          : [];
+      this.hookups = result !== null ? result : [];
     } catch (e) {
       throw new Error(e);
     }
+    this.markedHookupDate();
   };
 
   @action deleteHookup = (id) => {
     this.hookups = this.hookups.filter((e) => e.id !== id);
     this.setHookupSuccess(true);
-    console.log(toJS(this.hookups));
   };
 
   @action setName = (name) => {
@@ -121,7 +122,33 @@ class HookupStore {
     this.note = note;
   };
 
+  @action markedHookupDate = () => {
+    let result = {};
+    this.hookups.forEach((e) => {
+      result = {
+        ...result,
+        [moment(e.date).format('YYYY-MM-DD')]: {
+          customStyles: {
+            container: {
+              backgroundColor: COLOR.PINK,
+              borderRadius: 10,
+            },
+            text: {
+              color: COLOR.WHITE,
+              opacity: 1,
+            },
+          },
+        },
+      };
+    });
+    this.markedHookups = {...this.markedHookups, ...result};
+  };
+
   constructor() {
+    reaction(
+      () => this.hookups.length,
+      () => this.getHookups(),
+    );
     makeObservable(this);
   }
 }

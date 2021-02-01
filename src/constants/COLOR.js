@@ -10,4 +10,6 @@ export default {
   NOTE: '#727272',
   TAB_ICON: '#B7B7B7',
   DARK_GREY: '#5C7798',
+  BACKGROUND: '#F6F6F6',
+  BORDERBUTTOM: '#D5D5D5',
 };

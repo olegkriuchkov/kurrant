@@ -1,18 +1,23 @@
+import {observer} from 'mobx-react';
 import React, {useState, useEffect} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {toJS} from 'mobx';
+import TestsStore from '../stores/TestsStore';
 import HomePageStyle from '../style/page/HomePageStyle';
 import HookupStore from '../stores/HookupStore';
 
-const HomePage = () => {
+const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
-  const {getHookups, hookups} = HookupStore;
+  const {getHookups, hookups, hookupSuccess} = HookupStore;
+  const {getTests, tests, testSuccess} = TestsStore;
+
   useEffect(() => {
     getHookups();
-    console.log(toJS(hookups));
-  }, []);
-  useEffect(() => console.log(toJS(hookups)), [hookups]);
+    getTests();
+    console.log('Hookups', toJS(hookups));
+    console.log('Tests', toJS(tests));
+  }, [testSuccess, hookupSuccess]);
   return (
     <View>
       <View style={modalFlag ? {} : {opacity: 0.1}}>
@@ -40,6 +45,7 @@ const HomePage = () => {
             onPress={() => {
               setModalFlag(true);
               Actions.Entry();
+              console.log('Hookups', toJS(hookups));
             }}>
             <Text style={HomePageStyle.modalText}>New hookup</Text>
           </TouchableOpacity>
@@ -47,6 +53,7 @@ const HomePage = () => {
             onPress={() => {
               setModalFlag(true);
               Actions.Test();
+              console.log('Tests', toJS(tests));
             }}>
             <Text style={HomePageStyle.modalText}>New test result</Text>
           </TouchableOpacity>
@@ -73,6 +80,6 @@ const HomePage = () => {
       </TouchableOpacity>
     </View>
   );
-};
+});
 
 export default HomePage;

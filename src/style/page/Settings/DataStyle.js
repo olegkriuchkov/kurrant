@@ -9,7 +9,7 @@ export default StyleSheet.create({
     borderColor: COLOR.GREY,
     borderBottomColor: COLOR.WHITE,
   },
-  main: {height: '100%', backgroundColor: COLOR.GREY},
+  main: {height: '100%', backgroundColor: COLOR.GREY, paddingTop: 20},
   redButtonText: {color: COLOR.PINK, fontSize: 24, fontWeight: '600'},
   buttonText: {color: COLOR.WHITE, fontSize: 24, fontWeight: '600'},
 

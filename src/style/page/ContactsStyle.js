@@ -2,41 +2,54 @@ import {StyleSheet} from 'react-native';
 import COLOR from '../../constants/COLOR';
 
 export default StyleSheet.create({
-  scrollViewBlock: {
-    paddingHorizontal: 20,
+  scrollViewBlock: {},
+  contentContainer: {
+    marginHorizontal: 20,
   },
-  letterBlock: {
-    borderBottomWidth: 1,
-    borderBottomColor: COLOR.GREY,
-    paddingVertical: 12,
+  mostFrequentContainer: {
+    backgroundColor: COLOR.LIGHT_GREY,
+  },
+  letterContainer: {
+    marginHorizontal: 20,
+    paddingTop: 13,
+    paddingBottom: 20,
   },
   letter: {
     fontSize: 15,
-    paddingBottom: 20,
+    color: COLOR.NOTE,
   },
-
-  contact: {
-    fontSize: 24,
-    color: 727272,
-    fontWeight: 'normal',
+  contactsBlock: {
     backgroundColor: '#F6F6F6',
+    paddingHorizontal: 20,
+  },
+  contactContainer: {
     paddingBottom: 15,
     paddingTop: 8,
   },
+  contact: {
+    fontSize: 24,
+    color: COLOR.NOTE,
+    fontWeight: 'normal',
+  },
   mostFrequent: {
-    color: 727272,
+    color: '#727272',
     fontSize: 15,
-    paddingBottom: 20,
-    borderBottomColor: '#D5D5D5',
+  },
+  titleContainer: {
+    paddingVertical: 20,
     borderBottomWidth: 1,
+    borderBottomColor: COLOR.BORDER_BOTTOM,
   },
   mostFrequentHookups: {
-    color: 727272,
+    color: COLOR.NOTE,
     fontSize: 24,
-    paddingBottom: 15,
+  },
+  topBorder: {
+    borderTopColor: COLOR.BORDER_BOTTOM,
+    borderTopWidth: 1,
   },
   bottomBorder: {
-    borderBottomColor: '#D5D5D5',
+    borderBottomColor: COLOR.BORDER_BOTTOM,
     borderBottomWidth: 1,
   },
 });

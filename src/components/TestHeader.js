@@ -60,9 +60,9 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}
             onPress={() => {
-              Actions.replace('Home');
               setTestSuccess(true);
               clearTestItem();
+              Actions.replace('Home');
             }}
           />
           <View style={TestsHeaderStyle.titlewrapper}>

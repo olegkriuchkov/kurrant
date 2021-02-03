@@ -45,9 +45,9 @@ export default observer(({calendar, tabs}) => {
     setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
-    Actions.replace('Home');
     setHookupSuccess(true);
     clearForm();
+    Actions.replace('Home');
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>

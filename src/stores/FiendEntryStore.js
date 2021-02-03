@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable} from 'mobx';
+import {action, makeObservable, observable, toJS} from 'mobx';
 import {Actions} from 'react-native-router-flux';
 
 class FiendEntryStore {
@@ -46,6 +46,10 @@ class FiendEntryStore {
     this.contactID = id;
   };
 
+  @action clearItem = () => {
+    this.contactItem = [];
+  };
+
   @action setContactItem = (item) => {
     const currentSingleItem = this.contactItem.find(
       (e) => e.title === item.title,
@@ -68,10 +72,24 @@ class FiendEntryStore {
     if (currentContact) {
       await this.removeContact();
       currentContact.contact = this.contactItem;
-      currentContact.name = this.name;
+      currentContact.name = this.name ? this.name : currentContact.name;
       currentContact.friendEntryNote = this.friendEntryNote;
       currentContact.location = this.location;
-      this.contact = this.contactItem.filter((e) => e.status.length > 0);
+
+      this.contact = this.contact.map((e) => {
+        if (e.friendId === friendId) {
+          return {
+            contact: currentContact.contact,
+            friendEntryNote: currentContact.friendEntryNote,
+            name: currentContact.name,
+            location: currentContact.location,
+            friendId: currentContact.friendId,
+            type: 'contact',
+          };
+        }
+        return e;
+      });
+      console.log('CONTACT', toJS(this.contact));
       await this.setAsyncContact();
     } else {
       await this.removeContact();
@@ -89,9 +107,7 @@ class FiendEntryStore {
 
   @action deleteContact = async (friendId) => {
     await this.getContacts();
-    this.contact = this.contact.filter((e) =>
-      e.friendId !== this.contactID ? this.contactID : friendId,
-    );
+    this.contact = this.contact.filter((e) => e.friendId !== friendId);
     await this.removeContact();
     await this.setAsyncContact();
     Actions.replace('Home');

@@ -28,37 +28,60 @@ export default observer(({tabs, friendName}) => {
     location,
     setLocation,
     setContacts,
+    clearItem,
     deleteContact,
     contactID,
+    setContacID,
     setName,
     contact,
   } = FiendEntryStore;
-
-  const save = () => {
-    setContacts(contactID || friendId);
-    setFiendSucess(!friendEntrySuccess);
+  const deleteItem = () => {
+    if (contactID) {
+      deleteContact(contactID);
+      setContacID(null);
+      setCurrentName({
+        currentName: null,
+        currentLocation: null,
+      });
+      clearItem();
+    } else {
+      deleteContact(id);
+      setContacID(null);
+      clearItem();
+    }
   };
-  const currentContact = contact?.find((e) => e.friendId === contactID);
+  const save = () => {
+    if (contactID) {
+      setContacts(contactID);
+      setFiendSucess(!friendEntrySuccess);
+    } else {
+      setContacts(friendId);
+      setFiendSucess(!friendEntrySuccess);
+    }
+  };
 
   useEffect(() => {
     setCurrentName({
       currentName: null,
       currentLocation: null,
     });
-    console.log('currentContact', toJS(currentContact));
-  }, []);
+  }, [contactID]);
   useEffect(() => {
+    const currentContact = contact?.find((e) => e.friendId === contactID);
+
     setCurrentName({
-      currentName: currentContact.name,
-      currentLocation: currentContact.location,
+      currentName: currentContact?.name,
+      currentLocation: currentContact?.location,
     });
     console.log(nameCurrent);
-  }, []);
+  }, [contactID]);
   const home = () => {
-    Actions.replace('Home');
     setFiendSucess(true);
     clearForm();
+    setContacID(null);
+    clearItem();
     setCurrentName();
+    Actions.replace('Home');
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>
@@ -77,9 +100,9 @@ export default observer(({tabs, friendName}) => {
                   TestsHeaderStyle.columnWrapper,
                   {alignSelf: 'flex-start'},
                 ]}>
-                {!friendEntrySuccess || nameCurrent.currentName ? (
+                {!friendEntrySuccess || nameCurrent?.currentName ? (
                   <Text style={TestsHeaderStyle.inputStyle}>
-                    {nameCurrent.currentName || name || 'No name'}
+                    {nameCurrent?.currentName || name || 'No name'}
                   </Text>
                 ) : (
                   !friendName && (
@@ -97,9 +120,9 @@ export default observer(({tabs, friendName}) => {
                   TestsHeaderStyle.columnWrapper,
                   {alignSelf: 'flex-start'},
                 ]}>
-                {!friendEntrySuccess || nameCurrent.currentLocation ? (
+                {!friendEntrySuccess || nameCurrent?.currentLocation ? (
                   <Text style={TestsHeaderStyle.inputStyle}>
-                    {nameCurrent.currentLocation || location || 'No location'}
+                    {nameCurrent?.currentLocation || location || 'No location'}
                   </Text>
                 ) : (
                   !friendName && (
@@ -126,13 +149,16 @@ export default observer(({tabs, friendName}) => {
         )}
         {!friendEntrySuccess && (
           <View style={{flexDirection: 'row'}}>
-            {!friendName && (
-              <Image
-                style={TestsHeaderStyle.changeImage}
-                path={require('../assets/change.png')}
-                onPress={() => setFiendSucess(true)}
-              />
-            )}
+            <Image
+              style={TestsHeaderStyle.changeImage}
+              path={require('../assets/change.png')}
+              onPress={() => {
+                setFiendSucess(true);
+                if (contactID) {
+                  Actions.AddFriendEntry();
+                }
+              }}
+            />
             <Image
               style={TestsHeaderStyle.undDeleteImage}
               path={require('../assets/delete.png')}
@@ -158,19 +184,19 @@ export default observer(({tabs, friendName}) => {
           />
           <View style={TestsHeaderStyle.mainDeleteTextWrapper}>
             <TouchebleText
-              text="Delete entry?"
+              text="Delete contact?"
               containerStyle={TestsHeaderStyle.deleteTextWrapper}
               style={TestsHeaderStyle.mainDeleteText}
             />
             <TouchebleText
-              text="Delete entry"
+              text="Delete contact"
               containerStyle={[
                 TestsHeaderStyle.deleteTextWrapper,
                 {marginTop: 5},
               ]}
               style={TestsHeaderStyle.deleteText}
               onPress={() => {
-                deleteContact(contactID || id);
+                deleteItem();
               }}
             />
             <TouchebleText

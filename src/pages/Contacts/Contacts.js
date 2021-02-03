@@ -32,7 +32,7 @@ const hookups = [
 
 export default observer(() => {
   const [searchValue, setSearchValue] = useState('');
-  const {contact, getContacts} = FiendEntryStore;
+  const {contact, getContacts, setFiendSucess} = FiendEntryStore;
   const {globalState} = globalStore;
   useEffect(() => {
     getContacts();
@@ -77,6 +77,7 @@ export default observer(() => {
                         style={ContactsStyle.contact}
                         key={i}
                         onPress={() => {
+                          setFiendSucess(false);
                           Actions.push('Contact', {id: contact.friendId});
                         }}>
                         <Text

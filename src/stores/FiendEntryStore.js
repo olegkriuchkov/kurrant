@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable} from 'mobx';
+import {action, makeObservable, observable, toJS} from 'mobx';
 import {Actions} from 'react-native-router-flux';
 
 class FiendEntryStore {
@@ -88,14 +88,13 @@ class FiendEntryStore {
   };
 
   @action deleteContact = async (friendId) => {
-    await this.getContacts();
-    this.contact = this.contact.filter((e) =>
-      e.friendId !== this.contactID ? this.contactID : friendId,
-    );
-    await this.removeContact();
-    await this.setAsyncContact();
+    this.getContacts();
+    this.contact = this.contact.filter((e) => e.friendId !== friendId);
+    this.removeContact();
+    this.setAsyncContact();
     Actions.replace('Home');
     this.setFiendSucess(true);
+    console.log('delete', toJS(this.contact), 'id', friendId);
   };
 
   @action setAsyncContact = async () => {

@@ -26,6 +26,7 @@ export default observer(({tabs, friendName}) => {
     clearForm,
     name,
     location,
+    setContacID,
     setLocation,
     setContacts,
     deleteContact,
@@ -38,28 +39,26 @@ export default observer(({tabs, friendName}) => {
     setContacts(contactID || friendId);
     setFiendSucess(!friendEntrySuccess);
   };
-  const currentContact = contact?.find((e) => e.friendId === contactID);
-
   useEffect(() => {
     setCurrentName({
       currentName: null,
       currentLocation: null,
     });
-    console.log('currentContact', toJS(currentContact));
-  }, []);
+  }, [contactID]);
   useEffect(() => {
+    const currentContact = contact?.find((e) => e.friendId === contactID);
     setCurrentName({
-      currentName: currentContact.name,
-      currentLocation: currentContact.location,
+      currentName: currentContact?.name,
+      currentLocation: currentContact?.location,
     });
-    console.log(nameCurrent);
-  }, []);
+  }, [contactID]);
+
   const home = () => {
     Actions.replace('Home');
     setFiendSucess(true);
     clearForm();
-    setCurrentName();
   };
+
   return (
     <View style={TestsHeaderStyle.mainStyle}>
       <View style={TestsHeaderStyle.mainWrapper}>
@@ -77,7 +76,7 @@ export default observer(({tabs, friendName}) => {
                   TestsHeaderStyle.columnWrapper,
                   {alignSelf: 'flex-start'},
                 ]}>
-                {!friendEntrySuccess || nameCurrent.currentName ? (
+                {!friendEntrySuccess || nameCurrent?.currentName ? (
                   <Text style={TestsHeaderStyle.inputStyle}>
                     {nameCurrent.currentName || name || 'No name'}
                   </Text>
@@ -97,9 +96,9 @@ export default observer(({tabs, friendName}) => {
                   TestsHeaderStyle.columnWrapper,
                   {alignSelf: 'flex-start'},
                 ]}>
-                {!friendEntrySuccess || nameCurrent.currentLocation ? (
+                {!friendEntrySuccess || nameCurrent?.currentLocation ? (
                   <Text style={TestsHeaderStyle.inputStyle}>
-                    {nameCurrent.currentLocation || location || 'No location'}
+                    {nameCurrent?.currentLocation || location || 'No location'}
                   </Text>
                 ) : (
                   !friendName && (
@@ -116,7 +115,7 @@ export default observer(({tabs, friendName}) => {
           </View>
         </View>
 
-        {friendEntrySuccess && (
+        {friendEntrySuccess && !contactID && (
           <Image
             style={TestsHeaderStyle.image}
             containerStyle={TestsHeaderStyle.imageWrapper}
@@ -133,6 +132,20 @@ export default observer(({tabs, friendName}) => {
                 onPress={() => setFiendSucess(true)}
               />
             )}
+            <Image
+              style={TestsHeaderStyle.undDeleteImage}
+              path={require('../assets/delete.png')}
+              onPress={() => setDeleteFlag(true)}
+            />
+          </View>
+        )}
+        {!!contactID && (
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              style={TestsHeaderStyle.changeImage}
+              path={require('../assets/change.png')}
+              onPress={() => {}}
+            />
             <Image
               style={TestsHeaderStyle.undDeleteImage}
               path={require('../assets/delete.png')}
@@ -158,12 +171,12 @@ export default observer(({tabs, friendName}) => {
           />
           <View style={TestsHeaderStyle.mainDeleteTextWrapper}>
             <TouchebleText
-              text="Delete entry?"
+              text="Delete contact?"
               containerStyle={TestsHeaderStyle.deleteTextWrapper}
               style={TestsHeaderStyle.mainDeleteText}
             />
             <TouchebleText
-              text="Delete entry"
+              text="Delete contact"
               containerStyle={[
                 TestsHeaderStyle.deleteTextWrapper,
                 {marginTop: 5},

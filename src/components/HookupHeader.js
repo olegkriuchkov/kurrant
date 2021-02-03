@@ -128,12 +128,12 @@ export default observer(({calendar, tabs}) => {
           />
           <View style={TestsHeaderStyle.mainDeleteTextWrapper}>
             <TouchebleText
-              text="Delete contact?"
+              text="Delete entry?"
               containerStyle={TestsHeaderStyle.deleteTextWrapper}
               style={TestsHeaderStyle.mainDeleteText}
             />
             <TouchebleText
-              text="Delete contact"
+              text="Delete entry"
               containerStyle={[
                 TestsHeaderStyle.deleteTextWrapper,
                 {marginTop: 5},

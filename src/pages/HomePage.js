@@ -3,6 +3,8 @@ import React, {useState, useEffect} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {toJS} from 'mobx';
+import FiendEntryStore from '../stores/FiendEntryStore';
+import globalStore from '../stores/globalStore';
 import TestsStore from '../stores/TestsStore';
 import HomePageStyle from '../style/page/HomePageStyle';
 import HookupStore from '../stores/HookupStore';
@@ -11,13 +13,23 @@ const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
   const {getHookups, hookups, hookupSuccess} = HookupStore;
   const {getTests, tests, testSuccess} = TestsStore;
+  const {globalState} = globalStore;
+  const {
+    contact,
+    getContacts,
+    friendEntrySuccess,
+    getAllKeys,
+  } = FiendEntryStore;
 
   useEffect(() => {
+    getAllKeys();
     getHookups();
     getTests();
+    getContacts();
     console.log('Hookups', toJS(hookups));
     console.log('Tests', toJS(tests));
-  }, [testSuccess, hookupSuccess]);
+    console.log('Contacts', toJS(contact));
+  }, [testSuccess, hookupSuccess, friendEntrySuccess, globalState.selectedTab]);
   return (
     <View>
       <View style={modalFlag ? {} : {opacity: 0.1}}>

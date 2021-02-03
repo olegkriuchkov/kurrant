@@ -11,4 +11,6 @@ export default {
   TAB_ICON: '#B7B7B7',
   DARK_GREY: '#5C7798',
   LIGHT_GREY: '#F6F6F6',
+  BACKGROUND: '#F6F6F6',
+  BORDERBUTTOM: '#D5D5D5',
 };

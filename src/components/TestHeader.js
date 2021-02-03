@@ -5,6 +5,7 @@ import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
+import globalStore from '../stores/globalStore';
 import Image from './Image';
 import COLOR from '../constants/COLOR';
 import NavbarStyle from '../style/component/NavbarStyle';
@@ -22,6 +23,8 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   const [select, setSelect] = useState(true);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const resultTabs = ['Results', 'Notes'];
+  const {globalState} = globalStore;
+
   const {
     setTestDate,
     setTest,
@@ -34,13 +37,14 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   useEffect(() => {
     setTestDate(new Date());
   }, []);
+  useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
   const save = () => {
     setTest(id);
     setTestSuccess(false);
   };
   const press = (day) => {
     setDate(new Date(day.timestamp));
-    setTestDate(date);
+    setTestDate(new Date(day.timestamp));
   };
 
   return (

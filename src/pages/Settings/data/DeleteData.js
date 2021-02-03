@@ -3,12 +3,18 @@ import {ScrollView} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonWithArrow from '../../../components/ButtonWithArrow';
+import HookupStore from '../../../stores/HookupStore';
+import TestsStore from '../../../stores/TestsStore';
 import DataStyle from '../../../style/page/Settings/DataStyle';
 
 const DeleteData = () => {
+  const {getHookups} = HookupStore;
+  const {getTests} = TestsStore;
   const clearAll = async () => {
     try {
       await AsyncStorage.clear();
+      getHookups();
+      getTests();
     } catch (e) {
       throw new Error(e);
     }

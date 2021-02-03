@@ -87,7 +87,7 @@ const Contacts = () => {
               key={i}
               style={[
                 ContactsStyle.mostFrequentHookups,
-                ContactsStyle.bottomBorder,
+                i < hookups.length - 1 ? ContactsStyle.bottomBorder : null,
               ]}>
               {hookup.name}
             </Text>

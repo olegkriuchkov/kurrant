@@ -1,7 +1,14 @@
 import React, {useState} from 'react';
-import {Text, View, ScrollView, StyleSheet, Image} from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {SearchBar, Icon} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
+import Image from '../../components/Image';
 import COLOR from '../../constants/COLOR';
 import ContactsStyle from '../../style/page/ContactsStyle';
 
@@ -10,21 +17,41 @@ const ContactsHeader = () => {
 
   return (
     <View style={styles.header}>
-      <Text style={styles.headerText}>Contacts</Text>
+      <View
+        style={{
+          width: '100%',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <Text style={styles.headerText}>Contacts</Text>
+
+        <TouchableOpacity>
+          <Image
+            onPress={() => Actions.AddFriendEntry()}
+            path={require('../../assets/plus.png')}
+            style={{width: 30, height: 30, marginRight: 10}}
+          />
+        </TouchableOpacity>
+      </View>
       <SearchBar
         placeholder="Search"
         onChangeText={(value) => setSearchValue(value.toLowerCase())}
         value={searchValue}
         lightTheme={true}
-        containerStyle={styles.containerStyle}
-        inputContainerStyle={styles.inputContainerStyle}
-        searchIcon={
-          <Icon
-            Component={() => (
-              <Image source={require('../../assets/search.png')} />
-            )}
-          />
-        }
+        inputStyle={ContactsStyle.searchField}
+        containerStyle={{
+          backgroundColor: 'transparent',
+          padding: 10,
+          borderColor: COLOR.WHITE,
+        }}
+        inputContainerStyle={{
+          backgroundColor: 'white',
+          borderRadius: 15,
+          borderWidth: 2,
+          borderBColor: 'lightgrey',
+        }}
+        searchIcon={<Image path={require('../../assets/search.png')} />}
       />
     </View>
   );

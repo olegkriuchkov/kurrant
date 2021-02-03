@@ -1,6 +1,7 @@
 import {makeObservable, observable, action, toJS, reaction} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
+import {Actions} from 'react-native-router-flux';
 import COLOR from '../constants/COLOR';
 
 class HookupStore {
@@ -15,10 +16,6 @@ class HookupStore {
   markedHookups = {};
 
   @observable hookupSuccess = true;
-
-  @observable friendEntrySuccess = true;
-
-  @observable friendEntryNote = '';
 
   @observable name = '';
 
@@ -38,10 +35,6 @@ class HookupStore {
     }
   };
 
-  @action setFriendNote = (note) => {
-    this.friendEntryNote = note;
-  };
-
   @action clearForm = () => {
     this.hookupItem = [];
     this.name = '';
@@ -52,7 +45,7 @@ class HookupStore {
     this.hookupSuccess = bool;
   };
 
-  @action setHookups = async (id) => {
+  @action setHookups = async (id, friendId) => {
     this.getHookups();
     const currentHookup =
       this.hookups !== null ? this.hookups.find((e) => e.id === id) : false;
@@ -72,6 +65,7 @@ class HookupStore {
         note: this.note,
         name: this.name,
         id,
+        friendId,
         type: 'hookup',
       });
       this.setAsyncHookups();
@@ -105,8 +99,12 @@ class HookupStore {
     this.markedHookupDate();
   };
 
-  @action deleteHookup = (id) => {
+  @action deleteHookup = async (id) => {
+    await this.getHookups();
     this.hookups = this.hookups.filter((e) => e.id !== id);
+    await this.removeHookup();
+    await this.setAsyncHookups();
+    Actions.replace('Home');
     this.setHookupSuccess(true);
   };
 

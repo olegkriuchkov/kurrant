@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {SearchBar, Icon} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
 import Image from '../../components/Image';

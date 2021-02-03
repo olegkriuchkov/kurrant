@@ -1,7 +1,9 @@
 import React from 'react';
 import {Actions, Router, Scene, Stack} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import FriendEntryHeader from '../components/FriendEntryHeader';
 import HookupHeader from '../components/HookupHeader';
+import Contact from '../pages/Contact';
 import ContactsFilters from '../pages/Flters/ContactsFilters';
 import LogFilters from '../pages/Flters/LogFilters';
 import AddFriendEntry from '../pages/FriendEntry';
@@ -27,7 +29,6 @@ import globalStore from '../stores/globalStore';
 import ContactsHeader from '../pages/Contacts/ContactsHeader';
 import {AnalyticsPage} from '../pages/AnalyticsPage';
 import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
-import Filters from '../pages/Flters/ContactsFilters';
 
 export default observer(() => (
   <Router>
@@ -161,9 +162,19 @@ export default observer(() => (
         component={AddFriendEntry}
         back
         navBar={() => (
-          <HookupHeader
-            calendar
-            tabs={['Activity', 'Protection', 'Substance', 'Notes']}
+          <FriendEntryHeader tabs={['Status', 'Position', 'Notes']} />
+        )}
+      />
+      <Scene
+        key="Contact"
+        statusBarStyle="light-content"
+        tabBarComponent={TabBar}
+        component={Contact}
+        back
+        navBar={() => (
+          <FriendEntryHeader
+            friendName
+            tabs={['Status', 'Position', 'Hookups', 'Notes']}
           />
         )}
       />

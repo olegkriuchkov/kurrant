@@ -62,7 +62,6 @@ export default observer(
           setHookup(selected);
         } else {
           setFlag(false);
-          setHookup(selected);
         }
         if (selected.length === 0 && !single) {
           setConfirm(false);

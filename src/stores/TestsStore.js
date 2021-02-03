@@ -1,6 +1,7 @@
 import {makeObservable, observable, action, toJS, reaction} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
+import {Actions} from 'react-native-router-flux';
 import COLOR from '../constants/COLOR';
 
 class TestsStore {
@@ -91,7 +92,13 @@ class TestsStore {
   };
 
   @action deleteTest = (id) => {
+    this.getTests();
+
     this.tests = this.tests.filter((e) => e.id !== id);
+    this.removeTests();
+    this.setAsyncTests();
+    Actions.replace('Home');
+
     this.setTestSuccess(true);
   };
 

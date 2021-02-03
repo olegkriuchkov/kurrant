@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable, toJS} from 'mobx';
+import {action, makeObservable, observable} from 'mobx';
 import {Actions} from 'react-native-router-flux';
 
 class FiendEntryStore {

@@ -1,6 +1,6 @@
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,8 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import CompleteEntry from '../components/CompleteEntry';
-import FriendWrapper from '../components/FriendWrapper';
 import Image from '../components/Image';
 import SucessContactWrapper from '../components/SucessContactWrapper';
 import FiendEntryStore from '../stores/FiendEntryStore';

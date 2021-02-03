@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {Text, View, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux';

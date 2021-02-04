@@ -28,20 +28,6 @@ const ContactsHeader = () => {
         inputStyle={styles.searchInput}
         containerStyle={styles.containerStyle}
         inputContainerStyle={styles.inputContainerStyle}
-        inputStyle={ContactsStyle.searchField}
-        containerStyle={{
-          backgroundColor: 'transparent',
-          padding: 10,
-          borderColor: COLOR.WHITE,
-        }}
-        inputContainerStyle={{
-          backgroundColor: 'white',
-          borderRadius: 15,
-          borderWidth: 2,
-          /*
-          borderBottomColor: 'lightgrey',
-*/
-        }}
         searchIcon={<Image path={require('../../assets/search.png')} />}
       />
     </View>

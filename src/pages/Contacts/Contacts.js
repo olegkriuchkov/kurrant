@@ -48,6 +48,7 @@ export default observer(() => {
   };
 
   const onPressContact = (id) => {
+    setFiendSucess(false);
     Actions.push('Contact', {id});
   };
 
@@ -117,7 +118,7 @@ export default observer(() => {
                         i > 0 ? ContactsStyle.topBorder : null,
                       ]}
                       key={i}
-                      onPress={() => onPressContact(contact.id)}>
+                      onPress={() => onPressContact(contact.friendId)}>
                       <Text style={ContactsStyle.contact}>{contact.name}</Text>
                     </TouchableOpacity>
                   ))}

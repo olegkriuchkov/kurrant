@@ -22,14 +22,14 @@ export default StyleSheet.create({
     marginBottom: 5,
     padding: 10,
     paddingBottom: 17,
-    borderColor: COLOR.BORDERBUTTOM,
+    borderColor: COLOR.BORDER_BOTTOM,
     borderBottomWidth: 1,
   },
   itemWrapper: {marginHorizontal: 10, paddingBottom: 10},
   lastItemWrapper: {
     marginHorizontal: 10,
     paddingBottom: 17,
-    borderColor: COLOR.BORDERBUTTOM,
+    borderColor: COLOR.BORDER_BOTTOM,
     borderBottomWidth: 1,
   },
 });

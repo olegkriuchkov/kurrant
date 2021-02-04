@@ -74,7 +74,7 @@ export default observer(() => {
     const parse = parseLog();
     setLogData(parse);
   }, [globalState.selectedTab]);
-  //
+
   return (
     <ScrollView>
       {logData.map((e) => {

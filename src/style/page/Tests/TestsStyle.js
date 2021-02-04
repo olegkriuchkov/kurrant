@@ -39,7 +39,7 @@ export default StyleSheet.create({
     width: '45%',
     minHeight: 165,
     maxHeight: 165,
-
+    minWidth: 168,
     borderRadius: 20,
     backgroundColor: COLOR.PINK,
     margin: 5,

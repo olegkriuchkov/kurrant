@@ -18,7 +18,6 @@ export default ({id}) => {
       position: [],
       status: [],
     });
-    console.log('status', toJS(currentContact));
     pars();
   }, [friendEntrySuccess]);
   const pars = () => {

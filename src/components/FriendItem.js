@@ -3,27 +3,34 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
+import {log} from 'react-native-reanimated';
 import {v4 as uuidv4} from 'uuid';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
 export default observer(
   ({title, single = false, collections, sucess = false, current}) => {
-    const {setContactItem, friendEntrySuccess, contactItem} = FiendEntryStore;
+    const {
+      setContactItem,
+      friendEntrySuccess,
+      contactItem,
+      contact,
+    } = FiendEntryStore;
     const [flag, setFlag] = useState(false);
     const [id, setId] = useState(uuidv4);
     const currentItem = contactItem.find((e) => e.id === id);
-
     useEffect(() => {
+      console.log('CONTACT', toJS(contact));
       if (currentItem?.title === title) {
         setFlag(true);
       }
       if (sucess) {
         setFlag(true);
       } else if (title === current) {
+        setContact(current);
         setFlag(true);
       } else setFlag(false);
-    }, [friendEntrySuccess]);
+    }, [current]);
     const singleTextStyle = flag
       ? TestsStyle.titleStyleSingle
       : TestsStyle.titleStyle;

@@ -43,7 +43,9 @@ const ContactsHeader = () => {
           backgroundColor: 'white',
           borderRadius: 15,
           borderWidth: 2,
-          borderBColor: 'lightgrey',
+          /*
+          borderBottomColor: 'lightgrey',
+*/
         }}
         searchIcon={<Image path={require('../../assets/search.png')} />}
       />

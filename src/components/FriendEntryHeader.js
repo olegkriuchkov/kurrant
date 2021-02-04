@@ -72,7 +72,6 @@ export default observer(({tabs, friendName}) => {
       currentName: currentContact?.name,
       currentLocation: currentContact?.location,
     });
-    console.log(nameCurrent);
   }, [contactID]);
   const home = () => {
     setFiendSucess(true);

@@ -2,9 +2,7 @@ import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
-import FriendItem from '../components/FriendItem';
 import FriendWrapper from '../components/FriendWrapper';
-import TestItem from '../components/TestItem';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
@@ -17,9 +15,9 @@ export default observer(() => {
     friendEntryNote,
     setFriendNote,
     contactItem,
+    contactID,
     contact,
   } = FiendEntryStore;
-  useEffect(() => console.log('Contact', toJS(contact)), []);
   const setText = (text) => {
     setNote(text);
     setFriendNote(text);

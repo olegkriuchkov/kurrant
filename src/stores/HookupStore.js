@@ -15,9 +15,13 @@ class HookupStore {
 
   markedHookups = {};
 
+  @observable changeFlag = false;
+
   @observable hookupSuccess = true;
 
   @observable name = '';
+
+  @observable id = '';
 
   @action setHookupItem = (item) => {
     const currentItem = this.hookupItem.find((e) => e.id === item.id);
@@ -35,10 +39,15 @@ class HookupStore {
     }
   };
 
+  @action setID = (id) => {
+    this.id = id;
+  };
+
   @action clearForm = () => {
     this.hookupItem = [];
     this.name = '';
     this.note = '';
+    this.id = '';
   };
 
   @action setHookupSuccess = (bool) => {
@@ -140,6 +149,14 @@ class HookupStore {
       };
     });
     this.markedHookups = {...this.markedHookups, ...result};
+  };
+
+  @action deleteHookupItem = (id) => {
+    this.hookupItem = this.hookupItem?.filter((e) => e.id !== id);
+  };
+
+  @action setChangeFlag = (bool) => {
+    this.changeFlag = bool;
   };
 
   constructor() {

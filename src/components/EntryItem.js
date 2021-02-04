@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
@@ -9,8 +10,22 @@ import ButtonItem from './ButtonItem';
 import HookupStore from '../stores/HookupStore';
 
 export default observer(
-  ({title, types, single = false, result = [], sucess = false, colections}) => {
-    const {setHookupItem, hookupSuccess, hookupItem} = HookupStore;
+  ({
+    title,
+    types,
+    single = false,
+    result = [],
+    sucess = false,
+    colections,
+    current,
+  }) => {
+    const {
+      setHookupItem,
+      deleteHookupItem,
+      hookupSuccess,
+      hookups,
+      hookupItem,
+    } = HookupStore;
     const [flag, setFlag] = useState(false);
     const [selected, setSelected] = useState(result);
     const [singleFlag, setSingleFlag] = useState(false);
@@ -31,11 +46,18 @@ export default observer(
         : setSelected((prev) => [...prev, title]);
     };
     useEffect(() => {
-      setFlag(false);
+      if (current?.title === title) {
+        setFlag(false);
+        setConfirm(true);
+        setSelected(current.result);
+        current.single ? setSingleFlag(true) : setSingleFlag(false);
+      } else {
+        setFlag(false);
+      }
       if (!confirm) {
         setSelected([]);
       }
-    }, [hookupSuccess]);
+    }, [current, hookups]);
     const setHookup = (result, singleItem = false) => {
       setHookupItem({
         title,
@@ -65,6 +87,7 @@ export default observer(
         }
         if (selected.length === 0 && !single) {
           setConfirm(false);
+          deleteHookupItem(currentItem.id);
         }
       }
     };

@@ -32,7 +32,7 @@ const hookups = [
 
 export default observer(() => {
   const [searchValue, setSearchValue] = useState('');
-  const {contact, getContacts} = FiendEntryStore;
+  const {contact, getContacts, setFiendSucess} = FiendEntryStore;
   const {globalState} = globalStore;
   useEffect(() => {
     getContacts();

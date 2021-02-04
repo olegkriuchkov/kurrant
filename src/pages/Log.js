@@ -9,8 +9,12 @@ import TestsStore from '../stores/TestsStore';
 import LogStyle from '../style/page/LogStyle';
 
 export default observer(() => {
-  const {tests} = TestsStore;
-  const {hookups} = HookupStore;
+  const {tests, getTests} = TestsStore;
+  const {hookups, getHookups} = HookupStore;
+  useEffect(() => {
+    getHookups();
+    getTests();
+  }, []);
   const data = [...toJS(hookups), ...toJS(tests)];
   const {globalState} = globalStore;
   const [logData, setLogData] = useState([]);
@@ -40,7 +44,6 @@ export default observer(() => {
       };
     });
     const tem = [];
-    console.log('data', mergedDataByMonths);
     mergedDataByMonths.forEach((el, i) => {
       if (i === 0) return tem.push(el);
       const prevMonth = mergedDataByMonths[i - 1].firstNoteInMonth;
@@ -63,7 +66,6 @@ export default observer(() => {
         }
         tem.push(el);
       }
-      console.log('temp', tem);
     });
     return tem;
   };
@@ -72,7 +74,7 @@ export default observer(() => {
     const parse = parseLog();
     setLogData(parse);
   }, [globalState.selectedTab]);
-  //
+
   return (
     <ScrollView>
       {logData.map((e) => {

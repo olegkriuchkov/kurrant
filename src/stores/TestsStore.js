@@ -17,6 +17,18 @@ class TestsStore {
 
   @observable testSuccess = true;
 
+  @observable id = '';
+
+  @action setID = (id) => {
+    this.id = id;
+  };
+
+  @action setChangeFlag = (bool) => {
+    this.changeFlag = bool;
+  };
+
+  @observable changeFlag = false;
+
   @action setTestSuccess = (bool) => {
     this.testSuccess = bool;
   };
@@ -127,6 +139,10 @@ class TestsStore {
       };
     });
     this.markedTest = {...this.markedTest, ...result};
+  };
+
+  @action deleteTestItem = (id) => {
+    this.testItems = this.testItems?.filter((e) => e.id !== id);
   };
 
   constructor() {

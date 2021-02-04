@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {Text, View, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux';
@@ -26,19 +25,40 @@ export default observer(({tabs, friendName}) => {
     clearForm,
     name,
     location,
-    setContacID,
     setLocation,
     setContacts,
+    clearItem,
     deleteContact,
     contactID,
+    setContacID,
     setName,
     contact,
   } = FiendEntryStore;
-
-  const save = () => {
-    setContacts(contactID || friendId);
-    setFiendSucess(!friendEntrySuccess);
+  const deleteItem = () => {
+    if (contactID) {
+      deleteContact(contactID);
+      setContacID(null);
+      setCurrentName({
+        currentName: null,
+        currentLocation: null,
+      });
+      clearItem();
+    } else {
+      deleteContact(id);
+      setContacID(null);
+      clearItem();
+    }
   };
+  const save = () => {
+    if (contactID) {
+      setContacts(contactID);
+      setFiendSucess(!friendEntrySuccess);
+    } else {
+      setContacts(friendId);
+      setFiendSucess(!friendEntrySuccess);
+    }
+  };
+
   useEffect(() => {
     setCurrentName({
       currentName: null,
@@ -47,18 +67,20 @@ export default observer(({tabs, friendName}) => {
   }, [contactID]);
   useEffect(() => {
     const currentContact = contact?.find((e) => e.friendId === contactID);
+
     setCurrentName({
       currentName: currentContact?.name,
       currentLocation: currentContact?.location,
     });
   }, [contactID]);
-
   const home = () => {
-    Actions.replace('Home');
     setFiendSucess(true);
     clearForm();
+    setContacID(null);
+    clearItem();
+    setCurrentName();
+    Actions.replace('Home');
   };
-
   return (
     <View style={TestsHeaderStyle.mainStyle}>
       <View style={TestsHeaderStyle.mainWrapper}>
@@ -78,7 +100,7 @@ export default observer(({tabs, friendName}) => {
                 ]}>
                 {!friendEntrySuccess || nameCurrent?.currentName ? (
                   <Text style={TestsHeaderStyle.inputStyle}>
-                    {nameCurrent.currentName || name || 'No name'}
+                    {nameCurrent?.currentName || name || 'No name'}
                   </Text>
                 ) : (
                   !friendName && (
@@ -115,7 +137,7 @@ export default observer(({tabs, friendName}) => {
           </View>
         </View>
 
-        {friendEntrySuccess && !contactID && (
+        {friendEntrySuccess && (
           <Image
             style={TestsHeaderStyle.image}
             containerStyle={TestsHeaderStyle.imageWrapper}
@@ -125,26 +147,15 @@ export default observer(({tabs, friendName}) => {
         )}
         {!friendEntrySuccess && (
           <View style={{flexDirection: 'row'}}>
-            {!friendName && (
-              <Image
-                style={TestsHeaderStyle.changeImage}
-                path={require('../assets/change.png')}
-                onPress={() => setFiendSucess(true)}
-              />
-            )}
-            <Image
-              style={TestsHeaderStyle.undDeleteImage}
-              path={require('../assets/delete.png')}
-              onPress={() => setDeleteFlag(true)}
-            />
-          </View>
-        )}
-        {!!contactID && (
-          <View style={{flexDirection: 'row'}}>
             <Image
               style={TestsHeaderStyle.changeImage}
               path={require('../assets/change.png')}
-              onPress={() => {}}
+              onPress={() => {
+                setFiendSucess(true);
+                if (contactID) {
+                  Actions.AddFriendEntry();
+                }
+              }}
             />
             <Image
               style={TestsHeaderStyle.undDeleteImage}
@@ -183,7 +194,7 @@ export default observer(({tabs, friendName}) => {
               ]}
               style={TestsHeaderStyle.deleteText}
               onPress={() => {
-                deleteContact(contactID || id);
+                deleteItem();
               }}
             />
             <TouchebleText

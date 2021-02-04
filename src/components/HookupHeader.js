@@ -31,6 +31,7 @@ export default observer(({calendar, tabs}) => {
     name,
     hookupSuccess,
     deleteHookup,
+    setChangeFlag,
   } = HookupStore;
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab.length]);
   useEffect(() => {
@@ -39,15 +40,18 @@ export default observer(({calendar, tabs}) => {
   const save = () => {
     setHookups(id);
     setHookupSuccess(false);
+    setChangeFlag(true);
   };
   const press = (day) => {
     setDate(new Date(day.timestamp));
     setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
-    Actions.replace('Home');
     setHookupSuccess(true);
+    setChangeFlag(false);
+
     clearForm();
+    Actions.replace('Home');
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>
@@ -92,7 +96,9 @@ export default observer(({calendar, tabs}) => {
           <Image
             style={TestsHeaderStyle.image}
             containerStyle={TestsHeaderStyle.imageWrapper}
-            onPress={() => save()}
+            onPress={() => {
+              save();
+            }}
             path={require('../assets/okButton.png')}
           />
         )}
@@ -101,7 +107,9 @@ export default observer(({calendar, tabs}) => {
             <Image
               style={TestsHeaderStyle.changeImage}
               path={require('../assets/change.png')}
-              onPress={() => setHookupSuccess(true)}
+              onPress={() => {
+                setHookupSuccess(true);
+              }}
             />
             <Image
               style={TestsHeaderStyle.undDeleteImage}

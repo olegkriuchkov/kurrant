@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {observer} from 'mobx-react';
@@ -8,8 +9,8 @@ import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
 import TestsStore from '../stores/TestsStore';
 
-export default observer(({title, types, sucess = false, result}) => {
-  const {setTestsItem, testSuccess, testItems} = TestsStore;
+export default observer(({title, types, sucess = false, result, current}) => {
+  const {setTestsItem, testSuccess, testItems, tests} = TestsStore;
   const [flag, setFlag] = useState(false);
   const [selected, setSelected] = useState(result || []);
   const [confirm, setConfirm] = useState(sucess);
@@ -21,11 +22,17 @@ export default observer(({title, types, sucess = false, result}) => {
   };
 
   useEffect(() => {
-    setFlag(false);
+    if (current?.title === title) {
+      setFlag(false);
+      setConfirm(true);
+      setSelected(current.result);
+    } else {
+      setFlag(false);
+    }
     if (!confirm) {
       setSelected([]);
     }
-  }, [testSuccess]);
+  }, [current, tests]);
 
   const setTest = (result) => {
     setTestsItem({

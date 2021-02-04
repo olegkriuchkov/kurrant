@@ -18,10 +18,6 @@ export default observer(() => {
     contactID,
     contact,
   } = FiendEntryStore;
-  useEffect(() => {
-    console.log('Contact', toJS(contact));
-    console.log('Contact', toJS(contactID));
-  }, []);
   const setText = (text) => {
     setNote(text);
     setFriendNote(text);

@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import {toJS} from 'mobx';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import {observer} from 'mobx-react';
 import TestItem from '../components/TestItem';
@@ -14,16 +15,35 @@ export default observer(() => {
     setNote(text);
     setTestNote(text);
   };
-
+  const {tests, changeFlag} = TestsStore;
+  const [current, setCurrent] = useState([]);
+  useEffect(() => {
+    const temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
+    if (changeFlag) {
+      setCurrent(temp);
+    }
+  }, [tests, changeFlag]);
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper}>
         {testSuccess && (
           <View style={TestsStyle.main}>
             <View style={TestsStyle.contaier}>
-              {allTitle.map((title) => (
-                <TestItem title={title} types={testTypes} key={title} />
-              ))}
+              {allTitle.map((title) => {
+                const selectedTitle = current?.test?.find(
+                  (e) => e?.title === title,
+                );
+                console.log('SELECTED', toJS(selectedTitle));
+
+                return (
+                  <TestItem
+                    title={title}
+                    current={selectedTitle}
+                    types={testTypes}
+                    key={title}
+                  />
+                );
+              })}
             </View>
           </View>
         )}

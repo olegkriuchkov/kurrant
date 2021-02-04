@@ -22,8 +22,6 @@ export default observer(
       const temp = hookups?.find(
         (e) => e.id === hookups[hookups.length - 1].id,
       );
-      console.log('TEMP', toJS(temp));
-      console.log('flag', changeFlag);
       if (changeFlag) {
         setCurrent(temp);
       }

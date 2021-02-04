@@ -9,8 +9,12 @@ import TestsStore from '../stores/TestsStore';
 import LogStyle from '../style/page/LogStyle';
 
 export default observer(() => {
-  const {tests} = TestsStore;
-  const {hookups} = HookupStore;
+  const {tests, getTests} = TestsStore;
+  const {hookups, getHookups} = HookupStore;
+  useEffect(() => {
+    getHookups();
+    getTests();
+  }, []);
   const data = [...toJS(hookups), ...toJS(tests)];
   const {globalState} = globalStore;
   const [logData, setLogData] = useState([]);

@@ -32,6 +32,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setTestSuccess,
     testSuccess,
     deleteTest,
+    setChangeFlag,
   } = TestsStore;
 
   useEffect(() => {
@@ -40,13 +41,21 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
   const save = () => {
     setTest(id);
+    setChangeFlag(true);
+
     setTestSuccess(false);
   };
   const press = (day) => {
     setDate(new Date(day.timestamp));
     setTestDate(new Date(day.timestamp));
   };
+  const home = () => {
+    setTestSuccess(true);
+    clearTestItem();
+    setChangeFlag(false);
 
+    Actions.replace('Home');
+  };
   return (
     <View
       style={
@@ -59,11 +68,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
           <Image
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}
-            onPress={() => {
-              setTestSuccess(true);
-              clearTestItem();
-              Actions.replace('Home');
-            }}
+            onPress={() => home()}
           />
           <View style={TestsHeaderStyle.titlewrapper}>
             <Text

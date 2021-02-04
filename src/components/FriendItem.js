@@ -20,7 +20,6 @@ export default observer(
     const [id, setId] = useState(uuidv4);
     const currentItem = contactItem.find((e) => e.id === id);
     useEffect(() => {
-      console.log('CONTACT', toJS(contact));
       if (currentItem?.title === title) {
         setFlag(true);
       }

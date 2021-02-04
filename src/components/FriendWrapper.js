@@ -14,9 +14,6 @@ export default observer(
       const temp = contact?.find((e) => e.friendId === contactID);
       setCurrent(temp);
     }, []);
-    /*
-    console.log('CURRENT', toJS(current));
-*/
 
     return (
       <View style={TestsStyle.main}>
@@ -27,9 +24,7 @@ export default observer(
               const selectedTitle = current?.contact?.find(
                 (e) => e?.title === titles,
               );
-              /*
-              console.log('CURRENT', toJS(selectedTitle));
-*/
+
               return (
                 <FriendItem
                   title={titles}

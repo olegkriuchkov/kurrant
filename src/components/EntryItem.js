@@ -45,14 +45,12 @@ export default observer(
         ? setSelected((prev) => prev.filter((e) => e !== title))
         : setSelected((prev) => [...prev, title]);
     };
-    console.log('CERRENT', toJS(current));
     useEffect(() => {
       if (current?.title === title) {
         setFlag(false);
         setConfirm(true);
         setSelected(current.result);
         current.single ? setSingleFlag(true) : setSingleFlag(false);
-        console.log(single);
       } else {
         setFlag(false);
       }

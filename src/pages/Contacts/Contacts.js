@@ -1,7 +1,7 @@
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
@@ -46,51 +46,82 @@ export default observer(() => {
 
     return letters;
   };
-  console.log('------', Actions.currentScene);
+
+  const onPressContact = (id) => {
+    Actions.push('Contact', {id});
+  };
+
   return (
     <ScrollView style={ContactsStyle.scrollViewBlock}>
-      <View>
-        <Text style={ContactsStyle.mostFrequent}>Most frequent (90 days)</Text>
-        {hookups
-          .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
-          .slice(0, 3)
-          .map((hookup, i, hookups) => (
-            <Text
-              key={i}
-              style={[
-                ContactsStyle.mostFrequentHookups,
-                i < hookups.length - 1 ? ContactsStyle.bottomBorder : null,
-              ]}>
-              {hookup.name}
+      {/* <SearchBar
+        placeholder="Search"
+        onChangeText={(value)=> setSearchValue(value.toLowerCase())}
+        value={searchValue}
+        lightTheme={true}
+        inputStyle={ContactsStyle.searchField}
+        containerStyle={{backgroundColor: 'transparent', padding: 10, }}
+        inputContainerStyle={{backgroundColor: 'white', borderRadius: 15, borderWidth: 2, borderColor: 'lightgrey'}}
+        searchIcon={
+          <Icon
+            name='sc-telegram'
+            type='evilicon'
+            color='#517fa4'
+          />
+        }
+      /> */}
+      <View style={ContactsStyle.mostFrequentContainer}>
+        <View style={ContactsStyle.contentContainer}>
+          <View style={ContactsStyle.titleContainer}>
+            <Text style={ContactsStyle.mostFrequent}>
+              Most frequent (90 days)
             </Text>
-          ))}
+          </View>
+          {hookups.length &&
+            hookups
+              .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
+              .slice(0, 3)
+              .map((hookup, i) => (
+                <View
+                  style={[
+                    ContactsStyle.contactContainer,
+                    i > 0 ? ContactsStyle.topBorder : null,
+                  ]}
+                  key={`${hookup.name}-${i}`}>
+                  <Text style={ContactsStyle.mostFrequentHookups}>
+                    {hookup.name}
+                  </Text>
+                </View>
+              ))}
+        </View>
       </View>
       {!searchValue
         ? getLetters().map((letter, i) => {
+            const letterContacts = contact.filter(
+              (contact) => contact.name?.charAt(0) === letter,
+            );
+
             return (
               <View key={i} style={ContactsStyle.letterBlock}>
-                <Text style={ContactsStyle.letter}>{letter}</Text>
-                {contact.map((contact, i) => {
-                  if (contact.name?.charAt(0) === letter) {
-                    return (
-                      <TouchableOpacity
-                        style={ContactsStyle.contact}
-                        key={i}
-                        onPress={() => {
-                          Actions.push('Contact', {id: contact.friendId});
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 24,
-                            color: 727272,
-                            fontWeight: 'normal',
-                          }}>
-                          {contact.name}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  }
-                })}
+                <View
+                  style={[
+                    ContactsStyle.letterContainer,
+                    letterContacts.length === 0 && ContactsStyle.bottomBorder,
+                  ]}>
+                  <Text style={ContactsStyle.letter}>{letter}</Text>
+                </View>
+                <View style={ContactsStyle.contactsBlock}>
+                  {letterContacts.map((contact, i) => (
+                    <TouchableOpacity
+                      style={[
+                        ContactsStyle.contactContainer,
+                        i > 0 ? ContactsStyle.topBorder : null,
+                      ]}
+                      key={i}
+                      onPress={() => onPressContact(contact.id)}>
+                      <Text style={ContactsStyle.contact}>{contact.name}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
             );
           })

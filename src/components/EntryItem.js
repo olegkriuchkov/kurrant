@@ -8,6 +8,7 @@ import Image from './Image';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
 import HookupStore from '../stores/HookupStore';
+import FiendEntryStore from '../stores/FiendEntryStore';
 
 export default observer(
   ({

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable, toJS} from 'mobx';
+import {action, makeObservable, observable, reaction, toJS} from 'mobx';
 import {Actions} from 'react-native-router-flux';
 
 class FiendEntryStore {
@@ -18,6 +18,8 @@ class FiendEntryStore {
   @observable contactID = '';
 
   @observable contact = [];
+
+  @observable contactHookup = [];
 
   @action setFriendNote = (text) => {
     this.friendEntryNote = text;
@@ -147,6 +149,10 @@ class FiendEntryStore {
     } catch (e) {
       throw new Error(e);
     }
+  };
+
+  @action setContactHookup = (array) => {
+    this.contactHookup = array;
   };
 
   constructor() {

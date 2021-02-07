@@ -13,6 +13,7 @@ const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
   const {getHookups, hookups, hookupSuccess} = HookupStore;
   const {getTests, tests, testSuccess} = TestsStore;
+  const {setContacID} = FiendEntryStore;
   const {globalState} = globalStore;
   const {
     contact,
@@ -25,11 +26,13 @@ const HomePage = observer(() => {
     getAllKeys();
     getHookups();
     getTests();
+    setContacID(null);
     getContacts();
     console.log('Hookups', toJS(hookups));
     console.log('Tests', toJS(tests));
     console.log('Contacts', toJS(contact));
   }, [testSuccess, hookupSuccess, friendEntrySuccess, globalState.selectedTab]);
+
   return (
     <View>
       <View style={modalFlag ? {} : {opacity: 0.1}}>

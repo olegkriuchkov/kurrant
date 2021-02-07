@@ -13,15 +13,9 @@ import CalendarButton from './CalendarButton';
 import Tabs from './Tabs';
 import HookupStore from '../stores/HookupStore';
 import TouchebleText from './TouchebleText';
+import FiendEntryStore from '../stores/FiendEntryStore';
 
 export default observer(({calendar, tabs}) => {
-  const [calendarFlag, setCalendarFlag] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [select, setSelect] = useState(true);
-  const [deleteFlag, setDeleteFlag] = useState(false);
-  const [id, setId] = useState(uuidv4());
-  const {globalState} = globalStore;
-
   const {
     setHookups,
     setHookupDate,
@@ -33,12 +27,44 @@ export default observer(({calendar, tabs}) => {
     deleteHookup,
     setChangeFlag,
   } = HookupStore;
+  const [calendarFlag, setCalendarFlag] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [select, setSelect] = useState(true);
+  const [deleteFlag, setDeleteFlag] = useState(false);
+  const [id, setId] = useState(uuidv4());
+  const {globalState} = globalStore;
+  const {contactID, contact, setContacID, contactHookup} = FiendEntryStore;
+  const [nameCurrent, setCurrentName] = useState({
+    currentName: null,
+    currentLocation: null,
+  });
+
+  useEffect(() => {
+    setCurrentName({
+      currentName: null,
+      currentLocation: null,
+    });
+  }, [contactID, globalState.selectedTab]);
+  useEffect(() => {
+    const currentContact = contact?.find((e) => e.friendId === contactID);
+
+    setCurrentName({
+      currentName: currentContact?.name,
+      currentLocation: currentContact?.location,
+    });
+  }, [contactID, globalState.selectedTab]);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab.length]);
   useEffect(() => {
     setHookupDate(new Date());
   }, []);
   const save = () => {
-    setHookups(id);
+    if (contactID !== null) {
+      console.log(contactID);
+      setName(nameCurrent.currentName);
+      setHookups(id, contactID);
+    } else {
+      setHookups(id);
+    }
     setHookupSuccess(false);
     setChangeFlag(true);
   };
@@ -49,8 +75,8 @@ export default observer(({calendar, tabs}) => {
   const home = () => {
     setHookupSuccess(true);
     setChangeFlag(false);
-
     clearForm();
+    setContacID(null);
     Actions.replace('Home');
   };
   return (
@@ -58,7 +84,9 @@ export default observer(({calendar, tabs}) => {
       <View style={TestsHeaderStyle.mainWrapper}>
         <View>
           <Image
-            onPress={() => home()}
+            onPress={() => {
+              home();
+            }}
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}
           />
@@ -78,15 +106,22 @@ export default observer(({calendar, tabs}) => {
                 </View>
                 {calendarFlag && <CustomCalendar onPress={press} date={date} />}
 
-                {!hookupSuccess ? (
+                {!hookupSuccess && !contactID ? (
                   <Text style={TestsHeaderStyle.inputStyle}>{name}</Text>
                 ) : (
-                  <TextInput
-                    onChangeText={(text) => setName(text)}
-                    placeholder="Enter name"
-                    style={TestsHeaderStyle.inputStyle}
-                    value={name}
-                  />
+                  !contactID && (
+                    <TextInput
+                      onChangeText={(text) => setName(text)}
+                      placeholder="Enter name"
+                      style={TestsHeaderStyle.inputStyle}
+                      value={name}
+                    />
+                  )
+                )}
+                {!!contactID && (
+                  <Text style={TestsHeaderStyle.inputStyle}>
+                    {nameCurrent.currentName}
+                  </Text>
                 )}
               </View>
             </View>

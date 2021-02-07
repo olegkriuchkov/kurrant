@@ -11,6 +11,7 @@ export default ({
   hideArrow,
   filters,
   text,
+  icon,
   transformarrow,
 }) => {
   const [arrowFalg, setArrowFalg] = useState(false);
@@ -44,7 +45,7 @@ export default ({
                 ? [ButtonWithArrowStyle.image, {transform: [{rotate: '90deg'}]}]
                 : ButtonWithArrowStyle.image
             }
-            source={require('../assets/buttonArrow.png')}
+            source={icon || require('../assets/buttonArrow.png')}
           />
         )}
       </View>

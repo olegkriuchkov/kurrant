@@ -54,7 +54,7 @@ class HookupStore {
     this.hookupSuccess = bool;
   };
 
-  @action setHookups = async (id, friendId) => {
+  @action setHookups = async (id, contactID) => {
     this.getHookups();
     const currentHookup =
       this.hookups !== null ? this.hookups.find((e) => e.id === id) : false;
@@ -74,7 +74,7 @@ class HookupStore {
         note: this.note,
         name: this.name,
         id,
-        friendId,
+        contactID,
         type: 'hookup',
       });
       this.setAsyncHookups();

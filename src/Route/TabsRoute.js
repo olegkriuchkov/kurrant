@@ -148,6 +148,9 @@ export default observer(() => (
         tabBarComponent={TabBar}
         component={Entry}
         back
+        onEnter={() => {
+          globalStore.setSelectedTab('entry');
+        }}
         navBar={() => (
           <HookupHeader
             calendar

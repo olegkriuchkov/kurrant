@@ -30,7 +30,6 @@ const hookups = [
     number: 2,
   },
 ];
-
 export default observer(() => {
   const [searchValue, setSearchValue] = useState('');
   const {contact, getContacts, setFiendSucess, filters} = FiendEntryStore;
@@ -41,12 +40,15 @@ export default observer(() => {
     console.log(toJS(contact));
     if (filters.length > 0) {
       const contactFilter = contact.filter((e) => {
+        let coutn = 0;
         const temp = e.contact.filter((e) => {
           if (filters.includes(e.title)) {
+            coutn++;
             return e;
           }
+          console.log(coutn);
         });
-        return temp.length > 0;
+        return coutn === filters.length && temp;
       });
       setFiltered(contactFilter);
     } else {

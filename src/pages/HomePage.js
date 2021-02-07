@@ -26,7 +26,6 @@ const HomePage = observer(() => {
     getAllKeys();
     getHookups();
     getTests();
-    setContacID(null);
     getContacts();
     console.log('Hookups', toJS(hookups));
     console.log('Tests', toJS(tests));
@@ -59,6 +58,7 @@ const HomePage = observer(() => {
           <TouchableOpacity
             onPress={() => {
               setModalFlag(true);
+              setContacID(null);
               Actions.Entry();
               console.log('Hookups', toJS(hookups));
             }}>

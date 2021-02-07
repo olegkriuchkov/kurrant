@@ -5,6 +5,7 @@ import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
+import {toJS} from 'mobx';
 import globalStore from '../stores/globalStore';
 import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
@@ -76,7 +77,6 @@ export default observer(({calendar, tabs}) => {
     setHookupSuccess(true);
     setChangeFlag(false);
     clearForm();
-    setContacID(null);
     Actions.replace('Home');
   };
   return (
@@ -86,6 +86,7 @@ export default observer(({calendar, tabs}) => {
           <Image
             onPress={() => {
               home();
+              console.log('ID', toJS(contactID));
             }}
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}

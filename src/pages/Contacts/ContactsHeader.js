@@ -12,13 +12,22 @@ const ContactsHeader = () => {
     <View style={styles.header}>
       <View style={styles.titleContainer}>
         <Text style={styles.headerText}>Contacts</Text>
-        <TouchableOpacity>
-          <Image
-            onPress={() => Actions.AddFriendEntry()}
-            path={require('../../assets/plus.png')}
-            style={styles.plusIcon}
-          />
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity>
+            <Image
+              onPress={() => Actions.AddFriendEntry()}
+              path={require('../../assets/plus.png')}
+              style={styles.plusIcon}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              onPress={() => Actions.ContactsFilters()}
+              path={require('../../assets/settings.png')}
+              style={{width: 25, height: 19, marginRight: 20}}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       <SearchBar
         placeholder="Search"

@@ -36,9 +36,6 @@ export default observer(({id}) => {
   useEffect(() => {
     setContacID(id);
     const temp = hookups.filter((e) => e.contactID === id);
-    console.log('hookup', toJS(hookups));
-    console.log('temp', toJS(temp));
-    console.log(id);
     setContactHookup(temp);
   }, [hookupSuccess, globalState.selectedTab]);
   useEffect(() => console.log('Contact', toJS(contact)), []);
@@ -50,50 +47,28 @@ export default observer(({id}) => {
       <ScrollView style={TestsStyle.entryWrapper}>
         <SucessContactWrapper id={id} />
         <View style={{marginHorizontal: 20}}>
-          <Text
-            style={{
-              fontSize: 20,
-              paddingBottom: 20,
-              paddingTop: 5,
-              borderBottomColor: COLOR.TOPLINE,
-              borderBottomWidth: 1,
-              marginTop: 25,
-              borderTopColor: COLOR.TOPLINE,
-              borderTopWidth: 1,
-              color: COLOR.NAVBARBORDER,
-            }}>
-            Hookups
-          </Text>
+          <Text style={TestsStyle.contactTitle}>Hookups</Text>
           {contactHookup.map((e) => {
             return (
               <ButtonWithArrow
+                key={e.date}
                 title={`${moment(e.date).format('ddd')}, ${moment(
                   e.date,
                 ).format('MMMM D')}`}
-                textStyle={{color: COLOR.PINK, fontSize: 20}}
-                style={{
-                  marginVertical: 5,
-                  paddingBottom: 10,
-                  borderBottomColor: COLOR.TOPLINE,
-                  borderBottomWidth: 1,
-                }}
+                textStyle={TestsStyle.buttonText}
+                style={TestsStyle.buttonStyle}
                 icon={require('../assets/blueArrow.png')}
               />
             );
           })}
           <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 40,
-              marginTop: 10,
-            }}
+            style={TestsStyle.addHookups}
             onPress={() => Actions.Entry()}>
             <Image
               path={require('../assets/whiteplus.png')}
-              style={{width: 20, height: 20, marginRight: 10}}
+              style={TestsStyle.addHookupsImage}
             />
-            <Text style={{fontSize: 20, color: COLOR.WHITE}}>Add new</Text>
+            <Text style={TestsStyle.addHookupText}>Add new</Text>
           </TouchableOpacity>
         </View>
         <View style={TestsStyle.mainNoteWrapper}>

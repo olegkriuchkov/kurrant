@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
 import ContactsStyle from '../../style/page/ContactsStyle';
@@ -32,12 +33,26 @@ const hookups = [
 
 export default observer(() => {
   const [searchValue, setSearchValue] = useState('');
-  const {contact, getContacts, setFiendSucess} = FiendEntryStore;
+  const {contact, getContacts, setFiendSucess, filters} = FiendEntryStore;
+  const [filtered, setFiltered] = useState(null);
   const {globalState} = globalStore;
   useEffect(() => {
     getContacts();
     console.log(toJS(contact));
-  }, [globalState.selectedTab]);
+    if (filters.length > 0) {
+      const contactFilter = contact.filter((e) => {
+        const temp = e.contact.filter((e) => {
+          if (filters.includes(e.title)) {
+            return e;
+          }
+        });
+        return temp.length > 0;
+      });
+      setFiltered(contactFilter);
+    } else {
+      setFiltered([]);
+    }
+  }, [globalState.selectedTab, filters.length]);
   const getLetters = () => {
     const letters = [];
     for (let i = 65; i <= 90; i++) {
@@ -97,10 +112,16 @@ export default observer(() => {
       </View>
       {!searchValue
         ? getLetters().map((letter, i) => {
-            const letterContacts = contact.filter(
-              (contact) => contact.name?.charAt(0) === letter,
-            );
-
+            let letterContacts;
+            if (filtered?.length > 0) {
+              letterContacts = filtered.filter(
+                (contact) => contact.name?.charAt(0) === letter,
+              );
+            } else {
+              letterContacts = contact.filter(
+                (contact) => contact.name?.charAt(0) === letter,
+              );
+            }
             return (
               <View key={i} style={ContactsStyle.letterBlock}>
                 <View
@@ -111,17 +132,21 @@ export default observer(() => {
                   <Text style={ContactsStyle.letter}>{letter}</Text>
                 </View>
                 <View style={ContactsStyle.contactsBlock}>
-                  {letterContacts.map((contact, i) => (
-                    <TouchableOpacity
-                      style={[
-                        ContactsStyle.contactContainer,
-                        i > 0 ? ContactsStyle.topBorder : null,
-                      ]}
-                      key={i}
-                      onPress={() => onPressContact(contact.friendId)}>
-                      <Text style={ContactsStyle.contact}>{contact.name}</Text>
-                    </TouchableOpacity>
-                  ))}
+                  {letterContacts.map((contact, i) => {
+                    return (
+                      <TouchableOpacity
+                        style={[
+                          ContactsStyle.contactContainer,
+                          i > 0 ? ContactsStyle.topBorder : null,
+                        ]}
+                        key={i}
+                        onPress={() => onPressContact(contact.friendId)}>
+                        <Text style={ContactsStyle.contact}>
+                          {contact.name}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
                 </View>
               </View>
             );

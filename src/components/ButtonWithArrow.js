@@ -32,9 +32,9 @@ export default ({
             width: '100%',
           }}>
           <Text style={[{fontSize: 15}, textStyle]}>{title}</Text>
-          <Text style={{alignSelf: 'flex-end', color: COLOR.WHITE}}>
-            {text}
-          </Text>
+          <TouchableOpacity onPress={onPress} style={{alignSelf: 'flex-end'}}>
+            <Text style={{color: COLOR.WHITE}}>{text}</Text>
+          </TouchableOpacity>
         </View>
       )}
       <View style={ButtonWithArrowStyle.imageWrapper}>
@@ -45,7 +45,7 @@ export default ({
                 ? [ButtonWithArrowStyle.image, {transform: [{rotate: '90deg'}]}]
                 : ButtonWithArrowStyle.image
             }
-            source={icon || require('../assets/buttonArrow.png')}
+            source={require('../assets/buttonArrow.png')}
           />
         )}
       </View>

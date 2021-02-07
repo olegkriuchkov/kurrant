@@ -19,6 +19,8 @@ class FiendEntryStore {
 
   @observable contact = [];
 
+  @observable filters = [];
+
   @observable contactHookup = [];
 
   @action setFriendNote = (text) => {
@@ -153,6 +155,18 @@ class FiendEntryStore {
 
   @action setContactHookup = (array) => {
     this.contactHookup = array;
+  };
+
+  @action setFilters = (el) => {
+    this.filters.push(el);
+  };
+
+  @action deleteFilter = (filter) => {
+    this.filters = this.filters.filter((e) => e !== filter);
+  };
+
+  @action clearFilters = () => {
+    this.filters = [];
   };
 
   constructor() {

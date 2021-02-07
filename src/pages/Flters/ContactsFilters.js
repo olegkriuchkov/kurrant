@@ -4,10 +4,12 @@ import {View} from 'react-native';
 import ButtonWithArrow from '../../components/ButtonWithArrow';
 import ColapseButton from '../../components/ColapseButton';
 import DataStyle from '../../style/page/Settings/DataStyle';
+import FiendEntryStore from '../../stores/FiendEntryStore';
 
 const ContactsFilters = () => {
   const [status, setStatus] = useState(false);
   const [position, setPosition] = useState(false);
+  const {clearFilters} = FiendEntryStore;
   const stausTabs = [
     'Negative',
     'Negative, on PrEP',
@@ -22,6 +24,9 @@ const ContactsFilters = () => {
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
         title="Filters"
+        onPress={() => {
+          clearFilters();
+        }}
         filters
         text="Deselect all"
       />

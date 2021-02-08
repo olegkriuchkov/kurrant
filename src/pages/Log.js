@@ -10,7 +10,9 @@ import LogStyle from '../style/page/LogStyle';
 
 export default observer(() => {
   const {tests, getTests} = TestsStore;
-  const {hookups, getHookups} = HookupStore;
+  const {hookups, getHookups, logFilters} = HookupStore;
+  const [filtered, setFiltered] = useState(null);
+
   useEffect(() => {
     getHookups();
     getTests();
@@ -18,8 +20,8 @@ export default observer(() => {
   const data = [...toJS(hookups), ...toJS(tests)];
   const {globalState} = globalStore;
   const [logData, setLogData] = useState([]);
-  const parseLog = () => {
-    const sortDate = data.sort((a, b) => moment(a.date).diff(b.date));
+  const parseLog = (args) => {
+    const sortDate = args.sort((a, b) => moment(a.date).diff(b.date));
     const dates = sortDate.map((e) => {
       return {
         title: moment(e.date).format('MMMM'),
@@ -71,10 +73,28 @@ export default observer(() => {
   };
 
   useEffect(() => {
-    const parse = parseLog();
+    if (logFilters.length > 0) {
+      const contactFilter = data.filter((e) => {
+        let coutn = 0;
+        const arr = e.hookup ? e.hookup : e.test;
+        const temp = arr.filter((e) => {
+          if (logFilters.includes(e.title)) {
+            coutn++;
+            return e;
+          }
+          console.log(coutn);
+        });
+        return coutn === logFilters.length && temp;
+      });
+      setFiltered(contactFilter);
+    } else {
+      setFiltered([]);
+    }
+  }, [globalState.selectedTab, logFilters.length]);
+  useEffect(() => {
+    const parse = filtered?.length > 0 ? parseLog(filtered) : parseLog(data);
     setLogData(parse);
-  }, [globalState.selectedTab]);
-
+  }, [globalState.selectedTab, logFilters.length]);
   return (
     <ScrollView>
       {logData.map((e) => {

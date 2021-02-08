@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import ButtonWithArrow from '../../components/ButtonWithArrow';
 import ColapseButton from '../../components/ColapseButton';
+import HookupStore from '../../stores/HookupStore';
 import DataStyle from '../../style/page/Settings/DataStyle';
 
 const LogFilters = () => {
@@ -16,8 +17,9 @@ const LogFilters = () => {
     'Anal',
     'Other',
   ];
-  const substanceTabs = ['Alcohol', 'Marijuana', 'Poppers', 'Other'];
+  const substanceTabs = ['Alcohol', 'Marijuana', 'Poppers', 'Other '];
   const protectionTabs = ['Condom', 'No Condom'];
+  const {clearLogFilters} = HookupStore;
   return (
     <View style={DataStyle.main}>
       <ButtonWithArrow
@@ -26,6 +28,7 @@ const LogFilters = () => {
         textStyle={DataStyle.buttonText}
         title="Filters"
         filters
+        onPress={() => clearLogFilters()}
         text="Deselect all"
       />
       <ColapseButton

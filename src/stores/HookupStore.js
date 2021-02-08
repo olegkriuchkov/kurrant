@@ -23,6 +23,8 @@ class HookupStore {
 
   @observable id = '';
 
+  @observable logFilters = [];
+
   @action setHookupItem = (item) => {
     const currentItem = this.hookupItem.find((e) => e.id === item.id);
     const currentSingleItem = this.hookupItem.find(
@@ -157,6 +159,18 @@ class HookupStore {
 
   @action setChangeFlag = (bool) => {
     this.changeFlag = bool;
+  };
+
+  @action setLogFilters = (el) => {
+    this.logFilters.push(el);
+  };
+
+  @action deleteLogFilter = (filter) => {
+    this.logFilters = this.logFilters.filter((e) => e !== filter);
+  };
+
+  @action clearLogFilters = () => {
+    this.logFilters = [];
   };
 
   constructor() {

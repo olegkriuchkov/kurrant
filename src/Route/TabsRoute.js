@@ -194,6 +194,7 @@ export default observer(() => (
         statusBarStyle="light-content"
         component={LogFilters}
         hideTabBar={true}
+        onEnter={() => globalStore.setSelectedTab('Log')}
         back
         navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
       />

@@ -88,7 +88,7 @@ export default observer(
         }
         if (selected.length === 0 && !single) {
           setConfirm(false);
-          deleteHookupItem(currentItem.id);
+          deleteHookupItem(currentItem?.id);
         }
       }
     };

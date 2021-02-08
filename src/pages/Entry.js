@@ -10,7 +10,7 @@ export default observer(() => {
   const allTitle = ['Makeout', 'Handjob', 'Blowjob', 'Rimjob', 'Anal', 'Other'];
   const types = ['Give', 'Receive', 'Give & Receive'];
   const protection = ['Condom', 'No Condom'];
-  const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other'];
+  const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other '];
   const [notes, setNote] = useState('');
   const {setHookupNote, hookupSuccess, note} = HookupStore;
   const setText = (text) => {

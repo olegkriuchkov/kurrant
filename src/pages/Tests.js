@@ -1,5 +1,5 @@
 import {toJS} from 'mobx';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import {observer} from 'mobx-react';
 import TestItem from '../components/TestItem';
@@ -15,8 +15,25 @@ export default observer(() => {
     setNote(text);
     setTestNote(text);
   };
-  const {tests, changeFlag} = TestsStore;
+  const {tests, changeFlag, tabs} = TestsStore;
   const [current, setCurrent] = useState([]);
+  const scrollRef = useRef(null);
+  const scrollTo = () => {
+    if (tabs === 'Notes') {
+      scrollRef.current?.scrollTo({
+        y: 100 * 12,
+        animated: true,
+      });
+    } else {
+      scrollRef.current?.scrollTo({
+        y: 100 * 0,
+        animated: true,
+      });
+    }
+  };
+  useEffect(() => {
+    scrollTo();
+  }, [tabs]);
   useEffect(() => {
     const temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
     if (changeFlag) {
@@ -25,7 +42,7 @@ export default observer(() => {
   }, [tests, changeFlag]);
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
-      <ScrollView style={TestsStyle.entryWrapper}>
+      <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
         {testSuccess && (
           <View style={TestsStyle.main}>
             <View style={TestsStyle.contaier}>

@@ -15,7 +15,6 @@ import Image from '../components/Image';
 import SucessContactWrapper from '../components/SucessContactWrapper';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
-import COLOR from '../constants/COLOR';
 import HookupStore from '../stores/HookupStore';
 import globalStore from '../stores/globalStore';
 import ButtonWithArrow from '../components/ButtonWithArrow';
@@ -29,19 +28,21 @@ export default observer(({id}) => {
     setContacID,
     setContactHookup,
     contactHookup,
+    searchValue,
   } = FiendEntryStore;
   const {hookups, hookupSuccess} = HookupStore;
   const {globalState} = globalStore;
-
   useEffect(() => {
     setContacID(id);
     const temp = hookups.filter((e) => e.contactID === id);
     setContactHookup(temp);
   }, [hookupSuccess, globalState.selectedTab]);
+
   useEffect(() => console.log('Contact', toJS(contact)), []);
   const setText = (text) => {
     setFriendNote(text);
   };
+
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Actions, Router, Scene, Stack} from 'react-native-router-flux';
+import {Router, Scene, Stack} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import FriendEntryHeader from '../components/FriendEntryHeader';
 import HookupHeader from '../components/HookupHeader';
@@ -8,7 +8,6 @@ import ContactsFilters from '../pages/Flters/ContactsFilters';
 import LogFilters from '../pages/Flters/LogFilters';
 import AddFriendEntry from '../pages/FriendEntry';
 import HomePage from '../pages/HomePage';
-
 import NavBar from '../components/NavBar';
 import TabBar from '../components/TabBar/TabBar';
 import Settings from '../pages/Settings';
@@ -174,6 +173,9 @@ export default observer(() => (
         tabBarComponent={TabBar}
         component={Contact}
         back
+        onEnter={() => {
+          globalStore.setSelectedTab('contact');
+        }}
         navBar={() => (
           <FriendEntryHeader
             friendName

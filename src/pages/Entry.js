@@ -1,6 +1,14 @@
 import {observer} from 'mobx-react';
-import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Button,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import {toJS} from 'mobx';
 import HookupWrapepr from '../components/HookupWrapepr';
 import SucessHookupWrapper from '../components/SucessHookupWrapper';
 import TestsStyle from '../style/page/Tests/TestsStyle';
@@ -12,14 +20,45 @@ export default observer(() => {
   const protection = ['Condom', 'No Condom'];
   const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other '];
   const [notes, setNote] = useState('');
-  const {setHookupNote, hookupSuccess, note} = HookupStore;
+  const {setHookupNote, tabs, hookupSuccess, note} = HookupStore;
   const setText = (text) => {
     setNote(text);
     setHookupNote(text);
   };
+  const scrollRef = useRef(null);
+  const scrollTo = () => {
+    if (tabs === 'Activity') {
+      scrollRef.current?.scrollTo({
+        y: 100 * 0,
+        animated: true,
+      });
+    }
+    if (tabs === 'Protection') {
+      scrollRef.current?.scrollTo({
+        y: 100 * 5.5,
+        animated: true,
+      });
+    }
+    if (tabs === 'Substance') {
+      scrollRef.current?.scrollTo({
+        y: 100 * 8,
+        animated: true,
+      });
+    }
+    if (tabs === 'Notes') {
+      scrollRef.current?.scrollTo({
+        y: 100 * 12,
+        animated: true,
+      });
+    }
+  };
+  useEffect(() => {
+    scrollTo();
+  }, [tabs]);
+  console.log('TABS', toJS(tabs));
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
-      <ScrollView style={TestsStyle.entryWrapper}>
+      <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
         {hookupSuccess && (
           <View>
             <HookupWrapepr

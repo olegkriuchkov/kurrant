@@ -1,51 +1,110 @@
-import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {SearchBar} from 'react-native-elements';
+import React, {useEffect} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import {observer} from 'mobx-react';
 import Image from '../../components/Image';
 import COLOR from '../../constants/COLOR';
+import FiendEntryStore from '../../stores/FiendEntryStore';
 
-const ContactsHeader = () => {
-  const [searchValue, setSearchValue] = useState('');
+export default observer(() => {
+  const {setSearchValue, searchValue} = FiendEntryStore;
 
   return (
-    <View style={styles.header}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.headerText}>Contacts</Text>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity>
-            <Image
-              onPress={() => Actions.AddFriendEntry()}
-              path={require('../../assets/plus.png')}
-              style={styles.plusIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              onPress={() => Actions.ContactsFilters()}
-              path={require('../../assets/settings.png')}
-              style={{width: 25, height: 19, marginRight: 20}}
-            />
-          </TouchableOpacity>
+    <View
+      style={
+        searchValue < 1 ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}
+      }>
+      {searchValue < 1 && (
+        <View style={styles.titleContainer}>
+          <Text style={styles.headerText}>Contacts</Text>
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity>
+              <Image
+                onPress={() => Actions.AddFriendEntry()}
+                path={require('../../assets/plus.png')}
+                style={styles.plusIcon}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                onPress={() => Actions.ContactsFilters()}
+                path={require('../../assets/settings.png')}
+                style={{width: 25, height: 19, marginRight: 20}}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+      <View
+        style={!searchValue ? styles.containerStyle : styles.seletedContainer}>
+        <View
+          style={
+            !searchValue
+              ? styles.inputContainerStyle
+              : [styles.inputContainerStyle, {backgroundColor: COLOR.WHITE}]
+          }>
+          <Image
+            path={require('../../assets/search.png')}
+            style={{marginRight: 10}}
+          />
+          <TextInput
+            placeholder="Search"
+            style={
+              !searchValue
+                ? styles.searchInput
+                : [styles.searchInput, {backgroundColor: COLOR.WHITE}]
+            }
+            onChangeText={(value) => {
+              setSearchValue(value.toLowerCase());
+            }}
+            value={searchValue}
+          />
+          {!!searchValue.length && (
+            <TouchableOpacity
+              onPress={() => {
+                setSearchValue('');
+              }}
+              style={{left: 50}}>
+              <Text style={styles.cancelText}>Cancel</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
-      <SearchBar
+      {/*     <SearchBar
         placeholder="Search"
         onChangeText={(value) => setSearchValue(value.toLowerCase())}
         value={searchValue}
+        onFocus={() => {
+          setFlag(true);
+        }}
+        onBlur={() => setFlag(false)}
         lightTheme={true}
         inputStyle={styles.searchInput}
         containerStyle={styles.containerStyle}
         inputContainerStyle={styles.inputContainerStyle}
         searchIcon={<Image path={require('../../assets/search.png')} />}
-      />
+      /> */}
     </View>
   );
-};
+});
 
-export default ContactsHeader;
-
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
+  cancelText: {fontSize: 15, opacity: 0.4},
+  seletedContainer: {
+    backgroundColor: COLOR.WHITE,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    padding: 0,
+    marginTop: 40,
+    margin: 20,
+    borderRadius: 15,
+  },
   header: {
     paddingTop: 50,
     paddingLeft: 18,
@@ -76,6 +135,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.LIGHT_GREY,
     borderRadius: 15,
     paddingLeft: 18,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   titleContainer: {
     width: '100%',
@@ -91,5 +152,8 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     backgroundColor: COLOR.LIGHT_GREY,
+    borderRadius: 15,
+    fontSize: 20,
+    width: 200,
   },
 });

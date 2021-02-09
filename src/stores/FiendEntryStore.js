@@ -23,6 +23,14 @@ class FiendEntryStore {
 
   @observable contactHookup = [];
 
+  @observable searchValue = '';
+
+  @observable searchFlag = false;
+
+  @action setSearchValue = (value) => {
+    this.searchValue = value;
+  };
+
   @action setFriendNote = (text) => {
     this.friendEntryNote = text;
   };
@@ -39,7 +47,6 @@ class FiendEntryStore {
     this.name = '';
     this.friendEntryNote = '';
     this.location = '';
-    this.contactID = '';
   };
 
   @action setFiendSucess = (bool) => {

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Text, View, TextInput} from 'react-native';
+import {Text, View, TextInput, Alert} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
@@ -24,6 +24,7 @@ export default observer(({calendar, tabs}) => {
     setHookupSuccess,
     setName,
     name,
+    setTab,
     hookupSuccess,
     deleteHookup,
     setChangeFlag,
@@ -59,15 +60,31 @@ export default observer(({calendar, tabs}) => {
     setHookupDate(new Date());
   }, []);
   const save = () => {
-    if (contactID !== null) {
-      console.log(contactID);
-      setName(nameCurrent.currentName);
-      setHookups(id, contactID);
+    if (name || nameCurrent.currentName) {
+      if (contactID !== null) {
+        console.log(contactID);
+        setName(nameCurrent.currentName);
+        setHookups(id, contactID);
+      } else {
+        setHookups(id);
+      }
+      setHookupSuccess(false);
+      setChangeFlag(true);
     } else {
-      setHookups(id);
+      Alert.alert(
+        '',
+        'Pleas enter the name',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => {}},
+        ],
+        {cancelable: false},
+      );
     }
-    setHookupSuccess(false);
-    setChangeFlag(true);
   };
   const press = (day) => {
     setDate(new Date(day.timestamp));
@@ -77,7 +94,10 @@ export default observer(({calendar, tabs}) => {
     setHookupSuccess(true);
     setChangeFlag(false);
     clearForm();
-    Actions.replace('Home');
+    setTab('Activity');
+    if (contactID) {
+      Actions.pop();
+    } else Actions.replace('Home');
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>
@@ -158,7 +178,10 @@ export default observer(({calendar, tabs}) => {
       <View style={TestsHeaderStyle.mainTabsWrapper}>
         <Tabs
           tabs={tabs}
-          onPress={(tabId) => setSelect(tabId)}
+          onPress={(tabId) => {
+            setSelect(tabId);
+            setTab(tabId);
+          }}
           defaultTab={tabs[0]}
         />
       </View>

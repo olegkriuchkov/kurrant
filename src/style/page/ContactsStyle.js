@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import COLOR from '../../constants/COLOR';
 
 export default StyleSheet.create({
-  scrollViewBlock: {},
+  scrollViewBlock: {height: '100%', backgroundColor: COLOR.LIGHT_GREY},
   contentContainer: {
     marginHorizontal: 20,
   },

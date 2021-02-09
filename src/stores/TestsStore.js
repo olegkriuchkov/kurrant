@@ -19,6 +19,12 @@ class TestsStore {
 
   @observable id = '';
 
+  @observable tabs = 0;
+
+  @action setTab = (num) => {
+    this.tabs = num;
+  };
+
   @action setID = (id) => {
     this.id = id;
   };

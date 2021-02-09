@@ -25,6 +25,12 @@ class HookupStore {
 
   @observable logFilters = [];
 
+  @observable tabs = 0;
+
+  @action setTab = (num) => {
+    this.tabs = num;
+  };
+
   @action setHookupItem = (item) => {
     const currentItem = this.hookupItem.find((e) => e.id === item.id);
     const currentSingleItem = this.hookupItem.find(

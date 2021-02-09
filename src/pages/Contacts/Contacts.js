@@ -7,9 +7,10 @@ import {Actions} from 'react-native-router-flux';
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
 import ContactsStyle from '../../style/page/ContactsStyle';
+import COLOR from '../../constants/COLOR';
 
 const hookups = [
-  {
+  /*  {
     name: 'Chris',
     time: 1610111040600,
     number: 4,
@@ -28,11 +29,16 @@ const hookups = [
     name: 'Alan Wong',
     time: 1610361040600,
     number: 2,
-  },
+  }, */
 ];
 export default observer(() => {
-  const [searchValue, setSearchValue] = useState('');
-  const {contact, getContacts, setFiendSucess, filters} = FiendEntryStore;
+  const {
+    contact,
+    getContacts,
+    setFiendSucess,
+    filters,
+    searchValue,
+  } = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
   const {globalState} = globalStore;
   useEffect(() => {
@@ -70,7 +76,7 @@ export default observer(() => {
   };
 
   return (
-    <ScrollView style={ContactsStyle.scrollViewBlock}>
+    <ScrollView style={!searchValue ? {} : ContactsStyle.scrollViewBlock}>
       {/* <SearchBar
         placeholder="Search"
         onChangeText={(value)=> setSearchValue(value.toLowerCase())}
@@ -89,12 +95,14 @@ export default observer(() => {
       /> */}
       <View style={ContactsStyle.mostFrequentContainer}>
         <View style={ContactsStyle.contentContainer}>
-          <View style={ContactsStyle.titleContainer}>
-            <Text style={ContactsStyle.mostFrequent}>
-              Most frequent (90 days)
-            </Text>
-          </View>
-          {hookups.length &&
+          {!searchValue && (
+            <View style={ContactsStyle.titleContainer}>
+              <Text style={ContactsStyle.mostFrequent}>
+                Most frequent (90 days)
+              </Text>
+            </View>
+          )}
+          {!!hookups.length &&
             hookups
               .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
               .slice(0, 3)
@@ -112,57 +120,62 @@ export default observer(() => {
               ))}
         </View>
       </View>
-      {!searchValue
-        ? getLetters().map((letter, i) => {
-            let letterContacts;
-            if (filtered?.length > 0) {
-              letterContacts = filtered.filter(
-                (contact) => contact.name?.charAt(0) === letter,
-              );
-            } else {
-              letterContacts = contact.filter(
-                (contact) => contact.name?.charAt(0) === letter,
-              );
-            }
-            return (
-              <View key={i} style={ContactsStyle.letterBlock}>
-                <View
-                  style={[
-                    ContactsStyle.letterContainer,
-                    letterContacts.length === 0 && ContactsStyle.bottomBorder,
-                  ]}>
-                  <Text style={ContactsStyle.letter}>{letter}</Text>
-                </View>
-                <View style={ContactsStyle.contactsBlock}>
-                  {letterContacts.map((contact, i) => {
-                    return (
-                      <TouchableOpacity
-                        style={[
-                          ContactsStyle.contactContainer,
-                          i > 0 ? ContactsStyle.topBorder : null,
-                        ]}
-                        key={i}
-                        onPress={() => onPressContact(contact.friendId)}>
-                        <Text style={ContactsStyle.contact}>
-                          {contact.name}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-              </View>
+      {!searchValue ? (
+        getLetters().map((letter, i) => {
+          let letterContacts;
+          if (filtered?.length > 0) {
+            letterContacts = filtered.filter(
+              (contact) => contact.name?.charAt(0) === letter,
             );
-          })
-        : contact.map((contact, i) => {
+          } else {
+            letterContacts = contact.filter(
+              (contact) => contact.name?.charAt(0) === letter,
+            );
+          }
+          return (
+            <View key={i} style={ContactsStyle.letterBlock}>
+              <View
+                style={[
+                  ContactsStyle.letterContainer,
+                  letterContacts.length === 0 && ContactsStyle.bottomBorder,
+                ]}>
+                <Text style={ContactsStyle.letter}>{letter}</Text>
+              </View>
+              <View style={ContactsStyle.contactsBlock}>
+                {letterContacts.map((contact, i) => {
+                  return (
+                    <TouchableOpacity
+                      style={[
+                        ContactsStyle.contactContainer,
+                        i > 0 ? ContactsStyle.topBorder : null,
+                      ]}
+                      key={i}
+                      onPress={() => onPressContact(contact.friendId)}>
+                      <Text style={ContactsStyle.contact}>{contact.name}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
+          );
+        })
+      ) : (
+        <View style={ContactsStyle.contactsBlock}>
+          {contact.map((contact, i) => {
             return contact.name.toLowerCase().startsWith(searchValue) ? (
               <TouchableOpacity
-                style={ContactsStyle.contact}
                 key={i}
-                onPress={() => {}}>
-                <Text>{contact.name}</Text>
+                onPress={() => onPressContact(contact.friendId)}
+                style={[
+                  ContactsStyle.contactContainer,
+                  i > 0 ? ContactsStyle.topBorder : null,
+                ]}>
+                <Text style={ContactsStyle.contact}>{contact.name}</Text>
               </TouchableOpacity>
             ) : null;
           })}
+        </View>
+      )}
     </ScrollView>
   );
 });

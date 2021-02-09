@@ -9,6 +9,7 @@ import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import Tabs from './Tabs';
 import TouchebleText from './TouchebleText';
+import globalStore from '../stores/globalStore';
 
 export default observer(({tabs, friendName}) => {
   const [select, setSelect] = useState(true);
@@ -19,6 +20,7 @@ export default observer(({tabs, friendName}) => {
     currentName: null,
     currentLocation: null,
   });
+  const {globalState} = globalStore;
   const {
     setFiendSucess,
     friendEntrySuccess,
@@ -72,14 +74,16 @@ export default observer(({tabs, friendName}) => {
       currentName: currentContact?.name,
       currentLocation: currentContact?.location,
     });
-  }, [contactID]);
+  }, [contactID, globalState.selectedTab]);
   const home = () => {
     setFiendSucess(true);
     clearForm();
-    setContacID(null);
     clearItem();
     setCurrentName();
-    Actions.replace('Home');
+    if (contactID) {
+      setFiendSucess(false);
+      Actions.pop();
+    } else Actions.replace('Home');
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>

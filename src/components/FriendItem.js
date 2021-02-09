@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
-import {log} from 'react-native-reanimated';
 import {v4 as uuidv4} from 'uuid';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';

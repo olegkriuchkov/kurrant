@@ -32,6 +32,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setTestSuccess,
     testSuccess,
     deleteTest,
+    setTab,
     setChangeFlag,
   } = TestsStore;
 
@@ -52,6 +53,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   const home = () => {
     setTestSuccess(true);
     clearTestItem();
+    setTab('');
     setChangeFlag(false);
 
     Actions.replace('Home');
@@ -123,7 +125,10 @@ export default observer(({color, noStyle, calendar, tabs}) => {
       <View style={TestsHeaderStyle.mainTabsWrapper}>
         <Tabs
           tabs={testSuccess ? tabs : resultTabs}
-          onPress={(tabId) => setSelect(tabId)}
+          onPress={(tabId) => {
+            setSelect(tabId);
+            setTab(tabId);
+          }}
           defaultTab={testSuccess ? tabs[0] : resultTabs[0]}
         />
       </View>

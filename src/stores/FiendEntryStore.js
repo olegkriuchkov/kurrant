@@ -25,9 +25,25 @@ class FiendEntryStore {
 
   @observable searchValue = '';
 
+  @observable searchHistory = [];
+
   @observable searchFlag = false;
 
   @observable isSearch = false;
+
+  @action clearSearchHistory = () => {
+    this.searchHistory = [];
+  };
+
+  @action setSearchHistory = (text) => {
+    if (this.searchHistory.length <= 4 && text.length > 0) {
+      this.searchHistory.unshift(text);
+    }
+    if (this.searchHistory.length === 5) {
+      this.searchHistory.pop();
+      this.searchHistory.unshift(text);
+    }
+  };
 
   @action setIsSearch = (bool) => {
     this.isSearch = bool;

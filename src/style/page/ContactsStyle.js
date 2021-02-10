@@ -2,6 +2,14 @@ import {StyleSheet} from 'react-native';
 import COLOR from '../../constants/COLOR';
 
 export default StyleSheet.create({
+  clearSearchButton: {
+    alignSelf: 'center',
+    borderRadius: 15,
+    borderColor: COLOR.TAB_ICON,
+    borderWidth: 1,
+    padding: 13,
+  },
+  clearButtonText: {fontSize: 18, color: COLOR.TAB_ICON},
   scrollViewBlock: {height: '100%', backgroundColor: COLOR.LIGHT_GREY},
   contentContainer: {
     marginHorizontal: 20,

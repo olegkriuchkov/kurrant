@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import COLOR from '../../constants/COLOR';
 
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
@@ -38,7 +39,10 @@ export default observer(() => {
     setFiendSucess,
     filters,
     searchValue,
+    searchHistory,
     isSearch,
+    clearSearchHistory,
+    setSearchValue,
   } = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
   const {globalState} = globalStore;
@@ -104,6 +108,7 @@ export default observer(() => {
             </View>
           )}
           {!!hookups.length &&
+            !isSearch &&
             hookups
               .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
               .slice(0, 3)
@@ -160,7 +165,7 @@ export default observer(() => {
             </View>
           );
         })
-      ) : (
+      ) : searchValue.length > 0 ? (
         <View style={ContactsStyle.contactsBlock}>
           {contact.map((contact, i) => {
             return contact.name.toLowerCase().startsWith(searchValue) ? (
@@ -175,6 +180,33 @@ export default observer(() => {
               </TouchableOpacity>
             ) : null;
           })}
+        </View>
+      ) : (
+        <View style={ContactsStyle.contactsBlock}>
+          {searchHistory.map((contact, i) => {
+            return (
+              <TouchableOpacity
+                key={i}
+                onPress={() => setSearchValue(contact)}
+                style={[
+                  ContactsStyle.contactContainer,
+                  i > 0 ? ContactsStyle.topBorder : null,
+                ]}>
+                <Text style={ContactsStyle.contact}>{contact}</Text>
+              </TouchableOpacity>
+            );
+          })}
+          {searchHistory.length > 0 && (
+            <TouchableOpacity
+              style={ContactsStyle.clearSearchButton}
+              onPress={() => {
+                clearSearchHistory();
+              }}>
+              <Text style={ContactsStyle.clearButtonText}>
+                Clear recent searches
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
     </ScrollView>

@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import React, {useRef, useState} from 'react';
 import {
   Text,
@@ -20,8 +21,12 @@ export default observer(() => {
     setIsSearch,
     setFiendSucess,
     setContacID,
+    setSearchHistory,
+
+    searchHistory,
   } = FiendEntryStore;
   const refBlur = useRef();
+  console.log('HISTORY', toJS(searchHistory));
   return (
     <View
       style={!isSearch ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}}>
@@ -72,6 +77,7 @@ export default observer(() => {
             onChangeText={(value) => {
               setSearchValue(value);
             }}
+            onBlur={() => setSearchHistory(searchValue)}
             onFocus={() => setIsSearch(true)}
             value={searchValue}
           />
@@ -79,6 +85,7 @@ export default observer(() => {
             <TouchableOpacity
               onPress={() => {
                 setIsSearch(false);
+                setSearchValue('');
                 refBlur.current?.blur();
               }}
               style={{left: 50}}>

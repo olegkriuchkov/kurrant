@@ -141,6 +141,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 18,
     flexDirection: 'row',
     alignItems: 'center',
+    height: 47,
   },
   titleContainer: {
     width: '100%',

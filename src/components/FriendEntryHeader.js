@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, TextInput} from 'react-native';
+import {Text, View, TextInput, Alert} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
@@ -52,12 +52,21 @@ export default observer(({tabs, friendName}) => {
     }
   };
   const save = () => {
-    if (contactID) {
-      setContacts(contactID);
-      setFiendSucess(!friendEntrySuccess);
+    if (name) {
+      if (contactID) {
+        setContacts(contactID);
+        setFiendSucess(!friendEntrySuccess);
+      } else {
+        setContacts(friendId);
+        setFiendSucess(!friendEntrySuccess);
+      }
     } else {
-      setContacts(friendId);
-      setFiendSucess(!friendEntrySuccess);
+      Alert.alert(
+        '',
+        'Pleas enter the name',
+        [{text: 'OK', onPress: () => {}}],
+        {cancelable: false},
+      );
     }
   };
 
@@ -83,7 +92,7 @@ export default observer(({tabs, friendName}) => {
     if (contactID) {
       setFiendSucess(false);
       Actions.pop();
-    } else Actions.replace('Home');
+    } else Actions.pop();
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>

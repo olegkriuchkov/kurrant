@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -76,20 +76,6 @@ export default observer(() => {
           )}
         </View>
       </View>
-      {/*     <SearchBar
-        placeholder="Search"
-        onChangeText={(value) => setSearchValue(value.toLowerCase())}
-        value={searchValue}
-        onFocus={() => {
-          setFlag(true);
-        }}
-        onBlur={() => setFlag(false)}
-        lightTheme={true}
-        inputStyle={styles.searchInput}
-        containerStyle={styles.containerStyle}
-        inputContainerStyle={styles.inputContainerStyle}
-        searchIcon={<Image path={require('../../assets/search.png')} />}
-      /> */}
     </View>
   );
 });

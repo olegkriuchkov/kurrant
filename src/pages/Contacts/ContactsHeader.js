@@ -1,14 +1,8 @@
 import {toJS} from 'mobx';
-import React, {useRef, useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import React, {useRef} from 'react';
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import Image from '../../components/Image';
 import COLOR from '../../constants/COLOR';
 import FiendEntryStore from '../../stores/FiendEntryStore';

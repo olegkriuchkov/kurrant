@@ -3,7 +3,7 @@ import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import COLOR from '../../constants/COLOR';
+import Image from '../../components/Image';
 
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
@@ -36,6 +36,7 @@ export default observer(() => {
   const {
     contact,
     getContacts,
+    deleteHistoryItem,
     setFiendSucess,
     filters,
     searchValue,
@@ -184,15 +185,29 @@ export default observer(() => {
       ) : (
         <View style={ContactsStyle.contactsBlock}>
           {searchHistory.map((contact, i) => {
+            const name =
+              contact[0].toUpperCase() + contact.slice(1, contact.length);
             return (
               <TouchableOpacity
                 key={i}
                 onPress={() => setSearchValue(contact)}
                 style={[
                   ContactsStyle.contactContainer,
+                  {
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  },
                   i > 0 ? ContactsStyle.topBorder : null,
                 ]}>
-                <Text style={ContactsStyle.contact}>{contact}</Text>
+                <Text style={ContactsStyle.contact}>{name}</Text>
+                <Image
+                  path={require('../../assets/deleteHistoryItem.png')}
+                  style={{width: 30, height: 30}}
+                  onPress={() => {
+                    deleteHistoryItem(contact);
+                  }}
+                />
               </TouchableOpacity>
             );
           })}

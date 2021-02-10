@@ -61,7 +61,7 @@ export default observer(() => {
                 : [styles.searchInput, {backgroundColor: COLOR.WHITE}]
             }
             onChangeText={(value) => {
-              setSearchValue(value.toLowerCase());
+              setSearchValue(value);
             }}
             value={searchValue}
           />

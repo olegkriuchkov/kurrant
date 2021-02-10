@@ -57,6 +57,7 @@ export default observer(({id}) => {
                   e.date,
                 ).format('MMMM D')}`}
                 textStyle={TestsStyle.buttonText}
+                onPress={() => {}}
                 style={TestsStyle.buttonStyle}
                 icon={require('../assets/blueArrow.png')}
               />

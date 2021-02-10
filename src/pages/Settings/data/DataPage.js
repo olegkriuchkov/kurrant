@@ -12,6 +12,7 @@ const DataPage = () => {
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
         title="Data"
+        onPress={() => {}}
       />
       <ButtonWithArrow
         style={DataStyle.button}

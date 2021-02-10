@@ -28,7 +28,7 @@ class FiendEntryStore {
   @observable searchFlag = false;
 
   @action setSearchValue = (value) => {
-    this.searchValue = value;
+    this.searchValue = value.toLowerCase();
   };
 
   @action setFriendNote = (text) => {

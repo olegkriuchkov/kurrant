@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable, reaction, toJS} from 'mobx';
+import {action, makeObservable, observable, toJS} from 'mobx';
 import {Actions} from 'react-native-router-flux';
 
 class FiendEntryStore {
@@ -35,8 +35,16 @@ class FiendEntryStore {
     this.searchHistory = [];
   };
 
+  @action deleteHistoryItem = (item) => {
+    this.searchHistory = this.searchHistory.filter((e) => e !== item);
+  };
+
   @action setSearchHistory = (text) => {
-    if (this.searchHistory.length <= 4 && text.length > 0) {
+    if (
+      this.searchHistory.length <= 4 &&
+      text.length > 0 &&
+      !this.searchHistory.includes(text)
+    ) {
       this.searchHistory.unshift(text);
     }
     if (this.searchHistory.length === 5) {

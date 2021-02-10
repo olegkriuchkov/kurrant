@@ -78,7 +78,6 @@ export default observer(({tabs, friendName}) => {
   }, [contactID]);
   useEffect(() => {
     const currentContact = contact?.find((e) => e.friendId === contactID);
-
     setCurrentName({
       currentName: currentContact?.name,
       currentLocation: currentContact?.location,

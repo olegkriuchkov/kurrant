@@ -18,9 +18,8 @@ import TouchebltText from './TouchebleText';
 
 export default observer(({color, noStyle, calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
-  const [id, setId] = useState(uuidv4());
+  const [id] = useState(uuidv4());
   const [date, setDate] = useState(new Date());
-  const [select, setSelect] = useState(true);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const resultTabs = ['Results', 'Notes'];
   const {globalState} = globalStore;
@@ -126,7 +125,6 @@ export default observer(({color, noStyle, calendar, tabs}) => {
         <Tabs
           tabs={testSuccess ? tabs : resultTabs}
           onPress={(tabId) => {
-            setSelect(tabId);
             setTab(tabId);
           }}
           defaultTab={testSuccess ? tabs[0] : resultTabs[0]}

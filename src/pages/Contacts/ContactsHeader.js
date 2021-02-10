@@ -13,7 +13,14 @@ import COLOR from '../../constants/COLOR';
 import FiendEntryStore from '../../stores/FiendEntryStore';
 
 export default observer(() => {
-  const {setSearchValue, searchValue, isSearch, setIsSearch} = FiendEntryStore;
+  const {
+    setSearchValue,
+    searchValue,
+    isSearch,
+    setIsSearch,
+    setFiendSucess,
+    setContacID,
+  } = FiendEntryStore;
   return (
     <View
       style={!isSearch ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}}>
@@ -23,7 +30,11 @@ export default observer(() => {
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity>
               <Image
-                onPress={() => Actions.AddFriendEntry()}
+                onPress={() => {
+                  setFiendSucess(true);
+                  setContacID(null);
+                  Actions.AddFriendEntry();
+                }}
                 path={require('../../assets/plus.png')}
                 style={styles.plusIcon}
               />

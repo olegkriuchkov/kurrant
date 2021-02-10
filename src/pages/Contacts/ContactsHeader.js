@@ -12,6 +12,7 @@ import {observer} from 'mobx-react';
 import Image from '../../components/Image';
 import COLOR from '../../constants/COLOR';
 import FiendEntryStore from '../../stores/FiendEntryStore';
+import AddIcon from '../../assets/AddIcon';
 
 export default observer(() => {
   const {
@@ -36,21 +37,19 @@ export default observer(() => {
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity>
               <Image
-                onPress={() => {
-                  setFiendSucess(true);
-                  setContacID(null);
-                  Actions.AddFriendEntry();
-                }}
-                path={require('../../assets/plus.png')}
-                style={styles.plusIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
                 onPress={() => Actions.ContactsFilters()}
                 path={require('../../assets/settings.png')}
-                style={{width: 25, height: 19, marginRight: 20}}
+                style={styles.filtersIcon}
               />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setFiendSucess(true);
+                setContacID(null);
+                Actions.AddFriendEntry();
+              }}
+              style={styles.plusIcon}>
+              <AddIcon />
             </TouchableOpacity>
           </View>
         </View>
@@ -161,4 +160,5 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     width: 200,
   },
+  filtersIcon: {width: 25, height: 19, marginRight: 15},
 });

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Text,
   View,
@@ -21,6 +21,7 @@ export default observer(() => {
     setFiendSucess,
     setContacID,
   } = FiendEntryStore;
+  const refBlur = useRef();
   return (
     <View
       style={!isSearch ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}}>
@@ -61,6 +62,7 @@ export default observer(() => {
             style={{marginRight: 10}}
           />
           <TextInput
+            ref={refBlur}
             placeholder="Search"
             style={
               !isSearch
@@ -76,7 +78,8 @@ export default observer(() => {
           {isSearch && (
             <TouchableOpacity
               onPress={() => {
-                setIsSearch(!isSearch);
+                setIsSearch(false);
+                refBlur.current?.blur();
               }}
               style={{left: 50}}>
               <Text style={styles.cancelText}>Cancel</Text>

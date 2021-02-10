@@ -7,10 +7,9 @@ import {Actions} from 'react-native-router-flux';
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
 import ContactsStyle from '../../style/page/ContactsStyle';
-import COLOR from '../../constants/COLOR';
 
 const hookups = [
-  /*  {
+  {
     name: 'Chris',
     time: 1610111040600,
     number: 4,
@@ -29,8 +28,9 @@ const hookups = [
     name: 'Alan Wong',
     time: 1610361040600,
     number: 2,
-  }, */
+  },
 ];
+// TODO в логах текущий день изменить стили,сделать отображение последнего поиска по контактам,добавить возможность просмотра хукапа из контакта
 export default observer(() => {
   const {
     contact,
@@ -38,6 +38,7 @@ export default observer(() => {
     setFiendSucess,
     filters,
     searchValue,
+    isSearch,
   } = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
   const {globalState} = globalStore;
@@ -76,7 +77,7 @@ export default observer(() => {
   };
 
   return (
-    <ScrollView style={!searchValue ? {} : ContactsStyle.scrollViewBlock}>
+    <ScrollView style={!isSearch ? {} : ContactsStyle.scrollViewBlock}>
       {/* <SearchBar
         placeholder="Search"
         onChangeText={(value)=> setSearchValue(value.toLowerCase())}
@@ -95,7 +96,7 @@ export default observer(() => {
       /> */}
       <View style={ContactsStyle.mostFrequentContainer}>
         <View style={ContactsStyle.contentContainer}>
-          {!searchValue && (
+          {!isSearch && (
             <View style={ContactsStyle.titleContainer}>
               <Text style={ContactsStyle.mostFrequent}>
                 Most frequent (90 days)
@@ -120,7 +121,7 @@ export default observer(() => {
               ))}
         </View>
       </View>
-      {!searchValue ? (
+      {!isSearch ? (
         getLetters().map((letter, i) => {
           let letterContacts;
           if (filtered?.length > 0) {

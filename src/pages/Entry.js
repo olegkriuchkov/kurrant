@@ -1,28 +1,18 @@
 import {observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Button,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import {toJS} from 'mobx';
+import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import HookupWrapepr from '../components/HookupWrapepr';
 import SucessHookupWrapper from '../components/SucessHookupWrapper';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import HookupStore from '../stores/HookupStore';
 
-export default observer(() => {
+export default observer(({date}) => {
   const allTitle = ['Makeout', 'Handjob', 'Blowjob', 'Rimjob', 'Anal', 'Other'];
   const types = ['Give', 'Receive', 'Give & Receive'];
   const protection = ['Condom', 'No Condom'];
   const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other '];
-  const [notes, setNote] = useState('');
   const {setHookupNote, tabs, hookupSuccess, note} = HookupStore;
   const setText = (text) => {
-    setNote(text);
     setHookupNote(text);
   };
   const scrollRef = useRef(null);
@@ -55,7 +45,6 @@ export default observer(() => {
   useEffect(() => {
     scrollTo();
   }, [tabs]);
-  console.log('TABS', toJS(tabs));
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
@@ -63,16 +52,23 @@ export default observer(() => {
           <View>
             <HookupWrapepr
               array={allTitle}
+              date={date}
               types={types}
               single={false}
               withOutText={true}
             />
             <HookupWrapepr
+              date={date}
               title="Protection"
               array={protection}
               single={true}
             />
-            <HookupWrapepr title="Substance" array={substance} single={true} />
+            <HookupWrapepr
+              title="Substance"
+              date={date}
+              array={substance}
+              single={true}
+            />
           </View>
         )}
         {!hookupSuccess && <SucessHookupWrapper />}

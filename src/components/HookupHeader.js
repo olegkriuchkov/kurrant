@@ -26,8 +26,10 @@ export default observer(({calendar, tabs}) => {
     name,
     setTab,
     hookupSuccess,
+    setContactHookupFlag,
     deleteHookup,
     setChangeFlag,
+    contactHookupFlag,
   } = HookupStore;
   const [calendarFlag, setCalendarFlag] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -35,7 +37,7 @@ export default observer(({calendar, tabs}) => {
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [id, setId] = useState(uuidv4());
   const {globalState} = globalStore;
-  const {contactID, contact, setContacID, contactHookup} = FiendEntryStore;
+  const {contactID, contact} = FiendEntryStore;
   const [nameCurrent, setCurrentName] = useState({
     currentName: null,
     currentLocation: null,
@@ -91,6 +93,7 @@ export default observer(({calendar, tabs}) => {
     setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
+    setContactHookupFlag(false);
     setHookupSuccess(true);
     setChangeFlag(false);
     clearForm();
@@ -148,7 +151,7 @@ export default observer(({calendar, tabs}) => {
             </View>
           </View>
         </View>
-        {hookupSuccess && (
+        {hookupSuccess && !contactHookupFlag && (
           <Image
             style={TestsHeaderStyle.image}
             containerStyle={TestsHeaderStyle.imageWrapper}
@@ -158,7 +161,7 @@ export default observer(({calendar, tabs}) => {
             path={require('../assets/okButton.png')}
           />
         )}
-        {!hookupSuccess && (
+        {!hookupSuccess && !contactHookupFlag && (
           <View style={{flexDirection: 'row'}}>
             <Image
               style={TestsHeaderStyle.changeImage}

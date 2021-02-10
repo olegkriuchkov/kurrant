@@ -27,6 +27,12 @@ class HookupStore {
 
   @observable tabs = 0;
 
+  @observable contactHookupFlag = false;
+
+  @action setContactHookupFlag = (bool) => {
+    this.contactHookupFlag = bool;
+  };
+
   @action setTab = (num) => {
     this.tabs = num;
   };

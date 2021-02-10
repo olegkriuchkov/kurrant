@@ -15,6 +15,7 @@ const DataPage = () => {
         onPress={() => {}}
       />
       <ButtonWithArrow
+        onPress={() => {}}
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
         title="Export to Google Drive"

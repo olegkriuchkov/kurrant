@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -13,14 +13,11 @@ import COLOR from '../../constants/COLOR';
 import FiendEntryStore from '../../stores/FiendEntryStore';
 
 export default observer(() => {
-  const {setSearchValue, searchValue} = FiendEntryStore;
-
+  const {setSearchValue, searchValue, isSearch, setIsSearch} = FiendEntryStore;
   return (
     <View
-      style={
-        searchValue < 1 ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}
-      }>
-      {searchValue < 1 && (
+      style={!isSearch ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}}>
+      {!isSearch && (
         <View style={styles.titleContainer}>
           <Text style={styles.headerText}>Contacts</Text>
           <View style={{flexDirection: 'row'}}>
@@ -41,11 +38,10 @@ export default observer(() => {
           </View>
         </View>
       )}
-      <View
-        style={!searchValue ? styles.containerStyle : styles.seletedContainer}>
+      <View style={!isSearch ? styles.containerStyle : styles.seletedContainer}>
         <View
           style={
-            !searchValue
+            !isSearch
               ? styles.inputContainerStyle
               : [styles.inputContainerStyle, {backgroundColor: COLOR.WHITE}]
           }>
@@ -56,19 +52,20 @@ export default observer(() => {
           <TextInput
             placeholder="Search"
             style={
-              !searchValue
+              !isSearch
                 ? styles.searchInput
                 : [styles.searchInput, {backgroundColor: COLOR.WHITE}]
             }
             onChangeText={(value) => {
               setSearchValue(value);
             }}
+            onFocus={() => setIsSearch(true)}
             value={searchValue}
           />
-          {!!searchValue.length && (
+          {isSearch && (
             <TouchableOpacity
               onPress={() => {
-                setSearchValue('');
+                setIsSearch(!isSearch);
               }}
               style={{left: 50}}>
               <Text style={styles.cancelText}>Cancel</Text>
@@ -87,7 +84,7 @@ export const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomWidth: 0,
     padding: 0,
-    marginTop: 40,
+    marginTop: 70,
     margin: 20,
     borderRadius: 15,
   },

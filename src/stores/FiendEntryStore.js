@@ -27,6 +27,12 @@ class FiendEntryStore {
 
   @observable searchFlag = false;
 
+  @observable isSearch = false;
+
+  @action setIsSearch = (bool) => {
+    this.isSearch = bool;
+  };
+
   @action setSearchValue = (value) => {
     this.searchValue = value.toLowerCase();
   };

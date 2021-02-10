@@ -8,7 +8,6 @@ import Image from './Image';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
 import HookupStore from '../stores/HookupStore';
-import FiendEntryStore from '../stores/FiendEntryStore';
 
 export default observer(
   ({
@@ -25,6 +24,7 @@ export default observer(
       deleteHookupItem,
       hookupSuccess,
       hookups,
+      contactHookupFlag,
       hookupItem,
     } = HookupStore;
     const [flag, setFlag] = useState(false);
@@ -96,7 +96,7 @@ export default observer(
     return (
       <TouchableOpacity
         onPress={() => {
-          toggleSingleSelect();
+          !contactHookupFlag && toggleSingleSelect();
         }}
         style={singleFlag ? TestsStyle.singleMainItem : TestsStyle.mainItem}>
         {(single ? true : !flag) && !confirm && (

@@ -52,7 +52,7 @@ export default observer(({tabs, friendName}) => {
     }
   };
   const save = () => {
-    if (name) {
+    if (name || nameCurrent?.currentName) {
       if (contactID) {
         setContacts(contactID);
         setFiendSucess(!friendEntrySuccess);

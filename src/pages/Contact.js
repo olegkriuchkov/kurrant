@@ -28,9 +28,15 @@ export default observer(({id}) => {
     setContacID,
     setContactHookup,
     contactHookup,
+    contactID,
     searchValue,
   } = FiendEntryStore;
-  const {hookups, hookupSuccess} = HookupStore;
+  const {
+    hookups,
+    hookupSuccess,
+    setChangeFlag,
+    setContactHookupFlag,
+  } = HookupStore;
   const {globalState} = globalStore;
   useEffect(() => {
     setContacID(id);
@@ -57,7 +63,11 @@ export default observer(({id}) => {
                   e.date,
                 ).format('MMMM D')}`}
                 textStyle={TestsStyle.buttonText}
-                onPress={() => {}}
+                onPress={() => {
+                  setChangeFlag(true);
+                  setContactHookupFlag(true);
+                  Actions.push('Entry', {date: e.date});
+                }}
                 style={TestsStyle.buttonStyle}
                 icon={require('../assets/blueArrow.png')}
               />

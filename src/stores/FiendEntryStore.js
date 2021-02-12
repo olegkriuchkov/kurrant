@@ -31,6 +31,12 @@ class FiendEntryStore {
 
   @observable isSearch = false;
 
+  @observable select = false;
+
+  @action setSelect = (bool) => {
+    this.select = bool;
+  };
+
   @action clearSearchHistory = () => {
     this.searchHistory = [];
   };
@@ -104,7 +110,7 @@ class FiendEntryStore {
     }
   };
 
-  @action setContacts = async (friendId) => {
+  @action setContacts = async (friendId, bool) => {
     this.getContacts();
     const currentContact =
       this.contact !== null
@@ -126,6 +132,7 @@ class FiendEntryStore {
             location: currentContact.location,
             friendId: currentContact.friendId,
             type: 'contact',
+            favorite: currentContact.favorite,
           };
         }
         return e;
@@ -141,6 +148,7 @@ class FiendEntryStore {
         location: this.location,
         friendId,
         type: 'contact',
+        favorite: bool,
       });
       this.setAsyncContact();
     }

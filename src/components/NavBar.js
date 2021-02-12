@@ -9,6 +9,8 @@ import NavbarStyle from '../style/component/NavbarStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
 import SelectedCalendar from './SelectedCalendar';
+import COLOR from '../constants/COLOR';
+import HookupStore from '../stores/HookupStore';
 
 const NavBar = observer(
   ({
@@ -29,8 +31,10 @@ const NavBar = observer(
     const press = (day) => {
       setDate(new Date(day.timestamp));
     };
+    const {logFilters} = HookupStore;
     const {globalState} = globalStore;
     useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
+    console.log('LOG', logFilters.length);
     const wrapperStyle = noStyle
       ? [NavbarStyle.noStyle, {backgroundColor: color}]
       : NavbarStyle.mainStyle;
@@ -84,12 +88,31 @@ const NavBar = observer(
                 />
               )}
               {settings && logCalendar && (
-                <Image
-                  path={require('../assets/settings.png')}
-                  style={NavbarStyle.settings}
-                  containerStyle={NavbarStyle.settingsBtn}
-                  onPress={() => Actions.LogFilters()}
-                />
+                <View>
+                  {logFilters.length > 0 && (
+                    <View
+                      style={{
+                        position: 'absolute',
+                        borderRadius: 50,
+                        backgroundColor: COLOR.PINK,
+                        width: 16,
+                        height: 16,
+                        alignItems: 'center',
+                        bottom: 35,
+                        left: 10,
+                      }}>
+                      <Text style={{fontSize: 12, color: COLOR.WHITE}}>
+                        {logFilters.length}
+                      </Text>
+                    </View>
+                  )}
+                  <Image
+                    path={require('../assets/settings.png')}
+                    style={NavbarStyle.settings}
+                    containerStyle={NavbarStyle.settingsBtn}
+                    onPress={() => Actions.LogFilters()}
+                  />
+                </View>
               )}
             </View>
             {calendarFlag && !logCalendar && (

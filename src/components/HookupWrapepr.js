@@ -20,7 +20,7 @@ export default observer(
   }) => {
     const {hookups, changeFlag} = HookupStore;
     const [current, setCurrent] = useState([]);
-    const {contactID} = FiendEntryStore;
+    const {contactID, contactHookup, select} = FiendEntryStore;
     useEffect(() => {
       let temp;
       if (!contactID) {
@@ -31,10 +31,11 @@ export default observer(
           (e) => e.contactID === contactID && e.date === date,
         );
       }
-
+      if (select && contactHookup.length > 0) {
+        console.log('TUT');
+        temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
+      }
       if (changeFlag) {
-        console.log('CURRENT', toJS(temp));
-
         setCurrent(temp);
       }
     }, [hookups, changeFlag, contactID]);

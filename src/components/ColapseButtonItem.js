@@ -3,6 +3,7 @@ import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import COLOR from '../constants/COLOR';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import HookupStore from '../stores/HookupStore';
+import globalStore from '../stores/globalStore';
 
 const ColapseButtonItem = ({el}) => {
   const styles = StyleSheet.create({
@@ -18,9 +19,13 @@ const ColapseButtonItem = ({el}) => {
   const [colorFlag, setColourFlag] = useState(false);
   const {filters, setFilters, deleteFilter} = FiendEntryStore;
   const {logFilters, setLogFilters, deleteLogFilter} = HookupStore;
+  const {globalState} = globalStore;
   const set = () => {
-    filters.includes(el) ? deleteFilter(el) : setFilters(el);
-    logFilters.includes(el) ? deleteLogFilter(el) : setLogFilters(el);
+    if (globalState.selectedTab === 'contactFilters') {
+      filters.includes(el) ? deleteFilter(el) : setFilters(el);
+    } else {
+      logFilters.includes(el) ? deleteLogFilter(el) : setLogFilters(el);
+    }
     setColourFlag(!colorFlag);
   };
   useEffect(() => {

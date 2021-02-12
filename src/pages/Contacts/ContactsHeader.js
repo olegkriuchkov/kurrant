@@ -1,12 +1,19 @@
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useRef} from 'react';
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Image from '../../components/Image';
 import COLOR from '../../constants/COLOR';
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import AddIcon from '../../assets/AddIcon';
+import Icon from '../../components/Icon';
 
 export default observer(() => {
   const {
@@ -17,11 +24,11 @@ export default observer(() => {
     setFiendSucess,
     setContacID,
     setSearchHistory,
-
+    filters,
     searchHistory,
   } = FiendEntryStore;
   const refBlur = useRef();
-  console.log('HISTORY', toJS(searchHistory));
+  console.log('CONTACT', toJS(filters.length));
   return (
     <View
       style={!isSearch ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}}>
@@ -30,6 +37,23 @@ export default observer(() => {
           <Text style={styles.headerText}>Contacts</Text>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity>
+              {filters.length > 0 && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    borderRadius: 50,
+                    backgroundColor: COLOR.PINK,
+                    width: 16,
+                    height: 16,
+                    alignItems: 'center',
+                    bottom: 22,
+                    left: 10,
+                  }}>
+                  <Text style={{fontSize: 12, color: COLOR.WHITE}}>
+                    {filters.length}
+                  </Text>
+                </View>
+              )}
               <Image
                 onPress={() => Actions.ContactsFilters()}
                 path={require('../../assets/settings.png')}

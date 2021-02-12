@@ -33,11 +33,10 @@ export default observer(({calendar, tabs}) => {
   } = HookupStore;
   const [calendarFlag, setCalendarFlag] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [select, setSelect] = useState(true);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [id, setId] = useState(uuidv4());
   const {globalState} = globalStore;
-  const {contactID, contact} = FiendEntryStore;
+  const {contactID, contact, setSelect} = FiendEntryStore;
   const [nameCurrent, setCurrentName] = useState({
     currentName: null,
     currentLocation: null,
@@ -96,6 +95,7 @@ export default observer(({calendar, tabs}) => {
     setContactHookupFlag(false);
     setHookupSuccess(true);
     setChangeFlag(false);
+    setSelect(false);
     clearForm();
     setTab('Activity');
     if (contactID) {
@@ -182,7 +182,6 @@ export default observer(({calendar, tabs}) => {
         <Tabs
           tabs={tabs}
           onPress={(tabId) => {
-            setSelect(tabId);
             setTab(tabId);
           }}
           defaultTab={tabs[0]}

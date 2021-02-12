@@ -188,6 +188,9 @@ export default observer(() => (
         statusBarStyle="light-content"
         component={ContactsFilters}
         hideTabBar={true}
+        onEnter={() => {
+          globalStore.setSelectedTab('contactFilters');
+        }}
         back
         navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
       />
@@ -196,7 +199,7 @@ export default observer(() => (
         statusBarStyle="light-content"
         component={LogFilters}
         hideTabBar={true}
-        onEnter={() => globalStore.setSelectedTab('Log')}
+        onEnter={() => globalStore.setSelectedTab('logFilters')}
         back
         navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
       />

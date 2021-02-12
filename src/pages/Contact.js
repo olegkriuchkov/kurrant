@@ -28,8 +28,7 @@ export default observer(({id}) => {
     setContacID,
     setContactHookup,
     contactHookup,
-    contactID,
-    searchValue,
+    setSelect,
   } = FiendEntryStore;
   const {
     hookups,
@@ -52,7 +51,9 @@ export default observer(({id}) => {
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper}>
-        <SucessContactWrapper id={id} />
+        <View style={{marginTop: 20}}>
+          <SucessContactWrapper id={id} />
+        </View>
         <View style={{marginHorizontal: 20}}>
           <Text style={TestsStyle.contactTitle}>Hookups</Text>
           {contactHookup.map((e) => {
@@ -75,7 +76,10 @@ export default observer(({id}) => {
           })}
           <TouchableOpacity
             style={TestsStyle.addHookups}
-            onPress={() => Actions.Entry()}>
+            onPress={() => {
+              setSelect(true);
+              Actions.Entry();
+            }}>
             <Image
               path={require('../assets/whiteplus.png')}
               style={TestsStyle.addHookupsImage}

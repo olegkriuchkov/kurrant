@@ -20,6 +20,7 @@ export default observer(({tabs, friendName}) => {
     currentName: null,
     currentLocation: null,
   });
+  const [favorite, setFavorite] = useState(false);
   const {globalState} = globalStore;
   const {
     setFiendSucess,
@@ -54,10 +55,10 @@ export default observer(({tabs, friendName}) => {
   const save = () => {
     if (name || nameCurrent?.currentName) {
       if (contactID) {
-        setContacts(contactID);
+        setContacts(contactID, favorite);
         setFiendSucess(!friendEntrySuccess);
       } else {
-        setContacts(friendId);
+        setContacts(friendId, favorite);
         setFiendSucess(!friendEntrySuccess);
       }
     } else {
@@ -82,6 +83,7 @@ export default observer(({tabs, friendName}) => {
       currentName: currentContact?.name,
       currentLocation: currentContact?.location,
     });
+    setFavorite(currentContact?.favorite);
   }, [contactID, globalState.selectedTab]);
   const home = () => {
     setFiendSucess(true);
@@ -150,15 +152,53 @@ export default observer(({tabs, friendName}) => {
         </View>
 
         {friendEntrySuccess && (
-          <Image
-            style={TestsHeaderStyle.image}
-            containerStyle={TestsHeaderStyle.imageWrapper}
-            onPress={() => save()}
-            path={require('../assets/okButton.png')}
-          />
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {!favorite && (
+              <Image
+                style={[TestsHeaderStyle.undDeleteImage, {margin: 20}]}
+                path={require('../assets/star.png')}
+                onPress={() => {
+                  setFavorite(true);
+                }}
+              />
+            )}
+            {favorite && (
+              <Image
+                style={[TestsHeaderStyle.undDeleteImage, {margin: 20}]}
+                path={require('../assets/selectStar.png')}
+                onPress={() => {
+                  setFavorite(false);
+                }}
+              />
+            )}
+            <Image
+              style={TestsHeaderStyle.image}
+              containerStyle={TestsHeaderStyle.imageWrapper}
+              onPress={() => save()}
+              path={require('../assets/okButton.png')}
+            />
+          </View>
         )}
         {!friendEntrySuccess && (
           <View style={{flexDirection: 'row'}}>
+            {!favorite && (
+              <Image
+                style={TestsHeaderStyle.undDeleteImage}
+                path={require('../assets/star.png')}
+                onPress={() => {
+                  setFavorite(true);
+                }}
+              />
+            )}
+            {favorite && (
+              <Image
+                style={TestsHeaderStyle.undDeleteImage}
+                path={require('../assets/star.png')}
+                onPress={() => {
+                  setFavorite(false);
+                }}
+              />
+            )}
             <Image
               style={TestsHeaderStyle.changeImage}
               path={require('../assets/change.png')}

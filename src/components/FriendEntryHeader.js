@@ -29,6 +29,7 @@ export default observer(({tabs, friendName}) => {
     name,
     location,
     setLocation,
+
     setContacts,
     clearItem,
     deleteContact,
@@ -84,7 +85,8 @@ export default observer(({tabs, friendName}) => {
       currentLocation: currentContact?.location,
     });
     setFavorite(currentContact?.favorite);
-  }, [contactID, globalState.selectedTab]);
+  }, [contactID, globalState.selectedTab, contact]);
+
   const home = () => {
     setFiendSucess(true);
     clearForm();
@@ -159,6 +161,9 @@ export default observer(({tabs, friendName}) => {
                 path={require('../assets/star.png')}
                 onPress={() => {
                   setFavorite(true);
+                  /*
+                  setFAvoriteFlag();
+*/
                 }}
               />
             )}
@@ -168,6 +173,9 @@ export default observer(({tabs, friendName}) => {
                 path={require('../assets/selectStar.png')}
                 onPress={() => {
                   setFavorite(false);
+                  /*
+                  setFAvoriteFlag();
+*/
                 }}
               />
             )}
@@ -183,19 +191,19 @@ export default observer(({tabs, friendName}) => {
           <View style={{flexDirection: 'row'}}>
             {!favorite && (
               <Image
-                style={TestsHeaderStyle.undDeleteImage}
+                style={[TestsHeaderStyle.undDeleteImage, {right: 30}]}
                 path={require('../assets/star.png')}
                 onPress={() => {
-                  setFavorite(true);
+                  friendEntrySuccess && setFavorite(true);
                 }}
               />
             )}
             {favorite && (
               <Image
-                style={TestsHeaderStyle.undDeleteImage}
-                path={require('../assets/star.png')}
+                style={[TestsHeaderStyle.undDeleteImage, {right: 30}]}
+                path={require('../assets/selectStar.png')}
                 onPress={() => {
-                  setFavorite(false);
+                  friendEntrySuccess && setFavorite(false);
                 }}
               />
             )}

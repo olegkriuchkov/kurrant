@@ -87,6 +87,7 @@ export default observer(({calendar, tabs}) => {
       );
     }
   };
+  console.log('ID', contactID);
   const press = (day) => {
     setDate(new Date(day.timestamp));
     setHookupDate(new Date(day.timestamp));

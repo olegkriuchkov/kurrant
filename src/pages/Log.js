@@ -2,15 +2,18 @@ import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Image, ScrollView, Text, View} from 'react-native';
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import globalStore from '../stores/globalStore';
 import HookupStore from '../stores/HookupStore';
 import TestsStore from '../stores/TestsStore';
 import LogStyle from '../style/page/LogStyle';
+import FiendEntryStore from '../stores/FiendEntryStore';
 
 export default observer(() => {
   const {tests, getTests} = TestsStore;
   const {hookups, getHookups, logFilters} = HookupStore;
+  const {setContacID} = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
 
   useEffect(() => {
@@ -23,11 +26,13 @@ export default observer(() => {
   const parseLog = (args) => {
     const sortDate = args.sort((a, b) => moment(a.date).diff(b.date));
     const dates = sortDate.map((e) => {
+      console.log('E', toJS(e));
       return {
         title: moment(e.date).format('MMMM'),
         date: {
           eventDate: moment(e.date),
           name: e.name,
+          id: e?.contactID,
           type: e.type,
           length: e.test?.length || e.hookup?.length || 0,
         },
@@ -107,7 +112,13 @@ export default observer(() => {
             </View>
             {e.date.map((el, index) => {
               return (
-                <View style={LogStyle.infoWrapper}>
+                <TouchableOpacity
+                  onPress={() => {
+                    console.log('E', e);
+                    setContacID(e.id);
+                    Actions.push('Entry', {date: e.date});
+                  }}
+                  style={LogStyle.infoWrapper}>
                   <View
                     style={
                       index === e.date.length - 1
@@ -134,7 +145,7 @@ export default observer(() => {
                       </View>
                     )}
                   </View>
-                </View>
+                </TouchableOpacity>
               );
             })}
           </View>

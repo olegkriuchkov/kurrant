@@ -28,7 +28,6 @@ export default observer(() => {
     searchHistory,
   } = FiendEntryStore;
   const refBlur = useRef();
-  console.log('CONTACT', toJS(filters.length));
   return (
     <View
       style={!isSearch ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}}>

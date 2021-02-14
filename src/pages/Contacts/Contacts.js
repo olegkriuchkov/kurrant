@@ -31,7 +31,6 @@ const hookups = [
     number: 2,
   },
 ];
-// TODO в логах текущий день изменить стили,сделать отображение последнего поиска по контактам,добавить возможность просмотра хукапа из контакта
 export default observer(() => {
   const {
     contact,
@@ -47,6 +46,12 @@ export default observer(() => {
   } = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
   const {globalState} = globalStore;
+  const [hookups, setHookups] = useState();
+  const getFavorite = () => {
+    const temp = contact.filter((e) => e.favorite);
+    console.log('temp', toJS(temp));
+    setHookups(temp);
+  };
   useEffect(() => {
     getContacts();
     console.log(toJS(contact));
@@ -67,6 +72,9 @@ export default observer(() => {
       setFiltered([]);
     }
   }, [globalState.selectedTab, filters.length]);
+  useEffect(() => {
+    getFavorite();
+  }, [contact]);
   const getLetters = () => {
     const letters = [];
     for (let i = 65; i <= 90; i++) {
@@ -108,7 +116,7 @@ export default observer(() => {
               </Text>
             </View>
           )}
-          {!!hookups.length &&
+          {!!hookups?.length &&
             !isSearch &&
             hookups
               .sort((hookup1, hookup2) => hookup1.time < hookup2.time)

@@ -122,7 +122,7 @@ class FiendEntryStore {
       currentContact.name = this.name ? this.name : currentContact.name;
       currentContact.friendEntryNote = this.friendEntryNote;
       currentContact.location = this.location;
-
+      currentContact.favorite = bool;
       this.contact = this.contact.map((e) => {
         if (e.friendId === friendId) {
           return {

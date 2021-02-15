@@ -3,14 +3,14 @@ import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import COLOR from '../constants/COLOR';
 import globalStore from '../stores/globalStore';
-import Image from './Image';
+import HookupStore from '../stores/HookupStore';
 import NavbarStyle from '../style/component/NavbarStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
+import Image from './Image';
 import SelectedCalendar from './SelectedCalendar';
-import COLOR from '../constants/COLOR';
-import HookupStore from '../stores/HookupStore';
 
 const NavBar = observer(
   ({
@@ -22,6 +22,7 @@ const NavBar = observer(
     settings,
     noStyle,
     pop,
+    safePass,
     calendar,
     cancel,
     logCalendar,
@@ -32,7 +33,7 @@ const NavBar = observer(
       setDate(new Date(day.timestamp));
     };
     const {logFilters} = HookupStore;
-    const {globalState} = globalStore;
+    const {globalState, setAsyncPass} = globalStore;
     useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
     console.log('LOG', logFilters.length);
     const wrapperStyle = noStyle
@@ -54,6 +55,13 @@ const NavBar = observer(
               style={NavbarStyle.canelWrapper}
               onPress={() => Actions.pop()}>
               <Text style={NavbarStyle.cancel}>Cancel</Text>
+            </TouchableOpacity>
+          )}
+          {safePass && (
+            <TouchableOpacity
+              style={NavbarStyle.saveWrapper}
+              onPress={() => setAsyncPass()}>
+              <Text style={NavbarStyle.cancel}>Save password</Text>
             </TouchableOpacity>
           )}
           {pop && (

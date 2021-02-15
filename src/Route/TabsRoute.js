@@ -1,33 +1,33 @@
+import {observer} from 'mobx-react';
 import React from 'react';
 import {Router, Scene, Stack} from 'react-native-router-flux';
-import {observer} from 'mobx-react';
 import FriendEntryHeader from '../components/FriendEntryHeader';
 import HookupHeader from '../components/HookupHeader';
+import NavBar from '../components/NavBar';
+import TabBar from '../components/TabBar/TabBar';
+import TestsHeader from '../components/TestHeader';
+import COLOR from '../constants/COLOR';
+import {AnalyticsPage} from '../pages/AnalyticsPage';
+import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
 import Contact from '../pages/Contact';
+import Contacts from '../pages/Contacts/Contacts';
+import ContactsHeader from '../pages/Contacts/ContactsHeader';
+import Entry from '../pages/Entry';
 import ContactsFilters from '../pages/Flters/ContactsFilters';
 import LogFilters from '../pages/Flters/LogFilters';
 import AddFriendEntry from '../pages/FriendEntry';
 import HomePage from '../pages/HomePage';
-import NavBar from '../components/NavBar';
-import TabBar from '../components/TabBar/TabBar';
-import Settings from '../pages/Settings';
-import COLOR from '../constants/COLOR';
 import Log from '../pages/Log';
-import SecurityPage from '../pages/Settings/security/SeccurityPage';
+import Settings from '../pages/Settings';
 import DataPage from '../pages/Settings/data/DataPage';
-import Contacts from '../pages/Contacts/Contacts';
-import PinPage from '../pages/Settings/security/pinPage';
 import DeleteData from '../pages/Settings/data/DeleteData';
 import Notifications from '../pages/Settings/Notifications/Notifications';
+import PinPage from '../pages/Settings/security/pinPage';
+import SecurityPage from '../pages/Settings/security/SeccurityPage';
 import Touchid from '../pages/Settings/security/touchID';
 import Tests from '../pages/Tests';
-import TestsHeader from '../components/TestHeader';
-import TabBarStyle from '../style/component/TabBarStyle';
-import Entry from '../pages/Entry';
 import globalStore from '../stores/globalStore';
-import ContactsHeader from '../pages/Contacts/ContactsHeader';
-import {AnalyticsPage} from '../pages/AnalyticsPage';
-import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
+import TabBarStyle from '../style/component/TabBarStyle';
 
 export default observer(() => (
   <Router>
@@ -88,7 +88,7 @@ export default observer(() => (
           component={PinPage}
           hideTabBar={true}
           back
-          navBar={() => <NavBar color={COLOR.GREY} noStyle cancel />}
+          navBar={() => <NavBar color={COLOR.GREY} noStyle cancel safePass />}
         />
         <Scene
           key="TouchID"

@@ -1,14 +1,21 @@
-import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
-import {observer} from 'mobx-react';
 import TestItem from '../components/TestItem';
 import TestsStore from '../stores/TestsStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
 export default observer(() => {
-  const allTitle = ['Chlamydia', 'Gonorrhea', 'HIV', 'Syphilis', 'Other'];
+  const allTitle = [
+    'Full screening (All)',
+    'Chlamydia',
+    'Gonorrhea',
+    'HIV',
+    'Syphilis',
+    'Other',
+  ];
   const testTypes = ['Rectal', 'Throad', 'Urine'];
+  const [result, setResult] = useState(false);
   const [setNote] = useState('');
   const {setTestNote, testSuccess, note, testItems} = TestsStore;
   const setText = (text) => {
@@ -24,11 +31,13 @@ export default observer(() => {
         y: 100 * 12,
         animated: true,
       });
-    } else {
-      scrollRef.current?.scrollTo({
-        y: 100 * 0,
-        animated: true,
-      });
+      setResult(false);
+    }
+    if (tabs === 'Results') {
+      setResult(true);
+    }
+    if (tabs === 'What were you tested for?') {
+      setResult(false);
     }
   };
   useEffect(() => {
@@ -39,7 +48,8 @@ export default observer(() => {
     if (changeFlag) {
       setCurrent(temp);
     }
-  }, [tests, changeFlag]);
+  }, [tests, changeFlag, tabs]);
+  // TODO отображать ток выбраные элементы в контактах помечать фаворитов в хукапе при сохранении пропадает имя добавить отображение подсказок
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
@@ -50,21 +60,19 @@ export default observer(() => {
                 const selectedTitle = current?.test?.find(
                   (e) => e?.title === title,
                 );
-                console.log('SELECTED', toJS(selectedTitle));
-
                 return (
                   <TestItem
                     title={title}
                     current={selectedTitle}
                     types={testTypes}
                     key={title}
+                    testing={result}
                   />
                 );
               })}
             </View>
           </View>
         )}
-
         {!testSuccess && testItems.length > 0 && (
           <View style={TestsStyle.main}>
             <View style={[TestsStyle.contaier]}>
@@ -82,6 +90,7 @@ export default observer(() => {
             </View>
           </View>
         )}
+
         {!testSuccess && testItems.length === 0 && (
           <View style={TestsStyle.main}>
             <View style={[TestsStyle.contaier]}>

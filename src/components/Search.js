@@ -18,19 +18,31 @@ export default observer(({hookup}) => {
     <View
       style={
         !isSearch
-          ? styles.inputContainerStyle
+          ? hookup
+            ? [
+                styles.inputContainerStyle,
+                {backgroundColor: COLOR.WHITE, right: 20},
+              ]
+            : styles.inputContainerStyle
           : [
               styles.inputContainerStyle,
               {backgroundColor: COLOR.WHITE, minWidth: '93%', marginBottom: 15},
             ]
       }>
-      <Image path={require('../assets/search.png')} style={{marginRight: 10}} />
+      {!hookup && (
+        <Image
+          path={require('../assets/search.png')}
+          style={{marginRight: 10}}
+        />
+      )}
       <TextInput
         ref={refBlur}
-        placeholder="Search"
+        placeholder={hookup ? 'Enter name' : 'Search'}
         style={
           !isSearch
-            ? styles.searchInput
+            ? hookup
+              ? [styles.searchInput, {backgroundColor: COLOR.WHITE}]
+              : styles.searchInput
             : [styles.searchInput, {backgroundColor: COLOR.WHITE}]
         }
         onChangeText={(value) => {

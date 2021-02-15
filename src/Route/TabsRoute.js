@@ -138,7 +138,10 @@ export default observer(() => (
         component={Tests}
         back
         navBar={() => (
-          <TestsHeader calendar tabs={['Any positive tests?', 'Notes']} />
+          <TestsHeader
+            calendar
+            tabs={['What were you tested for?', 'Results', 'Notes']}
+          />
         )}
       />
       <Scene

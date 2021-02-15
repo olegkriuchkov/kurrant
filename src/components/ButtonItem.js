@@ -1,19 +1,30 @@
+import {observer} from 'mobx-react';
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
-import {observer} from 'mobx-react';
+import COLOR from '../constants/COLOR';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
-export default observer(({type, index, onPress, selected}) => {
+export default observer(({type, index, onPress, selected, testing}) => {
   const style = [
     TestsStyle.topItem,
     TestsStyle.midelItem,
     TestsStyle.bottomItem,
   ];
   const selectedConteiner = selected.includes(type)
-    ? [style[index], TestsStyle.selectedItem]
+    ? [
+        style[index],
+        testing
+          ? [
+              TestsStyle.selectedItem,
+              {backgroundColor: COLOR.PINK, borderColor: COLOR.PINK},
+            ]
+          : TestsStyle.selectedItem,
+      ]
     : style[index];
   const selectedText = selected.includes(type)
     ? TestsStyle.textColor
+    : testing
+    ? [TestsStyle.textColorSelected, {color: COLOR.PINK}]
     : TestsStyle.textColorSelected;
 
   return (

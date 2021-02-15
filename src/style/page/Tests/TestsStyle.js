@@ -101,14 +101,14 @@ export default StyleSheet.create({
   },
 
   textColor: {color: COLOR.WHITE, fontSize: 18},
-  textColorSelected: {color: COLOR.PINK, fontSize: 18},
+  textColorSelected: {color: COLOR.TAB_ICON, fontSize: 18},
   confirmButton: {position: 'absolute', bottom: -18, left: 140, zIndex: 2},
   confirmImage: {
     width: 50,
     height: 50,
   },
   resultTitle: {
-    backgroundColor: COLOR.PINK,
+    backgroundColor: COLOR.TAB_ICON,
     width: '100%',
     height: '100%',
     borderRadius: 20,
@@ -157,8 +157,8 @@ export default StyleSheet.create({
     marginTop: 0,
   },
   selectedItem: {
-    borderColor: COLOR.PINK,
-    backgroundColor: COLOR.PINK,
+    borderColor: COLOR.TAB_ICON,
+    backgroundColor: COLOR.TAB_ICON,
     borderBottomColor: COLOR.BLUE,
   },
   allClearWrapper: {

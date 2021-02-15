@@ -1,5 +1,5 @@
-import {makeObservable, observable, action, toJS, reaction} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {action, makeObservable, observable, reaction} from 'mobx';
 import moment from 'moment';
 import {Actions} from 'react-native-router-flux';
 import COLOR from '../constants/COLOR';
@@ -20,6 +20,20 @@ class TestsStore {
   @observable id = '';
 
   @observable tabs = 0;
+
+  @observable resultTestItem = [];
+
+  @action setResultTestItem = (item) => {
+    const currentItem = this.testItems.find((e) => e.id === item.id);
+    if (currentItem) {
+      currentItem.result = item.result;
+      this.resultTestItem = this.resultTestItem.filter(
+        (e) => e.result.length > 0,
+      );
+    } else {
+      this.resultTestItem.push(item);
+    }
+  };
 
   @action setTab = (num) => {
     this.tabs = num;

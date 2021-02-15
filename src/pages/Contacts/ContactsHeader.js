@@ -1,33 +1,15 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
-import React, {useRef} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import AddIcon from '../../assets/AddIcon';
 import Image from '../../components/Image';
+import Search from '../../components/Search';
 import COLOR from '../../constants/COLOR';
 import FiendEntryStore from '../../stores/FiendEntryStore';
-import AddIcon from '../../assets/AddIcon';
-import Icon from '../../components/Icon';
 
 export default observer(() => {
-  const {
-    setSearchValue,
-    searchValue,
-    isSearch,
-    setIsSearch,
-    setFiendSucess,
-    setContacID,
-    setSearchHistory,
-    filters,
-    searchHistory,
-  } = FiendEntryStore;
-  const refBlur = useRef();
+  const {isSearch, setFiendSucess, setContacID, filters} = FiendEntryStore;
   return (
     <View
       style={!isSearch ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}}>
@@ -72,43 +54,7 @@ export default observer(() => {
         </View>
       )}
       <View style={!isSearch ? styles.containerStyle : styles.seletedContainer}>
-        <View
-          style={
-            !isSearch
-              ? styles.inputContainerStyle
-              : [styles.inputContainerStyle, {backgroundColor: COLOR.WHITE}]
-          }>
-          <Image
-            path={require('../../assets/search.png')}
-            style={{marginRight: 10}}
-          />
-          <TextInput
-            ref={refBlur}
-            placeholder="Search"
-            style={
-              !isSearch
-                ? styles.searchInput
-                : [styles.searchInput, {backgroundColor: COLOR.WHITE}]
-            }
-            onChangeText={(value) => {
-              setSearchValue(value);
-            }}
-            onBlur={() => setSearchHistory(searchValue)}
-            onFocus={() => setIsSearch(true)}
-            value={searchValue}
-          />
-          {isSearch && (
-            <TouchableOpacity
-              onPress={() => {
-                setIsSearch(false);
-                setSearchValue('');
-                refBlur.current?.blur();
-              }}
-              style={{left: 50}}>
-              <Text style={styles.cancelText}>Cancel</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+        <Search />
       </View>
     </View>
   );

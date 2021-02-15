@@ -1,10 +1,13 @@
 import {observer} from 'mobx-react';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import HookupWrapepr from '../components/HookupWrapepr';
 import SucessHookupWrapper from '../components/SucessHookupWrapper';
-import TestsStyle from '../style/page/Tests/TestsStyle';
+import COLOR from '../constants/COLOR';
+import FiendEntryStore from '../stores/FiendEntryStore';
 import HookupStore from '../stores/HookupStore';
+import TestsStyle from '../style/page/Tests/TestsStyle';
+import Contacts from './Contacts/Contacts';
 
 export default observer(({date}) => {
   const allTitle = ['Makeout', 'Handjob', 'Blowjob', 'Rimjob', 'Anal', 'Other'];
@@ -15,6 +18,7 @@ export default observer(({date}) => {
   const setText = (text) => {
     setHookupNote(text);
   };
+  const {isSearch} = FiendEntryStore;
   const scrollRef = useRef(null);
   const scrollTo = () => {
     if (tabs === 'Activity') {
@@ -45,48 +49,57 @@ export default observer(({date}) => {
   useEffect(() => {
     scrollTo();
   }, [tabs]);
+  console.log('date', date);
   return (
-    <SafeAreaView style={TestsStyle.safeArea}>
-      <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
-        {hookupSuccess && (
-          <View>
-            <HookupWrapepr
-              array={allTitle}
-              date={date}
-              types={types}
-              single={false}
-              withOutText={true}
-            />
-            <HookupWrapepr
-              date={date}
-              title="Protection"
-              array={protection}
-              single={true}
-            />
-            <HookupWrapepr
-              title="Substance"
-              date={date}
-              array={substance}
-              single={true}
+    <SafeAreaView
+      style={
+        isSearch
+          ? [TestsStyle.safeArea, {backgroundColor: COLOR.LIGHT_GREY}]
+          : TestsStyle.safeArea
+      }>
+      {!isSearch && (
+        <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
+          {hookupSuccess && (
+            <View>
+              <HookupWrapepr
+                array={allTitle}
+                date={date}
+                types={types}
+                single={false}
+                withOutText={true}
+              />
+              <HookupWrapepr
+                date={date}
+                title="Protection"
+                array={protection}
+                single={true}
+              />
+              <HookupWrapepr
+                title="Substance"
+                date={date}
+                array={substance}
+                single={true}
+              />
+            </View>
+          )}
+          {!hookupSuccess && <SucessHookupWrapper date={date} />}
+
+          <View style={TestsStyle.mainNoteWrapper}>
+            <Text style={TestsStyle.textNote}>Notes</Text>
+            <TextInput
+              onChangeText={(text) => hookupSuccess && setText(text)}
+              value={note}
+              style={TestsStyle.textInput}
+              underlineColorAndroid="transparent"
+              placeholder="Add note"
+              placeholderTextColor="grey"
+              numberOfLines={10}
+              multiline={true}
             />
           </View>
-        )}
-        {!hookupSuccess && <SucessHookupWrapper />}
-
-        <View style={TestsStyle.mainNoteWrapper}>
-          <Text style={TestsStyle.textNote}>Notes</Text>
-          <TextInput
-            onChangeText={(text) => hookupSuccess && setText(text)}
-            value={note}
-            style={TestsStyle.textInput}
-            underlineColorAndroid="transparent"
-            placeholder="Add note"
-            placeholderTextColor="grey"
-            numberOfLines={10}
-            multiline={true}
-          />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
+      {isSearch && <Contacts hookup />}
     </SafeAreaView>
   );
 });

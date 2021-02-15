@@ -4,15 +4,22 @@ import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import FiendEntryStore from '../stores/FiendEntryStore';
 import globalStore from '../stores/globalStore';
 import HookupStore from '../stores/HookupStore';
 import TestsStore from '../stores/TestsStore';
 import LogStyle from '../style/page/LogStyle';
-import FiendEntryStore from '../stores/FiendEntryStore';
 
 export default observer(() => {
   const {tests, getTests} = TestsStore;
-  const {hookups, getHookups, logFilters} = HookupStore;
+  const {
+    hookups,
+    setHookupItem,
+    getHookups,
+    logFilters,
+    setChangeFlag,
+    setHookupSuccess,
+  } = HookupStore;
   const {setContacID} = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
 
@@ -35,6 +42,10 @@ export default observer(() => {
           id: e?.contactID,
           type: e.type,
           length: e.test?.length || e.hookup?.length || 0,
+          favorite: e.favorite,
+          date: e.date,
+          colection: e.colection,
+          hookups: e.hookup,
         },
       };
     });
@@ -114,9 +125,11 @@ export default observer(() => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    console.log('E', e);
-                    setContacID(e.id);
-                    Actions.push('Entry', {date: e.date});
+                    setContacID(el.id);
+
+                    setChangeFlag(true);
+                    setHookupSuccess(false);
+                    Actions.push('Entry', {date: el.date});
                   }}
                   style={LogStyle.infoWrapper}>
                   <View
@@ -129,9 +142,18 @@ export default observer(() => {
                       {moment(el.eventDate).format('ddd D')}
                     </Text>
                     {el.type === 'hookup' ? (
-                      <Text style={LogStyle.name}>
-                        {el.name.length > 0 ? el.name : 'Noname'}
-                      </Text>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}>
+                        <Text style={LogStyle.name}>{el.name}</Text>
+                        <Image
+                          source={require('../assets/favorite.png')}
+                          style={{width: 15, height: 15}}
+                        />
+                      </View>
                     ) : (
                       <View
                         style={{flexDirection: 'row', alignItems: 'center'}}>

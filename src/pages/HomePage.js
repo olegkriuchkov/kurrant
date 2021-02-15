@@ -1,25 +1,26 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import {toJS} from 'mobx';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import globalStore from '../stores/globalStore';
+import HookupStore from '../stores/HookupStore';
 import TestsStore from '../stores/TestsStore';
 import HomePageStyle from '../style/page/HomePageStyle';
-import HookupStore from '../stores/HookupStore';
 
 const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
   const {getHookups, hookups, hookupSuccess} = HookupStore;
   const {getTests, tests, testSuccess} = TestsStore;
-  const {setContacID} = FiendEntryStore;
+  const {setContacID, setSearchValue} = FiendEntryStore;
   const {globalState} = globalStore;
   const {
     contact,
     getContacts,
     friendEntrySuccess,
     getAllKeys,
+    setIsSearch,
   } = FiendEntryStore;
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const HomePage = observer(() => {
     getHookups();
     getTests();
     getContacts();
+    setSearchValue('');
     console.log('Hookups', toJS(hookups));
     console.log('Tests', toJS(tests));
     console.log('Contacts', toJS(contact));
@@ -60,6 +62,7 @@ const HomePage = observer(() => {
               setModalFlag(true);
               setContacID(null);
               Actions.Entry();
+              setIsSearch(false);
               console.log('Hookups', toJS(hookups));
             }}>
             <Text style={HomePageStyle.modalText}>New hookup</Text>

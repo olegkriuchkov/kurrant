@@ -1,13 +1,12 @@
-import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
-import Image from './Image';
+import HookupStore from '../stores/HookupStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
-import HookupStore from '../stores/HookupStore';
+import Image from './Image';
 
 export default observer(
   ({
@@ -50,8 +49,8 @@ export default observer(
       if (current?.title === title) {
         setFlag(false);
         setConfirm(true);
-        setSelected(current.result);
-        current.single ? setSingleFlag(true) : setSingleFlag(false);
+        setSelected(current?.result);
+        current?.single ? setSingleFlag(true) : setSingleFlag(false);
       } else {
         setFlag(false);
       }

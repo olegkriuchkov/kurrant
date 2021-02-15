@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
@@ -18,7 +17,7 @@ export default observer(
     date,
     result,
   }) => {
-    const {hookups, changeFlag} = HookupStore;
+    const {hookups, changeFlag, hookupSuccess} = HookupStore;
     const [current, setCurrent] = useState([]);
     const {contactID, contactHookup, select} = FiendEntryStore;
     useEffect(() => {
@@ -32,23 +31,22 @@ export default observer(
         );
       }
       if (select && contactHookup.length > 0) {
-        console.log('TUT');
         temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
       }
       if (changeFlag) {
         setCurrent(temp);
       }
-    }, [hookups, changeFlag, contactID]);
-
+    }, [hookups, changeFlag, contactID, hookupSuccess]);
     return (
       <View style={TestsStyle.main}>
         <View style={{flexDirection: 'column'}}>
           {!withOutText && <Text style={TestsStyle.textNote}>{title}</Text>}
           <View style={TestsStyle.contaier}>
             {array.map((titles, i) => {
-              const selectedTitle = current?.hookup?.find(
-                (e) => e?.title === titles,
-              );
+              const selectedTitle = current?.hookup?.find((e) => {
+                return e?.title === titles;
+              });
+
               return (
                 <EntryItem
                   title={titles}

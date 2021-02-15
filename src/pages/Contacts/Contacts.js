@@ -7,6 +7,7 @@ import Image from '../../components/Image';
 
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
+import HookupStore from '../../stores/HookupStore';
 import ContactsStyle from '../../style/page/ContactsStyle';
 
 const hookups = [
@@ -31,7 +32,7 @@ const hookups = [
     number: 2,
   },
 ];
-export default observer(() => {
+export default observer(({hookup}) => {
   const {
     contact,
     getContacts,
@@ -43,13 +44,15 @@ export default observer(() => {
     isSearch,
     clearSearchHistory,
     setSearchValue,
+    setContacID,
+    setIsSearch,
   } = FiendEntryStore;
+  const {setName} = HookupStore;
   const [filtered, setFiltered] = useState(null);
   const {globalState} = globalStore;
   const [hookups, setHookups] = useState();
   const getFavorite = () => {
     const temp = contact.filter((e) => e.favorite);
-    console.log('temp', toJS(temp));
     setHookups(temp);
   };
   useEffect(() => {
@@ -84,9 +87,15 @@ export default observer(() => {
     return letters;
   };
 
-  const onPressContact = (id) => {
-    setFiendSucess(false);
-    Actions.push('Contact', {id});
+  const onPressContact = (id, name) => {
+    if (hookup) {
+      setSearchValue(name);
+      setContacID(id);
+      setIsSearch(false);
+    } else {
+      setFiendSucess(false);
+      Actions.push('Contact', {id});
+    }
   };
 
   return (
@@ -122,7 +131,8 @@ export default observer(() => {
               .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
               .slice(0, 3)
               .map((hookup, i) => (
-                <View
+                <TouchableOpacity
+                  onPress={() => onPressContact(hookup.friendId, hookup.name)}
                   style={[
                     ContactsStyle.contactContainer,
                     i > 0 ? ContactsStyle.topBorder : null,
@@ -131,7 +141,7 @@ export default observer(() => {
                   <Text style={ContactsStyle.mostFrequentHookups}>
                     {hookup.name}
                   </Text>
-                </View>
+                </TouchableOpacity>
               ))}
         </View>
       </View>
@@ -180,7 +190,7 @@ export default observer(() => {
             return contact.name.toLowerCase().startsWith(searchValue) ? (
               <TouchableOpacity
                 key={i}
-                onPress={() => onPressContact(contact.friendId)}
+                onPress={() => onPressContact(contact.friendId, contact.name)}
                 style={[
                   ContactsStyle.contactContainer,
                   i > 0 ? ContactsStyle.topBorder : null,
@@ -192,6 +202,16 @@ export default observer(() => {
         </View>
       ) : (
         <View style={ContactsStyle.contactsBlock}>
+          {isSearch && (
+            <TouchableOpacity
+              onPress={() => {
+                setFiendSucess(true);
+                setContacID(null);
+                Actions.AddFriendEntry();
+              }}>
+              <Text>Add new Contact</Text>
+            </TouchableOpacity>
+          )}
           {searchHistory.map((contact, i) => {
             const name =
               contact[0].toUpperCase() + contact.slice(1, contact.length);
@@ -219,6 +239,7 @@ export default observer(() => {
               </TouchableOpacity>
             );
           })}
+
           {searchHistory.length > 0 && (
             <TouchableOpacity
               style={ContactsStyle.clearSearchButton}

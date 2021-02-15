@@ -1,5 +1,5 @@
-import {makeObservable, observable, action, toJS, reaction} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {action, makeObservable, observable, reaction} from 'mobx';
 import moment from 'moment';
 import {Actions} from 'react-native-router-flux';
 import COLOR from '../constants/COLOR';
@@ -47,7 +47,7 @@ class HookupStore {
     }
     if (currentItem) {
       currentItem.result = item.result;
-      this.hookupItem = this.hookupItem.filter((e) => e.result.length > 0);
+      this.hookupItem = this.hookupItem.filter((e) => e.result?.length > 0);
     } else {
       this.hookupItem.push(item);
     }

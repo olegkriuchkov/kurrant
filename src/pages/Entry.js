@@ -65,6 +65,7 @@ export default observer(({date}) => {
                 array={allTitle}
                 date={date}
                 types={types}
+                hookup
                 single={false}
                 withOutText={true}
               />
@@ -72,17 +73,19 @@ export default observer(({date}) => {
                 date={date}
                 title="Protection"
                 array={protection}
+                hookup
                 single={true}
               />
               <HookupWrapepr
                 title="Substance"
                 date={date}
                 array={substance}
+                hookup
                 single={true}
               />
             </View>
           )}
-          {!hookupSuccess && <SucessHookupWrapper date={date} />}
+          {!hookupSuccess && <SucessHookupWrapper date={date} hook />}
 
           <View style={TestsStyle.mainNoteWrapper}>
             <Text style={TestsStyle.textNote}>Notes</Text>

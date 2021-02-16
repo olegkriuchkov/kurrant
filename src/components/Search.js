@@ -5,7 +5,7 @@ import COLOR from '../constants/COLOR';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import Image from './Image';
 
-export default observer(({hookup}) => {
+export default observer(({hookup, disable, name}) => {
   const {
     setSearchValue,
     searchValue,
@@ -14,6 +14,8 @@ export default observer(({hookup}) => {
     setSearchHistory,
   } = FiendEntryStore;
   const refBlur = useRef();
+  console.log(searchValue);
+
   return (
     <View
       style={
@@ -37,6 +39,7 @@ export default observer(({hookup}) => {
       )}
       <TextInput
         ref={refBlur}
+        editable={disable}
         placeholder={hookup ? 'Enter name' : 'Search'}
         style={
           !isSearch
@@ -51,16 +54,15 @@ export default observer(({hookup}) => {
         onBlur={() => setSearchHistory(searchValue)}
         onFocus={() => setIsSearch(true)}
         value={
-          hookup && searchValue.length > 0
+          hookup && searchValue?.length > 0
             ? searchValue[0]?.toUpperCase() +
-              searchValue.slice(1, searchValue.length)
+              searchValue.slice(1, searchValue?.length)
             : searchValue
         }
       />
       {isSearch && (
         <TouchableOpacity
           onPress={() => {
-            console.log('I');
             setIsSearch(false);
             setSearchValue('');
             refBlur.current?.blur();

@@ -21,6 +21,7 @@ const HomePage = observer(() => {
     friendEntrySuccess,
     getAllKeys,
     setIsSearch,
+    setAddHookups,
   } = FiendEntryStore;
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const HomePage = observer(() => {
               setContacID(null);
               Actions.Entry();
               setIsSearch(false);
+              setAddHookups(true);
               console.log('Hookups', toJS(hookups));
             }}>
             <Text style={HomePageStyle.modalText}>New hookup</Text>

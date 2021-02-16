@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
+import COLOR from '../constants/COLOR';
 import HookupStore from '../stores/HookupStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
@@ -16,6 +17,7 @@ export default observer(
     result = [],
     sucess = false,
     colections,
+    hookup,
     current,
   }) => {
     const {
@@ -107,6 +109,7 @@ export default observer(
             <ButtonItem
               index={index}
               key={type}
+              hookup
               type={type}
               onPress={() => select(type)}
               selected={selected}
@@ -123,7 +126,12 @@ export default observer(
           </View>
         )}
         {confirm && !flag && (
-          <View style={TestsStyle.resultTitle}>
+          <View
+            style={
+              hookup
+                ? [TestsStyle.resultTitle, {backgroundColor: COLOR.PINK}]
+                : TestsStyle.resultTitle
+            }>
             <Text style={TestsStyle.resultTitleText}>{title}</Text>
             {!single &&
               selected.map((selectedText) => (

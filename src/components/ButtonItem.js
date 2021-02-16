@@ -4,16 +4,17 @@ import {Text, TouchableOpacity} from 'react-native';
 import COLOR from '../constants/COLOR';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
-export default observer(({type, index, onPress, selected, testing}) => {
+export default observer(({type, index, onPress, selected, testing, hookup}) => {
   const style = [
     TestsStyle.topItem,
     TestsStyle.midelItem,
     TestsStyle.bottomItem,
   ];
+  console.log(hookup);
   const selectedConteiner = selected.includes(type)
     ? [
         style[index],
-        testing
+        testing || hookup
           ? [
               TestsStyle.selectedItem,
               {backgroundColor: COLOR.PINK, borderColor: COLOR.PINK},
@@ -23,7 +24,7 @@ export default observer(({type, index, onPress, selected, testing}) => {
     : style[index];
   const selectedText = selected.includes(type)
     ? TestsStyle.textColor
-    : testing
+    : testing || hookup
     ? [TestsStyle.textColorSelected, {color: COLOR.PINK}]
     : TestsStyle.textColorSelected;
 

@@ -1,11 +1,10 @@
-import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import HookupStore from '../stores/HookupStore';
 import CompleteEntry from './CompleteEntry';
 
-export default ({single = false, date}) => {
+export default ({single = false, date, hook}) => {
   const {hookupItem, changeFlag, hookupSuccess, hookups} = HookupStore;
   const {contactID, select, contactHookup} = FiendEntryStore;
   const [current, setCurrent] = useState(hookupItem);
@@ -35,17 +34,12 @@ export default ({single = false, date}) => {
     }
     if (changeFlag) {
       setCurrent(temp);
-      console.log('WWWWWWWWWWWWWWWWWWWWWWW');
     }
     pars();
   }, [hookups, changeFlag, contactID, hookupSuccess]);
 
   const pars = () => {
-    const arr = current.hookup ? current.hookup : hookupItem;
-    console.log('CURRENT', toJS(arr));
-
     hookupItem.forEach((e) => {
-      console.log('EEE', toJS(e));
       switch (e.colection) {
         case 'Substance':
           setHookup((prev) => {
@@ -82,13 +76,14 @@ export default ({single = false, date}) => {
   return (
     <>
       <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 10}}>
-        <CompleteEntry arr={hookup.activities} single={single} />
+        <CompleteEntry arr={hookup.activities} single={single} hookup={hook} />
         {!!hookup.protection.length > 0 && (
           <CompleteEntry
             arr={hookup.protection}
             withText={true}
             text="Protection"
             single={single}
+            hookup={hook}
           />
         )}
         {!!hookup.substance.length > 0 && (
@@ -96,6 +91,7 @@ export default ({single = false, date}) => {
             arr={hookup.substance}
             withText={true}
             text="Substance"
+            hookup={hook}
             single={single}
           />
         )}

@@ -162,7 +162,7 @@ export default observer(({hookup}) => {
               <View
                 style={[
                   ContactsStyle.letterContainer,
-                  letterContacts.length === 0 && ContactsStyle.bottomBorder,
+                  letterContacts?.length === 0 && ContactsStyle.bottomBorder,
                 ]}>
                 <Text style={ContactsStyle.letter}>{letter}</Text>
               </View>
@@ -184,7 +184,7 @@ export default observer(({hookup}) => {
             </View>
           );
         })
-      ) : searchValue.length > 0 ? (
+      ) : searchValue?.length > 0 ? (
         <View style={ContactsStyle.contactsBlock}>
           {contact.map((contact, i) => {
             return contact.name.toLowerCase().startsWith(searchValue) ? (
@@ -218,7 +218,7 @@ export default observer(({hookup}) => {
             return (
               <TouchableOpacity
                 key={i}
-                onPress={() => setSearchValue(contact)}
+                onPress={() => setSearchValue(name)}
                 style={[
                   ContactsStyle.contactContainer,
                   {

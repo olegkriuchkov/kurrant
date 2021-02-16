@@ -29,9 +29,15 @@ class FiendEntryStore {
 
   @observable searchFlag = false;
 
+  @observable addHookups = true;
+
   @observable isSearch = false;
 
   @observable select = false;
+
+  @action setAddHookups = (bool) => {
+    this.addHookups = bool;
+  };
 
   @action setSelect = (bool) => {
     this.select = bool;
@@ -64,6 +70,7 @@ class FiendEntryStore {
   };
 
   @action setSearchValue = (value) => {
+    console.log(value);
     this.searchValue = value.toLowerCase();
   };
 

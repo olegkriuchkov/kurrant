@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
@@ -15,23 +16,28 @@ export default observer(
     withOutText = false,
     sucess = false,
     date,
+    hookup,
     result,
   }) => {
     const {hookups, changeFlag, hookupSuccess} = HookupStore;
     const [current, setCurrent] = useState([]);
-    const {contactID, contactHookup, select} = FiendEntryStore;
+    const {contactID, contactHookup, select, addHookups} = FiendEntryStore;
     useEffect(() => {
       let temp;
-      if (!contactID) {
+      if (addHookups) {
         temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
+        console.log('temp1', toJS(temp));
       }
-      if (contactID) {
+      if (contactID && !addHookups) {
         temp = hookups?.find(
           (e) => e.contactID === contactID && e.date === date,
         );
+        console.log('temp2', temp);
       }
       if (select && contactHookup.length > 0) {
-        temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
+        temp = hookups?.find(
+          (e) => e.contactID === hookups[hookups.length - 1].contactID,
+        );
       }
       if (changeFlag) {
         setCurrent(temp);
@@ -57,6 +63,7 @@ export default observer(
                   result={result}
                   current={selectedTitle}
                   colections={title}
+                  hookup
                 />
               );
             })}

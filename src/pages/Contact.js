@@ -1,23 +1,16 @@
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
-import React, {useEffect} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 import moment from 'moment';
+import React, {useEffect} from 'react';
+import {SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Actions} from 'react-native-router-flux';
+import ButtonWithArrow from '../components/ButtonWithArrow';
 import Image from '../components/Image';
 import SucessContactWrapper from '../components/SucessContactWrapper';
 import FiendEntryStore from '../stores/FiendEntryStore';
-import TestsStyle from '../style/page/Tests/TestsStyle';
-import HookupStore from '../stores/HookupStore';
 import globalStore from '../stores/globalStore';
-import ButtonWithArrow from '../components/ButtonWithArrow';
+import HookupStore from '../stores/HookupStore';
+import TestsStyle from '../style/page/Tests/TestsStyle';
 
 export default observer(({id}) => {
   const {
@@ -29,6 +22,7 @@ export default observer(({id}) => {
     setContactHookup,
     contactHookup,
     setSelect,
+    setSearchValue,
   } = FiendEntryStore;
   const {
     hookups,
@@ -65,6 +59,7 @@ export default observer(({id}) => {
                 ).format('MMMM D')}`}
                 textStyle={TestsStyle.buttonText}
                 onPress={() => {
+                  setSearchValue(e.name);
                   setChangeFlag(true);
                   setContactHookupFlag(true);
                   Actions.push('Entry', {date: e.date});

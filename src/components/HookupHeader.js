@@ -31,6 +31,7 @@ export default observer(({calendar, tabs}) => {
     setContactHookupFlag,
     deleteHookup,
     setChangeFlag,
+
     contactHookupFlag,
   } = HookupStore;
   const [calendarFlag, setCalendarFlag] = useState(false);
@@ -42,19 +43,16 @@ export default observer(({calendar, tabs}) => {
     contactID,
     contact,
     setSelect,
+    setSearchValue,
     isSearch,
     searchValue,
+    setAddHookups,
   } = FiendEntryStore;
   const [nameCurrent, setCurrentName] = useState({
     currentName: null,
     currentLocation: null,
   });
-  useEffect(() => {
-    setCurrentName({
-      currentName: null,
-      currentLocation: null,
-    });
-  }, [contactID, globalState.selectedTab]);
+
   useEffect(() => {
     const currentContact = contact?.find((e) => e.friendId === contactID);
 
@@ -62,6 +60,12 @@ export default observer(({calendar, tabs}) => {
       currentName: currentContact?.name,
       currentLocation: currentContact?.location,
     });
+    if (contactID) {
+      nameCurrent?.currentName !== undefined &&
+      nameCurrent?.currentName !== null
+        ? setSearchValue(nameCurrent?.currentName)
+        : true;
+    }
     console.log(isSearch);
   }, [contactID, globalState.selectedTab]);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab.length]);
@@ -95,11 +99,13 @@ export default observer(({calendar, tabs}) => {
       );
     }
   };
+
   const press = (day) => {
     setDate(new Date(day.timestamp));
     setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
+    setAddHookups(false);
     setContactHookupFlag(false);
     setHookupSuccess(true);
     setChangeFlag(false);
@@ -152,19 +158,23 @@ export default observer(({calendar, tabs}) => {
                   {calendarFlag && (
                     <CustomCalendar onPress={press} date={date} />
                   )}
-
-                  {!hookupSuccess && !contactID ? (
-                    <Text style={TestsHeaderStyle.inputStyle}>{name}</Text>
-                  ) : (
-                    !contactID && !contactHookupFlag && <Search hookup />
+                  {!contactID && !contactHookupFlag && (
+                    <Search hookup disable />
                   )}
-                  {!!contactID && !contactHookupFlag && <Search hookup />}
+                  {!!contactID && !contactHookupFlag && !hookupSuccess && (
+                    <Text style={TestsHeaderStyle.inputStyle}>
+                      {nameCurrent?.currentName}
+                    </Text>
+                  )}
+                  {hookupSuccess && !!contactID && !contactHookupFlag && (
+                    <Search hookup disable={true} name />
+                  )}
                 </View>
               </View>
             </View>
           </View>
         )}
-        {isSearch && <Search hookup />}
+        {isSearch && <Search hookup disable />}
         {hookupSuccess && !contactHookupFlag && !isSearch && (
           <Image
             style={TestsHeaderStyle.image}

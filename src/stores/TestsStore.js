@@ -21,7 +21,19 @@ class TestsStore {
 
   @observable tabs = 0;
 
+  @observable beforeSaving = false;
+
+  @observable beforeResult = false;
+
   @observable resultTestItem = [];
+
+  @action setBeforeSaving = (bool) => {
+    this.beforeSaving = bool;
+  };
+
+  @action setBeforeResult = (bool) => {
+    this.beforeResult = bool;
+  };
 
   @action setResultTestItem = (item) => {
     const currentItem = this.testItems.find((e) => e.id === item.id);

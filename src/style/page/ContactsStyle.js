@@ -31,8 +31,12 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
   },
   contactContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
     paddingBottom: 15,
     paddingTop: 8,
+    justifyContent: 'space-between',
   },
   contact: {
     fontSize: 24,

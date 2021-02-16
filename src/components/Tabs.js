@@ -22,6 +22,7 @@ export default observer(({tabs, onPress, defaultTab}) => {
     setCurrent(text);
     onPress(text);
   };
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {tabs.map((el) => {

@@ -177,6 +177,12 @@ export default observer(({hookup}) => {
                       key={i}
                       onPress={() => onPressContact(contact.friendId)}>
                       <Text style={ContactsStyle.contact}>{contact.name}</Text>
+                      {contact.favorite && (
+                        <Image
+                          path={require('../../assets/favorite.png')}
+                          style={{width: 15, height: 15}}
+                        />
+                      )}
                     </TouchableOpacity>
                   );
                 })}
@@ -187,6 +193,7 @@ export default observer(({hookup}) => {
       ) : searchValue?.length > 0 ? (
         <View style={ContactsStyle.contactsBlock}>
           {contact.map((contact, i) => {
+            console.log(contact);
             return contact.name.toLowerCase().startsWith(searchValue) ? (
               <TouchableOpacity
                 key={i}

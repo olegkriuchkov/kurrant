@@ -20,7 +20,7 @@ export default observer(() => {
     setChangeFlag,
     setHookupSuccess,
   } = HookupStore;
-  const {setContacID} = FiendEntryStore;
+  const {setContacID, contact} = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
 
   useEffect(() => {
@@ -33,7 +33,8 @@ export default observer(() => {
   const parseLog = (args) => {
     const sortDate = args.sort((a, b) => moment(a.date).diff(b.date));
     const dates = sortDate.map((e) => {
-      console.log('E', toJS(e));
+      const favorite = contact.find((el) => el.friendId === e.contactID);
+
       return {
         title: moment(e.date).format('MMMM'),
         date: {
@@ -42,7 +43,7 @@ export default observer(() => {
           id: e?.contactID,
           type: e.type,
           length: e.test?.length || e.hookup?.length || 0,
-          favorite: e.favorite,
+          favorite: favorite.favorite,
           date: e.date,
           colection: e.colection,
           hookups: e.hookup,
@@ -122,6 +123,7 @@ export default observer(() => {
               <Text style={LogStyle.titleText}>{e.title}</Text>
             </View>
             {e.date.map((el, index) => {
+              console.log('el', el, 'E', e);
               return (
                 <TouchableOpacity
                   onPress={() => {
@@ -149,10 +151,12 @@ export default observer(() => {
                           alignItems: 'center',
                         }}>
                         <Text style={LogStyle.name}>{el.name}</Text>
-                        <Image
-                          source={require('../assets/favorite.png')}
-                          style={{width: 15, height: 15}}
-                        />
+                        {el.favorite && (
+                          <Image
+                            source={require('../assets/favorite.png')}
+                            style={{width: 15, height: 15}}
+                          />
+                        )}
                       </View>
                     ) : (
                       <View

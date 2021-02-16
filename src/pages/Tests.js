@@ -17,12 +17,20 @@ export default observer(() => {
   const testTypes = ['Rectal', 'Throad', 'Urine'];
   const [result, setResult] = useState(false);
   const [setNote] = useState('');
-  const {setTestNote, testSuccess, note, testItems} = TestsStore;
+  const {
+    setTestNote,
+    testSuccess,
+    note,
+    testItems,
+    tests,
+    changeFlag,
+    tabs,
+    setBeforeResult,
+  } = TestsStore;
   const setText = (text) => {
     setNote(text);
     setTestNote(text);
   };
-  const {tests, changeFlag, tabs} = TestsStore;
   const [current, setCurrent] = useState([]);
   const scrollRef = useRef(null);
   const scrollTo = () => {
@@ -33,10 +41,17 @@ export default observer(() => {
       });
       setResult(false);
     }
-    if (tabs === 'Results') {
+    if (tabs === 'Results' && testItems.length !== 0) {
       setResult(true);
     }
+    if (testItems.length === 0 && tabs !== 0) {
+      console.log(tabs);
+      setBeforeResult(true);
+    }
+    console.log(tabs);
+
     if (tabs === 'What were you tested for?') {
+      console.log(tabs);
       setResult(false);
     }
   };
@@ -48,7 +63,8 @@ export default observer(() => {
     if (changeFlag) {
       setCurrent(temp);
     }
-  }, [tests, changeFlag, tabs]);
+  }, [tests, changeFlag, tabs, testSuccess]);
+
   // TODO отображать ток выбраные элементы в контактах помечать фаворитов в хукапе при сохранении пропадает имя добавить отображение подсказок
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
@@ -84,6 +100,8 @@ export default observer(() => {
                     types={testTypes}
                     result={e.result}
                     sucess={true}
+                    testing={true}
+                    whatIsTest={e.unresult}
                   />
                 );
               })}

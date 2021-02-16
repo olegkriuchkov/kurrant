@@ -1,19 +1,19 @@
+import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import {Actions} from 'react-native-router-flux';
-import {observer} from 'mobx-react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import 'react-native-get-random-values';
+import {Actions} from 'react-native-router-flux';
 import {v4 as uuidv4} from 'uuid';
-import globalStore from '../stores/globalStore';
-import Image from './Image';
 import COLOR from '../constants/COLOR';
+import globalStore from '../stores/globalStore';
+import TestsStore from '../stores/TestsStore';
 import NavbarStyle from '../style/component/NavbarStyle';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
+import Image from './Image';
 import Tabs from './Tabs';
-import TestsStore from '../stores/TestsStore';
 import TouchebltText from './TouchebleText';
 
 export default observer(({color, noStyle, calendar, tabs}) => {
@@ -32,6 +32,10 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     testSuccess,
     deleteTest,
     setTab,
+    setBeforeResult,
+    setBeforeSaving,
+    beforeResult,
+    beforeSaving,
     setChangeFlag,
   } = TestsStore;
 
@@ -158,6 +162,25 @@ export default observer(({color, noStyle, calendar, tabs}) => {
               containerStyle={TestsHeaderStyle.cancelWrapper}
               onPress={() => setDeleteFlag(false)}
               style={TestsHeaderStyle.deleteText}
+            />
+          </View>
+        </View>
+      )}
+      {beforeResult && (
+        <View style={TestsHeaderStyle.deletScreenWrapper}>
+          <View style={TestsHeaderStyle.mainDeleteTextWrapper}>
+            <TouchableOpacity
+              onPress={() => {
+                setBeforeResult(false);
+                setTab(0);
+              }}>
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+            <TouchebltText
+              text="Select what you were tested for before inputting your results."
+              containerStyle={TestsHeaderStyle.cancelWrapper}
+              onPress={() => setDeleteFlag(false)}
+              style={[TestsHeaderStyle.deleteText, {marginTop: 50}]}
             />
           </View>
         </View>

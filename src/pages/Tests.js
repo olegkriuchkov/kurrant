@@ -68,7 +68,6 @@ export default observer(() => {
     }
   }, [tests, changeFlag, tabs, testSuccess]);
 
-  // TODO отображать ток выбраные элементы в контактах помечать фаворитов в хукапе при сохранении пропадает имя добавить отображение подсказок
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>

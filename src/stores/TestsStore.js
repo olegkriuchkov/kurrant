@@ -29,6 +29,12 @@ class TestsStore {
 
   @observable resultTestItem = [];
 
+  @observable fullscreening = false;
+
+  @action setFullScreening = (bool) => {
+    this.fullscreening = bool;
+  };
+
   @action setResult = (bool) => {
     this.result = bool;
   };
@@ -80,7 +86,8 @@ class TestsStore {
     const currentItem = this.testItems.find((e) => e.id === item.id);
     if (currentItem) {
       currentItem.result = item.result;
-      this.testItems = this.testItems.filter((e) => e.result?.length > 0);
+      currentItem.unresult = item.unresult;
+      this.testItems = this.testItems.filter((e) => e.unresult?.length > 0);
     } else {
       this.testItems.push(item);
     }

@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
@@ -57,7 +56,6 @@ export default observer(({hookup}) => {
   };
   useEffect(() => {
     getContacts();
-    console.log(toJS(contact));
     if (filters.length > 0) {
       const contactFilter = contact.filter((e) => {
         let coutn = 0;
@@ -66,7 +64,6 @@ export default observer(({hookup}) => {
             coutn++;
             return e;
           }
-          console.log(coutn);
         });
         return coutn === filters.length && temp;
       });
@@ -193,7 +190,6 @@ export default observer(({hookup}) => {
       ) : searchValue?.length > 0 ? (
         <View style={ContactsStyle.contactsBlock}>
           {contact.map((contact, i) => {
-            console.log(contact);
             return contact.name.toLowerCase().startsWith(searchValue) ? (
               <TouchableOpacity
                 key={i}

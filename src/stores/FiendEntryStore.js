@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable, toJS} from 'mobx';
+import {action, makeObservable, observable} from 'mobx';
 import {Actions} from 'react-native-router-flux';
 
 class FiendEntryStore {
@@ -70,7 +70,6 @@ class FiendEntryStore {
   };
 
   @action setSearchValue = (value) => {
-    console.log(value);
     this.searchValue = value.toLowerCase();
   };
 
@@ -144,7 +143,6 @@ class FiendEntryStore {
         }
         return e;
       });
-      console.log('CONTACT', toJS(this.contact));
       this.setAsyncContact();
     } else {
       this.removeContact();
@@ -184,8 +182,6 @@ class FiendEntryStore {
     try {
       keys = await AsyncStorage.getAllKeys();
     } catch (e) {}
-
-    console.log(keys);
   };
 
   @action getContacts = async () => {

@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
@@ -31,7 +30,7 @@ export default observer(({calendar, tabs}) => {
     setContactHookupFlag,
     deleteHookup,
     setChangeFlag,
-
+    log,
     contactHookupFlag,
   } = HookupStore;
   const [calendarFlag, setCalendarFlag] = useState(false);
@@ -66,7 +65,6 @@ export default observer(({calendar, tabs}) => {
         ? setSearchValue(nameCurrent?.currentName)
         : true;
     }
-    console.log(isSearch);
   }, [contactID, globalState.selectedTab]);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab.length]);
   useEffect(() => {
@@ -75,7 +73,6 @@ export default observer(({calendar, tabs}) => {
   const save = () => {
     if (searchValue || nameCurrent.currentName) {
       if (contactID !== null) {
-        console.log(contactID);
         setName(nameCurrent.currentName);
         setHookups(id, contactID);
       } else {
@@ -136,7 +133,6 @@ export default observer(({calendar, tabs}) => {
             <Image
               onPress={() => {
                 home();
-                console.log('ID', toJS(contactID));
               }}
               path={require('../assets/back.png')}
               style={TestsHeaderStyle.backImage}
@@ -187,18 +183,22 @@ export default observer(({calendar, tabs}) => {
         )}
         {!hookupSuccess && !contactHookupFlag && !isSearch && (
           <View style={{flexDirection: 'row'}}>
-            <Image
-              style={TestsHeaderStyle.changeImage}
-              path={require('../assets/change.png')}
-              onPress={() => {
-                setHookupSuccess(true);
-              }}
-            />
-            <Image
-              style={TestsHeaderStyle.undDeleteImage}
-              path={require('../assets/delete.png')}
-              onPress={() => setDeleteFlag(true)}
-            />
+            {!log && (
+              <Image
+                style={TestsHeaderStyle.changeImage}
+                path={require('../assets/change.png')}
+                onPress={() => {
+                  setHookupSuccess(true);
+                }}
+              />
+            )}
+            {!log && (
+              <Image
+                style={TestsHeaderStyle.undDeleteImage}
+                path={require('../assets/delete.png')}
+                onPress={() => setDeleteFlag(true)}
+              />
+            )}
           </View>
         )}
       </View>

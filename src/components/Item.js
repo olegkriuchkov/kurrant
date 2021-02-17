@@ -87,7 +87,7 @@ export default observer(
                 : title}
             </Text>
             {title !== 'Full screening (All)' &&
-              (whatIsTest || temp).map((selectedText, i) => {
+              (whatIsTest || temp)?.map((selectedText, i) => {
                 const diff = temp.includes(
                   selected.find((e) => e === selectedText),
                 )

@@ -27,6 +27,7 @@ import SecurityPage from '../pages/Settings/security/SeccurityPage';
 import Touchid from '../pages/Settings/security/touchID';
 import Tests from '../pages/Tests';
 import globalStore from '../stores/globalStore';
+import {setLog} from '../stores/HookupStore';
 import TabBarStyle from '../style/component/TabBarStyle';
 
 export default observer(() => (
@@ -51,7 +52,10 @@ export default observer(() => (
           statusBarStyle="light-content"
           component={Log}
           tabBarComponent={TabBar}
-          onEnter={() => globalStore.setSelectedTab('log')}
+          onEnter={() => {
+            globalStore.setSelectedTab('log');
+            setLog(false);
+          }}
           back
           navBar={() => (
             <NavBar color={COLOR.WHITE} logCalendar calendar settings />

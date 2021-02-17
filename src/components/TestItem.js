@@ -16,13 +16,19 @@ export default observer(
       tests,
       deleteTestItem,
       fullscreening,
+      temp,
+      setTemp,
     } = TestsStore;
+
     const [flag, setFlag] = useState(false);
     const [selected, setSelected] = useState(result || []);
     const [confirm, setConfirm] = useState(sucess);
-    const [temp, setTemp] = useState(whatIsTest || []);
     const [id, setID] = useState(uuidv4());
     const currentItem = testItems.find((e) => e.title === title);
+    useEffect(() => {
+      setTemp(whatIsTest);
+    }, [whatIsTest]);
+    console.log('RESULT', toJS(selected), 'WHATISTESTING', toJS(temp));
     const select = (title) => {
       if (!testing) {
         temp.includes(title)
@@ -34,9 +40,9 @@ export default observer(
           : setSelected((prev) => [...prev, title]);
       }
     };
+
     useEffect(() => {
       if (current?.title === title) {
-        console.log('CURRENT', toJS(current));
         setFlag(false);
         setConfirm(true);
         setSelected(current.result);
@@ -78,11 +84,9 @@ export default observer(
         setFlag(false);
         setConfirm(false);
         setTemp([]);
-        console.log('TUUUUUUUUUUUUUUUUUUUUUUUUUUUT');
         deleteTestItem(id);
       }
-      if (!fullscreening && testing) {
-        console.log(testing);
+      if (!fullscreening && testing && !sucess) {
         setFlag(false);
         setConfirm(true);
         setSelected([]);
@@ -99,7 +103,6 @@ export default observer(
         setConfirm(false);
       }
     }, [fullscreening, testing]);
-    console.log('testItem', toJS(testItems));
 
     const setTest = (result) => {
       if (temp.length === 0) {
@@ -137,7 +140,7 @@ export default observer(
     };
     return (
       <>
-        {testing && !!temp.length > 0 && (
+        {testing && !!temp?.length > 0 && (
           <Item
             testing={testing}
             toggleSingleSelect={toggleSingleSelect}

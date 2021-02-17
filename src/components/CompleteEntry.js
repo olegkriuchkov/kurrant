@@ -13,6 +13,7 @@ export default observer(({arr, withText = false, single, text, hookup}) => {
       {arr.map((e) => (
         <Fragment key={e.title}>
           <EntryItem
+            colections={text}
             title={e.title}
             result={e.result}
             single={single}

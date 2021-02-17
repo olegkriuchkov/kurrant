@@ -25,11 +25,23 @@ class TestsStore {
 
   @observable beforeResult = false;
 
+  @observable addTest = false;
+
   @observable result = false;
 
   @observable resultTestItem = [];
 
   @observable fullscreening = false;
+
+  @observable temp = [];
+
+  @action setTemp = (args) => {
+    this.temp = args;
+  };
+
+  @action setAddTest = (bool) => {
+    this.addTest = bool;
+  };
 
   @action setFullScreening = (bool) => {
     this.fullscreening = bool;
@@ -67,11 +79,11 @@ class TestsStore {
     this.id = id;
   };
 
+  @observable changeFlag = false;
+
   @action setChangeFlag = (bool) => {
     this.changeFlag = bool;
   };
-
-  @observable changeFlag = false;
 
   @action setTestSuccess = (bool) => {
     this.testSuccess = bool;

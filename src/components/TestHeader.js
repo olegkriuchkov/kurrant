@@ -7,6 +7,7 @@ import {Actions} from 'react-native-router-flux';
 import {v4 as uuidv4} from 'uuid';
 import COLOR from '../constants/COLOR';
 import globalStore from '../stores/globalStore';
+import HookupStore from '../stores/HookupStore';
 import TestsStore from '../stores/TestsStore';
 import NavbarStyle from '../style/component/NavbarStyle';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
@@ -23,7 +24,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   const [deleteFlag, setDeleteFlag] = useState(false);
   const resultTabs = ['Results', 'Notes'];
   const {globalState} = globalStore;
-
+  const {log} = HookupStore;
   const {
     setTestDate,
     setTest,
@@ -37,8 +38,12 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     beforeResult,
     beforeSaving,
     setResult,
+    setTestsItem,
     testItems,
     setChangeFlag,
+    setAddTest,
+    setTemp,
+    setFullScreening,
   } = TestsStore;
 
   useEffect(() => {
@@ -59,6 +64,9 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setTestDate(new Date(day.timestamp));
   };
   const home = () => {
+    setFullScreening(false);
+    setTemp([]);
+    setAddTest(false);
     setBeforeSaving(false);
     setBeforeResult(false);
     setTestSuccess(true);
@@ -119,20 +127,24 @@ export default observer(({color, noStyle, calendar, tabs}) => {
         )}
         {!testSuccess && (
           <View style={{flexDirection: 'row'}}>
-            <Image
-              style={{width: 25, height: 25}}
-              path={require('../assets/change.png')}
-              onPress={() => {
-                setTab('What were you tested for?');
-                setResult(false);
-                setTestSuccess(true);
-              }}
-            />
-            <Image
-              style={{width: 25, height: 25, marginLeft: 20}}
-              path={require('../assets/delete.png')}
-              onPress={() => setDeleteFlag(true)}
-            />
+            {!log && (
+              <Image
+                style={{width: 25, height: 25}}
+                path={require('../assets/change.png')}
+                onPress={() => {
+                  setTab('What were you tested for?');
+                  setResult(false);
+                  setTestSuccess(true);
+                }}
+              />
+            )}
+            {!log && (
+              <Image
+                style={{width: 25, height: 25, marginLeft: 20}}
+                path={require('../assets/delete.png')}
+                onPress={() => setDeleteFlag(true)}
+              />
+            )}
           </View>
         )}
       </View>

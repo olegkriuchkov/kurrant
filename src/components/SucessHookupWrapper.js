@@ -1,6 +1,8 @@
+import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import FiendEntryStore from '../stores/FiendEntryStore';
+import globalStore from '../stores/globalStore';
 import HookupStore from '../stores/HookupStore';
 import CompleteEntry from './CompleteEntry';
 
@@ -8,7 +10,7 @@ export default ({single = false, date, hook}) => {
   const {hookupItem, changeFlag, hookupSuccess, hookups} = HookupStore;
   const {contactID, select, contactHookup} = FiendEntryStore;
   const [current, setCurrent] = useState(hookupItem);
-
+  const {globalState} = globalStore;
   const [hookup, setHookup] = useState({
     protection: [],
     activities: [],
@@ -36,10 +38,12 @@ export default ({single = false, date, hook}) => {
       setCurrent(temp);
     }
     pars();
-  }, [hookups, changeFlag, contactID, hookupSuccess]);
+  }, [hookups, changeFlag, contactID, hookupSuccess, globalState.selectedTab]);
 
   const pars = () => {
-    hookupItem.forEach((e) => {
+    console.log('CURRENT', toJS(current));
+    const arr = current?.hookup ? current.hookup : hookupItem;
+    arr.forEach((e) => {
       switch (e.colection) {
         case 'Substance':
           setHookup((prev) => {
@@ -72,7 +76,6 @@ export default ({single = false, date, hook}) => {
       }
     });
   };
-  console.log(hookup);
   return (
     <>
       <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 10}}>

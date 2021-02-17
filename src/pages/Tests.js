@@ -3,10 +3,12 @@ import {observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import TestItem from '../components/TestItem';
+import globalStore from '../stores/globalStore';
+import HookupStore from '../stores/HookupStore';
 import TestsStore from '../stores/TestsStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
-export default observer(() => {
+export default observer(({date}) => {
   const allTitle = [
     'Full screening (All)',
     'Chlamydia',
@@ -23,18 +25,21 @@ export default observer(() => {
     note,
     testItems,
     tests,
-    changeFlag,
     setTab,
     result,
     setResult,
     tabs,
     setBeforeResult,
+    addTest,
   } = TestsStore;
+  const {log, setChangeFlag, changeFlag} = HookupStore;
   const setText = (text) => {
     setNote(text);
     setTestNote(text);
   };
+  const {globalState} = globalStore;
   const [current, setCurrent] = useState([]);
+  const [currentTest, setCurrentTest] = useState([]);
   const scrollRef = useRef(null);
   const scrollTo = () => {
     if (tabs === 'Notes') {
@@ -52,26 +57,35 @@ export default observer(() => {
     if (tabs === 'Results' && testItems.length > 0) {
       setResult(true);
     }
-    console.log('ITEM', toJS(testItems));
     if (tabs === 'What were you tested for?') {
-      console.log(tabs);
       setResult(false);
     }
   };
   useEffect(() => {
     scrollTo();
-  }, [tabs]);
+  }, [tabs, globalState.selectedTab]);
   useEffect(() => {
-    const temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
+    let temp;
+    if (!addTest) {
+      temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
+      console.log('TUUUUUUUUUUUUUUUUUUT');
+    }
+    if (log) {
+      temp = tests.find((e) => e.date === date);
+      console.log('ZDEEEEEEEEEEEEEEEEEEEEEEs');
+      setChangeFlag(true);
+    }
+
     if (changeFlag) {
       setCurrent(temp);
     }
-  }, [tests, changeFlag, tabs, testSuccess]);
-
+    console.log(changeFlag);
+  }, [tests, changeFlag, tabs, testSuccess, globalState.selectedTab]);
+  console.log('CUUUURENT', toJS(current));
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
-        {testSuccess && (
+        {testSuccess && !log && (
           <View style={TestsStyle.main}>
             <View style={TestsStyle.contaier}>
               {allTitle.map((title) => {
@@ -91,7 +105,7 @@ export default observer(() => {
             </View>
           </View>
         )}
-        {!testSuccess && testItems.length > 0 && (
+        {!testSuccess && testItems.length > 0 && !log && (
           <View style={TestsStyle.main}>
             <View style={[TestsStyle.contaier]}>
               {testItems.map((e) => {
@@ -110,8 +124,28 @@ export default observer(() => {
             </View>
           </View>
         )}
+        {log && (
+          <View style={TestsStyle.main}>
+            <View style={TestsStyle.contaier}>
+              {current?.test?.map((e) => {
+                console.log('EEEEEEEEEEEEE', toJS(e));
+                return (
+                  <TestItem
+                    title={e.title}
+                    key={e.title}
+                    types={testTypes}
+                    result={e.result}
+                    sucess={true}
+                    testing={true}
+                    whatIsTest={e.unresult}
+                  />
+                );
+              })}
+            </View>
+          </View>
+        )}
 
-        {!testSuccess && testItems.length === 0 && (
+        {!testSuccess && testItems.length === 0 && !log && (
           <View style={TestsStyle.main}>
             <View style={[TestsStyle.contaier]}>
               <View style={TestsStyle.allClearWrapper}>

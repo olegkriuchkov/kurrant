@@ -49,7 +49,6 @@ export default observer(({date}) => {
   useEffect(() => {
     scrollTo();
   }, [tabs]);
-  console.log('date', date);
   return (
     <SafeAreaView
       style={

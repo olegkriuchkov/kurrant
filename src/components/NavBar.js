@@ -35,7 +35,6 @@ const NavBar = observer(
     const {logFilters} = HookupStore;
     const {globalState, setAsyncPass} = globalStore;
     useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
-    console.log('LOG', logFilters.length);
     const wrapperStyle = noStyle
       ? [NavbarStyle.noStyle, {backgroundColor: color}]
       : NavbarStyle.mainStyle;

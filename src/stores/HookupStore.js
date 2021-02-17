@@ -27,7 +27,13 @@ class HookupStore {
 
   @observable tabs = 0;
 
+  @observable log = false;
+
   @observable contactHookupFlag = false;
+
+  @action setLog = (bool) => {
+    this.log = bool;
+  };
 
   @action setContactHookupFlag = (bool) => {
     this.contactHookupFlag = bool;
@@ -170,6 +176,7 @@ class HookupStore {
   };
 
   @action setChangeFlag = (bool) => {
+    console.log('BOOl', bool);
     this.changeFlag = bool;
   };
 

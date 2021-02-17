@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect} from 'react';
@@ -37,7 +36,6 @@ export default observer(({id}) => {
     setContactHookup(temp);
   }, [hookupSuccess, globalState.selectedTab]);
 
-  useEffect(() => console.log('Contact', toJS(contact)), []);
   const setText = (text) => {
     setFriendNote(text);
   };

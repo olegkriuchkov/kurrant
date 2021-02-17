@@ -11,8 +11,8 @@ import HomePageStyle from '../style/page/HomePageStyle';
 
 const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
-  const {getHookups, hookups, hookupSuccess} = HookupStore;
-  const {getTests, tests, testSuccess} = TestsStore;
+  const {getHookups, hookups, hookupSuccess, setLog} = HookupStore;
+  const {getTests, tests, testSuccess, setTestSuccess, setAddTest} = TestsStore;
   const {setContacID, setSearchValue} = FiendEntryStore;
   const {globalState} = globalStore;
   const {
@@ -29,7 +29,6 @@ const HomePage = observer(() => {
     getHookups();
     getTests();
     getContacts();
-    setSearchValue('');
     console.log('Hookups', toJS(hookups));
     console.log('Tests', toJS(tests));
     console.log('Contacts', toJS(contact));
@@ -65,6 +64,8 @@ const HomePage = observer(() => {
               Actions.Entry();
               setIsSearch(false);
               setAddHookups(true);
+              setSearchValue('');
+
               console.log('Hookups', toJS(hookups));
             }}>
             <Text style={HomePageStyle.modalText}>New hookup</Text>
@@ -72,6 +73,9 @@ const HomePage = observer(() => {
           <TouchableOpacity
             onPress={() => {
               setModalFlag(true);
+              setTestSuccess(true);
+              setLog(false);
+              setAddTest(true);
               Actions.Test();
               console.log('Tests', toJS(tests));
             }}>

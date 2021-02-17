@@ -11,14 +11,14 @@ import TestsStore from '../stores/TestsStore';
 import LogStyle from '../style/page/LogStyle';
 
 export default observer(() => {
-  const {tests, getTests} = TestsStore;
+  const {tests, getTests, testSuccess, setTestSuccess} = TestsStore;
   const {
     hookups,
-    setHookupItem,
     getHookups,
     logFilters,
     setChangeFlag,
     setHookupSuccess,
+    setLog,
   } = HookupStore;
   const {setContacID, contact} = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
@@ -34,7 +34,7 @@ export default observer(() => {
     const sortDate = args.sort((a, b) => moment(a.date).diff(b.date));
     const dates = sortDate.map((e) => {
       const favorite = contact.find((el) => el.friendId === e.contactID);
-
+      console.log('FAVOR', toJS(favorite));
       return {
         title: moment(e.date).format('MMMM'),
         date: {
@@ -43,7 +43,7 @@ export default observer(() => {
           id: e?.contactID,
           type: e.type,
           length: e.test?.length || e.hookup?.length || 0,
-          favorite: favorite.favorite,
+          favorite: favorite?.favorite,
           date: e.date,
           colection: e.colection,
           hookups: e.hookup,
@@ -99,7 +99,6 @@ export default observer(() => {
             coutn++;
             return e;
           }
-          console.log(coutn);
         });
         return coutn === logFilters.length && temp;
       });
@@ -123,17 +122,8 @@ export default observer(() => {
               <Text style={LogStyle.titleText}>{e.title}</Text>
             </View>
             {e.date.map((el, index) => {
-              console.log('el', el, 'E', e);
               return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setContacID(el.id);
-
-                    setChangeFlag(true);
-                    setHookupSuccess(false);
-                    Actions.push('Entry', {date: el.date});
-                  }}
-                  style={LogStyle.infoWrapper}>
+                <TouchableOpacity style={LogStyle.infoWrapper}>
                   <View
                     style={
                       index === e.date.length - 1
@@ -144,7 +134,14 @@ export default observer(() => {
                       {moment(el.eventDate).format('ddd D')}
                     </Text>
                     {el.type === 'hookup' ? (
-                      <View
+                      <TouchableOpacity
+                        onPress={() => {
+                          setContacID(el.id);
+                          setHookupSuccess(false);
+                          setChangeFlag(true);
+                          setLog(true);
+                          Actions.push('Entry', {date: el.date});
+                        }}
                         style={{
                           flexDirection: 'row',
                           justifyContent: 'space-between',
@@ -157,9 +154,16 @@ export default observer(() => {
                             style={{width: 15, height: 15}}
                           />
                         )}
-                      </View>
+                      </TouchableOpacity>
                     ) : (
-                      <View
+                      <TouchableOpacity
+                        onPress={() => {
+                          setContacID(el.id);
+                          setTestSuccess(false);
+                          setLog(true);
+                          setChangeFlag(true);
+                          Actions.push('Test', {date: el.date});
+                        }}
                         style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Image
                           source={require('../assets/positiveTest.png')}
@@ -168,7 +172,7 @@ export default observer(() => {
                         <Text style={LogStyle.titleText}>
                           {el.length > 0 ? 'Test - Positive' : 'Test Negative'}
                         </Text>
-                      </View>
+                      </TouchableOpacity>
                     )}
                   </View>
                 </TouchableOpacity>

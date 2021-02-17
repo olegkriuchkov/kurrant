@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, TextInput, Alert} from 'react-native';
-import {Actions} from 'react-native-router-flux';
 import {observer} from 'mobx-react';
+import React, {useEffect, useState} from 'react';
+import {Alert, Text, TextInput, View} from 'react-native';
 import 'react-native-get-random-values';
+import {Actions} from 'react-native-router-flux';
 import {v4 as uuidv4} from 'uuid';
 import FiendEntryStore from '../stores/FiendEntryStore';
-import Image from './Image';
+import globalStore from '../stores/globalStore';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
+import Image from './Image';
 import Tabs from './Tabs';
 import TouchebleText from './TouchebleText';
-import globalStore from '../stores/globalStore';
 
 export default observer(({tabs, friendName}) => {
   const [select, setSelect] = useState(true);
@@ -227,7 +227,7 @@ export default observer(({tabs, friendName}) => {
       </View>
       <View style={TestsHeaderStyle.mainTabsWrapper}>
         <Tabs
-          tabs={tabs}
+          tab={tabs}
           onPress={(tabId) => setSelect(tabId)}
           defaultTab={tabs[0]}
         />

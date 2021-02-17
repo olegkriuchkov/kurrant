@@ -43,12 +43,18 @@ export default observer(
     }, [current, tests]);
 
     const setTest = (result) => {
-      setTestsItem({
-        title,
-        unresult: temp,
-        result,
-        id: currentItem ? currentItem.id : uuidv4(),
-      });
+      if (temp.length === 0) {
+        setTestsItem({
+          id: currentItem ? currentItem.id : uuidv4(),
+        });
+      } else {
+        setTestsItem({
+          title,
+          unresult: temp,
+          result,
+          id: currentItem ? currentItem.id : uuidv4(),
+        });
+      }
     };
     const toggleSingleSelect = () => {
       if (testSuccess) {

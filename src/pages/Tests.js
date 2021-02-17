@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
@@ -15,7 +16,6 @@ export default observer(() => {
     'Other',
   ];
   const testTypes = ['Rectal', 'Throad', 'Urine'];
-  const [result, setResult] = useState(false);
   const [setNote] = useState('');
   const {
     setTestNote,
@@ -24,6 +24,9 @@ export default observer(() => {
     testItems,
     tests,
     changeFlag,
+    setTab,
+    result,
+    setResult,
     tabs,
     setBeforeResult,
   } = TestsStore;
@@ -41,15 +44,15 @@ export default observer(() => {
       });
       setResult(false);
     }
-    if (tabs === 'Results' && testItems.length !== 0) {
+    if (tabs === 'Results' && testItems.length === 0) {
+      setResult(false);
+      setBeforeResult(true);
+      setTab('What were you tested for?');
+    }
+    if (tabs === 'Results' && testItems.length > 0) {
       setResult(true);
     }
-    if (testItems.length === 0 && tabs !== 0) {
-      console.log(tabs);
-      setBeforeResult(true);
-    }
-    console.log(tabs);
-
+    console.log('ITEM', toJS(testItems));
     if (tabs === 'What were you tested for?') {
       console.log(tabs);
       setResult(false);

@@ -205,7 +205,7 @@ export default observer(({calendar, tabs}) => {
       {!isSearch && (
         <View style={TestsHeaderStyle.mainTabsWrapper}>
           <Tabs
-            tabs={tabs}
+            tab={tabs}
             onPress={(tabId) => {
               setTab(tabId);
             }}

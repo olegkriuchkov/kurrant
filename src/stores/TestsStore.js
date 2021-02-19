@@ -33,10 +33,14 @@ class TestsStore {
 
   @observable fullscreening = false;
 
-  @observable temp = [];
+  @observable unFulScreening = true;
 
-  @action setTemp = (args) => {
-    this.temp = args;
+  @observable tempStore = [];
+
+  @action setTempStore = (args) => {
+    if (this.tempStore.includes(args)) {
+      this.tempStore = this.tempStore.filter((e) => e !== args);
+    } else this.tempStore.push(args);
   };
 
   @action setAddTest = (bool) => {
@@ -45,6 +49,10 @@ class TestsStore {
 
   @action setFullScreening = (bool) => {
     this.fullscreening = bool;
+  };
+
+  @action setUnFulScreening = (bool) => {
+    this.unFulScreening = bool;
   };
 
   @action setResult = (bool) => {

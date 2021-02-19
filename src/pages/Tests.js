@@ -69,6 +69,7 @@ export default observer(({date}) => {
     if (!addTest) {
       temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
       console.log('TUUUUUUUUUUUUUUUUUUT');
+      setChangeFlag(true);
     }
     if (log) {
       temp = tests.find((e) => e.date === date);
@@ -79,7 +80,6 @@ export default observer(({date}) => {
     if (changeFlag) {
       setCurrent(temp);
     }
-    console.log(changeFlag);
   }, [tests, changeFlag, tabs, testSuccess, globalState.selectedTab]);
   console.log('CUUUURENT', toJS(current));
   return (
@@ -92,6 +92,9 @@ export default observer(({date}) => {
                 const selectedTitle = current?.test?.find(
                   (e) => e?.title === title,
                 );
+                console.log('testItem', toJS(testItems));
+                console.log('selectedTitle', toJS(selectedTitle));
+
                 return (
                   <TestItem
                     title={title}

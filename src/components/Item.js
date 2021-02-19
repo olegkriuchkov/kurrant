@@ -23,8 +23,7 @@ export default observer(
     testsSuccess,
     whatIsTest,
   }) => {
-    const {fullscreening, setFullScreening} = TestsStore;
-
+    const {fullscreening, setFullScreening, setUnFulScreening} = TestsStore;
     return (
       <TouchableOpacity
         onPress={() => {
@@ -38,6 +37,10 @@ export default observer(
             setFlag(false);
             setConfirm(!confirm);
             setFullScreening(!fullscreening);
+            setUnFulScreening(true);
+          }
+          if (title !== 'Full screening (All)') {
+            setUnFulScreening(false);
           }
         }}
         style={TestsStyle.mainItem}>

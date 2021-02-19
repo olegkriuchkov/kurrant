@@ -16,24 +16,26 @@ export default observer(
       tests,
       deleteTestItem,
       fullscreening,
-      temp,
-      setTemp,
+      unFulScreening,
+      tempStore,
+      setTempStore,
     } = TestsStore;
 
     const [flag, setFlag] = useState(false);
     const [selected, setSelected] = useState(result || []);
     const [confirm, setConfirm] = useState(sucess);
     const [id, setID] = useState(uuidv4());
+    const [temp, setTemp] = useState(whatIsTest || []);
     const currentItem = testItems.find((e) => e.title === title);
     useEffect(() => {
       setTemp(whatIsTest);
     }, [whatIsTest]);
-    console.log('RESULT', toJS(selected), 'WHATISTESTING', toJS(temp));
     const select = (title) => {
       if (!testing) {
         temp.includes(title)
           ? setTemp((prev) => prev.filter((e) => e !== title))
           : setTemp((prev) => [...prev, title]);
+        setTempStore(title);
       } else {
         selected.includes(title)
           ? setSelected((prev) => prev.filter((e) => e !== title))
@@ -42,11 +44,13 @@ export default observer(
     };
 
     useEffect(() => {
+      console.log(toJS(currentItem));
       if (current?.title === title) {
         setFlag(false);
         setConfirm(true);
         setSelected(current.result);
         setTemp(current.unresult);
+        console.log('temp', toJS(temp));
       } else {
         setFlag(false);
       }
@@ -55,52 +59,54 @@ export default observer(
       }
     }, [current, tests]);
     useEffect(() => {
-      if (fullscreening && !testing) {
-        setTemp(['Rectal', 'Urine', 'Throad']);
-        setFlag(false);
-        setConfirm(true);
-        title !== 'Full screening (All)' &&
-          setTestsItem({
-            title,
-            unresult: ['Rectal', 'Urine', 'Throad'],
-            result: ['Rectal', 'Urine', 'Throad'],
-            id: currentItem ? currentItem.id : id,
-          });
-      }
-      if (fullscreening && testing) {
-        setFlag(false);
-        setSelected(['Rectal', 'Urine', 'Throad']);
-        setConfirm(true);
-        title !== 'Full screening (All)' &&
-          setTestsItem({
-            title,
-            unresult: ['Rectal', 'Urine', 'Throad'],
-            result: ['Rectal', 'Urine', 'Throad'],
-            id: currentItem ? currentItem.id : id,
-          });
-      }
+      if (unFulScreening) {
+        if (fullscreening && !testing) {
+          setTemp(['Rectal', 'Urine', 'Throad']);
+          setFlag(false);
+          setConfirm(true);
+          title !== 'Full screening (All)' &&
+            setTestsItem({
+              title,
+              unresult: ['Rectal', 'Urine', 'Throad'],
+              result: ['Rectal', 'Urine', 'Throad'],
+              id: currentItem ? currentItem.id : id,
+            });
+        }
+        if (fullscreening && testing) {
+          setFlag(false);
+          setSelected(['Rectal', 'Urine', 'Throad']);
+          setConfirm(true);
+          title !== 'Full screening (All)' &&
+            setTestsItem({
+              title,
+              unresult: ['Rectal', 'Urine', 'Throad'],
+              result: ['Rectal', 'Urine', 'Throad'],
+              id: currentItem ? currentItem.id : id,
+            });
+        }
 
-      if (!fullscreening && !testing) {
-        setFlag(false);
-        setConfirm(false);
-        setTemp([]);
-        deleteTestItem(id);
-      }
-      if (!fullscreening && testing && !sucess) {
-        setFlag(false);
-        setConfirm(true);
-        setSelected([]);
-        title !== 'Full screening (All)' &&
-          setTestsItem({
-            title,
-            unresult: temp,
-            result: [],
-            id: currentItem ? currentItem.id : id,
-          });
-      }
-      if (!fullscreening && testing && title === 'Full screening (All)') {
-        setFlag(false);
-        setConfirm(false);
+        if (!fullscreening && !testing) {
+          setFlag(false);
+          setConfirm(false);
+          setTemp([]);
+          deleteTestItem(id);
+        }
+        if (!fullscreening && testing && !sucess) {
+          setFlag(false);
+          setConfirm(true);
+          setSelected([]);
+          title !== 'Full screening (All)' &&
+            setTestsItem({
+              title,
+              unresult: temp,
+              result: [],
+              id: currentItem ? currentItem.id : id,
+            });
+        }
+        if (!fullscreening && testing && title === 'Full screening (All)') {
+          setFlag(false);
+          setConfirm(false);
+        }
       }
     }, [fullscreening, testing]);
 
@@ -138,6 +144,7 @@ export default observer(
         }
       }
     };
+    console.log('TEMp', toJS(temp));
     return (
       <>
         {testing && !!temp?.length > 0 && (

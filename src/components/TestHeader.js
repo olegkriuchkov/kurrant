@@ -42,7 +42,6 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     testItems,
     setChangeFlag,
     setAddTest,
-    setTemp,
     setFullScreening,
   } = TestsStore;
 
@@ -65,7 +64,6 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   };
   const home = () => {
     setFullScreening(false);
-    setTemp([]);
     setAddTest(false);
     setBeforeSaving(false);
     setBeforeResult(false);
@@ -134,6 +132,8 @@ export default observer(({color, noStyle, calendar, tabs}) => {
                 onPress={() => {
                   setTab('What were you tested for?');
                   setResult(false);
+                  setChangeFlag(true);
+                  setAddTest(false);
                   setTestSuccess(true);
                 }}
               />

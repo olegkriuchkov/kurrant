@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
@@ -62,18 +61,17 @@ export default observer(({date}) => {
     }
   };
   useEffect(() => {
+    setResult(false);
     scrollTo();
   }, [tabs, globalState.selectedTab]);
   useEffect(() => {
     let temp;
     if (!addTest) {
       temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
-      console.log('TUUUUUUUUUUUUUUUUUUT');
       setChangeFlag(true);
     }
     if (log) {
       temp = tests.find((e) => e.date === date);
-      console.log('ZDEEEEEEEEEEEEEEEEEEEEEEs');
       setChangeFlag(true);
     }
 
@@ -81,7 +79,7 @@ export default observer(({date}) => {
       setCurrent(temp);
     }
   }, [tests, changeFlag, tabs, testSuccess, globalState.selectedTab]);
-  console.log('CUUUURENT', toJS(current));
+
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
@@ -92,9 +90,6 @@ export default observer(({date}) => {
                 const selectedTitle = current?.test?.find(
                   (e) => e?.title === title,
                 );
-                console.log('testItem', toJS(testItems));
-                console.log('selectedTitle', toJS(selectedTitle));
-
                 return (
                   <TestItem
                     title={title}
@@ -131,7 +126,6 @@ export default observer(({date}) => {
           <View style={TestsStyle.main}>
             <View style={TestsStyle.contaier}>
               {current?.test?.map((e) => {
-                console.log('EEEEEEEEEEEEE', toJS(e));
                 return (
                   <TestItem
                     title={e.title}

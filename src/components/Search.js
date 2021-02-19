@@ -14,7 +14,6 @@ export default observer(({hookup, disable, name}) => {
     setSearchHistory,
   } = FiendEntryStore;
   const refBlur = useRef();
-  console.log(searchValue);
 
   return (
     <View

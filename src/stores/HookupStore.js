@@ -176,7 +176,6 @@ class HookupStore {
   };
 
   @action setChangeFlag = (bool) => {
-    console.log('BOOl', bool);
     this.changeFlag = bool;
   };
 

@@ -141,6 +141,9 @@ export default observer(() => (
         hideTabBar={true}
         component={Tests}
         back
+        onEnter={() => {
+          globalStore.setSelectedTab('Test');
+        }}
         navBar={() => (
           <TestsHeader
             calendar

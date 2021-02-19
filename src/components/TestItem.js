@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import 'react-native-get-random-values';
@@ -28,11 +27,13 @@ export default observer(
     const [temp, setTemp] = useState(whatIsTest || []);
     const currentItem = testItems.find((e) => e.title === title);
     useEffect(() => {
-      setTemp(whatIsTest);
+      if (whatIsTest !== undefined) {
+        setTemp(whatIsTest);
+      }
     }, [whatIsTest]);
     const select = (title) => {
       if (!testing) {
-        temp.includes(title)
+        temp?.includes(title)
           ? setTemp((prev) => prev.filter((e) => e !== title))
           : setTemp((prev) => [...prev, title]);
         setTempStore(title);
@@ -44,13 +45,11 @@ export default observer(
     };
 
     useEffect(() => {
-      console.log(toJS(currentItem));
       if (current?.title === title) {
         setFlag(false);
         setConfirm(true);
         setSelected(current.result);
         setTemp(current.unresult);
-        console.log('temp', toJS(temp));
       } else {
         setFlag(false);
       }
@@ -144,7 +143,6 @@ export default observer(
         }
       }
     };
-    console.log('TEMp', toJS(temp));
     return (
       <>
         {testing && !!temp?.length > 0 && (

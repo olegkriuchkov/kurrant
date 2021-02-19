@@ -11,7 +11,7 @@ export default observer(
       TestsStyle.midelItem,
       TestsStyle.bottomItem,
     ];
-    const selectedConteiner = selected.includes(type)
+    const selectedConteiner = selected?.includes(type)
       ? [
           style[index],
           testing || hookup
@@ -22,7 +22,7 @@ export default observer(
             : TestsStyle.selectedItem,
         ]
       : style[index];
-    const selectedText = selected.includes(type)
+    const selectedText = selected?.includes(type)
       ? TestsStyle.textColor
       : testing || hookup
       ? [TestsStyle.textColorSelected, {color: COLOR.PINK}]

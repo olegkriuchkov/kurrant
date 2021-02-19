@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import FiendEntryStore from '../stores/FiendEntryStore';
@@ -41,7 +40,6 @@ export default ({single = false, date, hook}) => {
   }, [hookups, changeFlag, contactID, hookupSuccess, globalState.selectedTab]);
 
   const pars = () => {
-    console.log('CURRENT', toJS(current));
     const arr = current?.hookup ? current.hookup : hookupItem;
     arr.forEach((e) => {
       switch (e.colection) {

@@ -34,7 +34,6 @@ export default observer(() => {
     const sortDate = args.sort((a, b) => moment(a.date).diff(b.date));
     const dates = sortDate.map((e) => {
       const favorite = contact.find((el) => el.friendId === e.contactID);
-      console.log('FAVOR', toJS(favorite));
       return {
         title: moment(e.date).format('MMMM'),
         date: {

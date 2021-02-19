@@ -31,6 +31,12 @@ class HookupStore {
 
   @observable contactHookupFlag = false;
 
+  @observable changeLog = false;
+
+  @action setChangeLog = (bool) => {
+    this.changeLog = bool;
+  };
+
   @action setLog = (bool) => {
     this.log = bool;
   };

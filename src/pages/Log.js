@@ -40,6 +40,7 @@ export default observer(() => {
           eventDate: moment(e.date),
           name: e.name,
           id: e?.contactID,
+          mainID: e.id,
           type: e.type,
           length: e.test?.length || e.hookup?.length || 0,
           favorite: favorite?.favorite,
@@ -135,6 +136,7 @@ export default observer(() => {
                     {el.type === 'hookup' ? (
                       <TouchableOpacity
                         onPress={() => {
+                          console.log(toJS(el));
                           setContacID(el.id);
                           setHookupSuccess(false);
                           setChangeFlag(true);

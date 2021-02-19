@@ -73,6 +73,7 @@ export default observer(({calendar, tabs}) => {
   const save = () => {
     if (searchValue || nameCurrent.currentName) {
       if (contactID !== null) {
+        console.log('tut');
         setName(nameCurrent.currentName);
         setHookups(id, contactID);
       } else {
@@ -183,22 +184,18 @@ export default observer(({calendar, tabs}) => {
         )}
         {!hookupSuccess && !contactHookupFlag && !isSearch && (
           <View style={{flexDirection: 'row'}}>
-            {!log && (
-              <Image
-                style={TestsHeaderStyle.changeImage}
-                path={require('../assets/change.png')}
-                onPress={() => {
-                  setHookupSuccess(true);
-                }}
-              />
-            )}
-            {!log && (
-              <Image
-                style={TestsHeaderStyle.undDeleteImage}
-                path={require('../assets/delete.png')}
-                onPress={() => setDeleteFlag(true)}
-              />
-            )}
+            <Image
+              style={TestsHeaderStyle.changeImage}
+              path={require('../assets/change.png')}
+              onPress={() => {
+                setHookupSuccess(true);
+              }}
+            />
+            <Image
+              style={TestsHeaderStyle.undDeleteImage}
+              path={require('../assets/delete.png')}
+              onPress={() => setDeleteFlag(true)}
+            />
           </View>
         )}
       </View>

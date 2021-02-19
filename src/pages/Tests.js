@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
@@ -28,10 +29,11 @@ export default observer(({date}) => {
     result,
     setResult,
     tabs,
+    setCurrentID,
     setBeforeResult,
     addTest,
   } = TestsStore;
-  const {log, setChangeFlag, changeFlag} = HookupStore;
+  const {log, setChangeFlag, changeFlag, changeLog} = HookupStore;
   const setText = (text) => {
     setNote(text);
     setTestNote(text);
@@ -48,16 +50,28 @@ export default observer(({date}) => {
       });
       setResult(false);
     }
-    if (tabs === 'Results' && testItems.length === 0) {
-      setResult(false);
-      setBeforeResult(true);
-      setTab('What were you tested for?');
+    if (!changeLog) {
+      if (tabs === 'Results' && testItems.length === 0) {
+        setResult(false);
+        setBeforeResult(true);
+        setTab('What were you tested for?');
+      }
+      if (tabs === 'Results' && testItems.length > 0) {
+        setResult(true);
+      }
+
+      if (tabs === 'What were you tested for?') {
+        setResult(false);
+      }
     }
-    if (tabs === 'Results' && testItems.length > 0) {
-      setResult(true);
-    }
-    if (tabs === 'What were you tested for?') {
-      setResult(false);
+    if (changeLog) {
+      if (tabs === 'Results') {
+        setResult(true);
+      }
+
+      if (tabs === 'What were you tested for?') {
+        setResult(false);
+      }
     }
   };
   useEffect(() => {
@@ -69,10 +83,12 @@ export default observer(({date}) => {
     if (!addTest) {
       temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
       setChangeFlag(true);
+      console.log('Zdeess');
     }
     if (log) {
       temp = tests.find((e) => e.date === date);
       setChangeFlag(true);
+      console.log('TUUT', date);
     }
 
     if (changeFlag) {
@@ -83,7 +99,7 @@ export default observer(({date}) => {
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
-        {testSuccess && !log && (
+        {testSuccess && !log && !changeLog && (
           <View style={TestsStyle.main}>
             <View style={TestsStyle.contaier}>
               {allTitle.map((title) => {
@@ -103,7 +119,7 @@ export default observer(({date}) => {
             </View>
           </View>
         )}
-        {!testSuccess && testItems.length > 0 && !log && (
+        {!testSuccess && testItems.length > 0 && !log && !changeLog && (
           <View style={TestsStyle.main}>
             <View style={[TestsStyle.contaier]}>
               {testItems.map((e) => {
@@ -122,10 +138,11 @@ export default observer(({date}) => {
             </View>
           </View>
         )}
-        {log && (
+        {log && !changeLog && (
           <View style={TestsStyle.main}>
             <View style={TestsStyle.contaier}>
               {current?.test?.map((e) => {
+                setCurrentID(current.id);
                 return (
                   <TestItem
                     title={e.title}
@@ -135,6 +152,27 @@ export default observer(({date}) => {
                     sucess={true}
                     testing={true}
                     whatIsTest={e.unresult}
+                  />
+                );
+              })}
+            </View>
+          </View>
+        )}
+        {changeLog && (
+          <View style={TestsStyle.main}>
+            <View style={TestsStyle.contaier}>
+              {allTitle.map((title) => {
+                const selectedTitle = current?.test?.find(
+                  (e) => e?.title === title,
+                );
+                console.log('selectedTitle', toJS(selectedTitle));
+                return (
+                  <TestItem
+                    title={title}
+                    current={selectedTitle}
+                    types={testTypes}
+                    key={title}
+                    testing={result}
                   />
                 );
               })}

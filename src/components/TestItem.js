@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import 'react-native-get-random-values';
@@ -7,7 +8,16 @@ import TestsStore from '../stores/TestsStore';
 import Item from './Item';
 
 export default observer(
-  ({title, types, sucess = false, whatIsTest, result, current, testing}) => {
+  ({
+    title,
+    types,
+    sucess = false,
+    whatIsTest,
+    result,
+    current,
+    testing,
+    changeLog,
+  }) => {
     const {
       setTestsItem,
       testSuccess,
@@ -45,11 +55,14 @@ export default observer(
     };
 
     useEffect(() => {
-      if (current?.title === title) {
+      if (current?.title === title && current !== undefined) {
+        console.log('CURRENT', toJS(current));
+
         setFlag(false);
         setConfirm(true);
         setSelected(current.result);
         setTemp(current.unresult);
+        setTest(selected);
       } else {
         setFlag(false);
       }
@@ -57,6 +70,8 @@ export default observer(
         setSelected([]);
       }
     }, [current, tests]);
+    console.log('Result', toJS(selected), 'Temp', toJS(temp));
+
     useEffect(() => {
       if (unFulScreening) {
         if (fullscreening && !testing) {

@@ -5,6 +5,7 @@ import {Alert, Text, View} from 'react-native';
 import 'react-native-get-random-values';
 import {Actions} from 'react-native-router-flux';
 import {v4 as uuidv4} from 'uuid';
+import {toJS} from 'mobx';
 import COLOR from '../constants/COLOR';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import globalStore from '../stores/globalStore';
@@ -29,6 +30,8 @@ export default observer(({calendar, tabs}) => {
     hookupSuccess,
     setContactHookupFlag,
     deleteHookup,
+    mainID,
+    setMainID,
     setChangeFlag,
     log,
     contactHookupFlag,
@@ -73,9 +76,10 @@ export default observer(({calendar, tabs}) => {
   const save = () => {
     if (searchValue || nameCurrent.currentName) {
       if (contactID !== null) {
-        console.log('tut');
+        console.log('tut', toJS(contactID));
+
         setName(nameCurrent.currentName);
-        setHookups(id, contactID);
+        setHookups(mainID, contactID);
       } else {
         setHookups(id);
       }
@@ -103,6 +107,7 @@ export default observer(({calendar, tabs}) => {
     setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
+    setMainID(null);
     setAddHookups(false);
     setContactHookupFlag(false);
     setHookupSuccess(true);

@@ -33,6 +33,12 @@ class HookupStore {
 
   @observable changeLog = false;
 
+  @observable mainID = '';
+
+  @action setMainID = (id) => {
+    this.mainID = id;
+  };
+
   @action setChangeLog = (bool) => {
     this.changeLog = bool;
   };

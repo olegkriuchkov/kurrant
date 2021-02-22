@@ -19,6 +19,7 @@ export default observer(() => {
     setChangeFlag,
     setHookupSuccess,
     setLog,
+    setMainID,
   } = HookupStore;
   const {setContacID, contact} = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
@@ -138,6 +139,7 @@ export default observer(() => {
                         onPress={() => {
                           console.log(toJS(el));
                           setContacID(el.id);
+                          setMainID(el.mainID);
                           setHookupSuccess(false);
                           setChangeFlag(true);
                           setLog(true);

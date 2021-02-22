@@ -56,7 +56,6 @@ export default observer(
 
     useEffect(() => {
       if (current?.title === title && current !== undefined) {
-        console.log('CURRENT', toJS(current));
 
         setFlag(false);
         setConfirm(true);
@@ -70,7 +69,6 @@ export default observer(
         setSelected([]);
       }
     }, [current, tests]);
-    console.log('Result', toJS(selected), 'Temp', toJS(temp));
 
     useEffect(() => {
       if (unFulScreening) {

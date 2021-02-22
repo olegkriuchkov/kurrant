@@ -137,7 +137,6 @@ export default observer(() => {
                     {el.type === 'hookup' ? (
                       <TouchableOpacity
                         onPress={() => {
-                          console.log(toJS(el));
                           setContacID(el.id);
                           setMainID(el.mainID);
                           setHookupSuccess(false);

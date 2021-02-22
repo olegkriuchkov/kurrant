@@ -132,7 +132,6 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             path={require('../assets/okButton.png')}
             containerStyle={TestsHeaderStyle.imageWrapper}
             onPress={() => {
-              console.log('ITEM', toJS(testItems));
               save();
             }}
           />

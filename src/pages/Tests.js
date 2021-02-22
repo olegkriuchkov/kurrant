@@ -83,12 +83,10 @@ export default observer(({date}) => {
     if (!addTest) {
       temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
       setChangeFlag(true);
-      console.log('Zdeess');
     }
     if (log) {
       temp = tests.find((e) => e.date === date);
       setChangeFlag(true);
-      console.log('TUUT', date);
     }
 
     if (changeFlag) {
@@ -165,7 +163,6 @@ export default observer(({date}) => {
                 const selectedTitle = current?.test?.find(
                   (e) => e?.title === title,
                 );
-                console.log('selectedTitle', toJS(selectedTitle));
                 return (
                   <TestItem
                     title={title}

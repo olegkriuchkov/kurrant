@@ -17,7 +17,6 @@ export default observer(() => {
     getAsyncPass();
   }, []);
 
-  console.log('PASS', toJS(asyncPass), pass);
   if (asyncPass === pass && pass?.length > 0) {
     setAuth(true);
     setConfirmPassword(true);

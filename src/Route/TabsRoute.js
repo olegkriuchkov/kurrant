@@ -29,18 +29,29 @@ import Tests from '../pages/Tests';
 import globalStore from '../stores/globalStore';
 import {setLog} from '../stores/HookupStore';
 import TabBarStyle from '../style/component/TabBarStyle';
+import Login from '../components/Login';
 
 export default observer(() => (
   <Router>
     <Stack key="root">
       <Stack hideNavBar tabs tabBarStyle={TabBarStyle.tabBar} showLabel={false}>
+        {/*  <Scene
+          title="Login"
+          key="Login"
+          statusBarStyle="light-content"
+          component={Login}
+          hideTabBar
+          hideNavBar
+        /> */}
         <Scene
           title="Home"
           key="Home"
+          initial
           statusBarStyle="light-content"
           component={HomePage}
-          initial
           tabBarComponent={TabBar}
+          hideTabBar={!globalStore.confirmPassword}
+          hideNavBar={!globalStore.confirmPassword}
           onEnter={() => {
             globalStore.setSelectedTab('home');
           }}

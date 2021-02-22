@@ -9,6 +9,10 @@ class FiendEntryStore {
 
   @observable name = '';
 
+  @observable pending = true;
+
+  @observable keys = [];
+
   @observable contactItem = [];
 
   @observable location = '';
@@ -178,10 +182,13 @@ class FiendEntryStore {
   };
 
   @action getAllKeys = async () => {
-    let keys = [];
+    this.pending = true;
     try {
-      keys = await AsyncStorage.getAllKeys();
-    } catch (e) {}
+      this.keys = await AsyncStorage.getAllKeys();
+    } catch (e) {
+    } finally {
+      this.pending = false;
+    }
   };
 
   @action getContacts = async () => {

@@ -1,7 +1,7 @@
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import COLOR from '../constants/COLOR';
 import globalStore from '../stores/globalStore';
@@ -11,6 +11,7 @@ import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
 import Image from './Image';
 import SelectedCalendar from './SelectedCalendar';
+import Login from './Login';
 
 const NavBar = observer(
   ({
@@ -33,7 +34,7 @@ const NavBar = observer(
       setDate(new Date(day.timestamp));
     };
     const {logFilters} = HookupStore;
-    const {globalState, setAsyncPass} = globalStore;
+    const {globalState, setAsyncPass, confirmPassword} = globalStore;
     useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
     const wrapperStyle = noStyle
       ? [NavbarStyle.noStyle, {backgroundColor: color}]

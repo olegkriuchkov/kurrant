@@ -9,28 +9,6 @@ import globalStore from '../../stores/globalStore';
 import HookupStore from '../../stores/HookupStore';
 import ContactsStyle from '../../style/page/ContactsStyle';
 
-const hookups = [
-  {
-    name: 'Chris',
-    time: 1610111040600,
-    number: 4,
-  },
-  {
-    name: 'Chad',
-    time: 1610568040600,
-    number: 1,
-  },
-  {
-    name: 'Zill',
-    time: 1610311040600,
-    number: 3,
-  },
-  {
-    name: 'Alan Wong',
-    time: 1610361040600,
-    number: 2,
-  },
-];
 export default observer(({hookup}) => {
   const {
     contact,

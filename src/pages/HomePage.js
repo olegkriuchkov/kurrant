@@ -9,7 +9,7 @@ import globalStore from '../stores/globalStore';
 import HookupStore from '../stores/HookupStore';
 import TestsStore from '../stores/TestsStore';
 import HomePageStyle from '../style/page/HomePageStyle';
-
+// TODO most frqumen всего 5 элементов за последние 90 дней отображаются 5 элементво с найбольшим количеством хукапов,пофиксить баги ВХОД ЧЕРЕЗ ПИН
 const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
   const {getHookups, hookups, hookupSuccess, setLog} = HookupStore;
@@ -66,7 +66,9 @@ const HomePage = observer(() => {
             <View style={HomePageStyle.daysView}>
               <TouchableOpacity
                 style={HomePageStyle.lastDayTest}
-                onPress={() => Actions.AnalyticsPage()}>
+                onPress={() => {
+                  Actions.AnalyticsPage();
+                }}>
                 <Text style={HomePageStyle.days}>90</Text>
                 <Text style={HomePageStyle.text}>Days since last test</Text>
               </TouchableOpacity>

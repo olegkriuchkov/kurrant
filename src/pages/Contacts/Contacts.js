@@ -65,6 +65,10 @@ export default observer(({hookup}) => {
   }, [contacts, globalState.selectedTab, favoriteFlag]);
   useEffect(() => {
     setContacts(contact);
+    if (countryFilter !== null) {
+      console.log('TUUUUUt');
+      setContacts(contact.filter((el) => el.location === countryFilter));
+    }
   }, [contact, countryFilter]);
   useEffect(() => {
     getContacts();
@@ -81,15 +85,6 @@ export default observer(({hookup}) => {
         return coutn === filters.length && temp;
       });
       setFiltered(contactFilter);
-      if (countryFilter !== null) {
-        console.log(countryFilter);
-        setFiltered(
-          contactFilter.filter((e) => {
-            console.log(countryFilter, e);
-            return e.location === countryFilter;
-          }),
-        );
-      }
     } else {
       setFiltered([]);
     }
@@ -120,7 +115,7 @@ export default observer(({hookup}) => {
       {!favoriteFlag && (
         <View style={ContactsStyle.mostFrequentContainer}>
           <View style={ContactsStyle.contentContainer}>
-            {!isSearch && (
+            {!isSearch && !countryFilter && (
               <View style={ContactsStyle.titleContainer}>
                 <Text style={ContactsStyle.mostFrequent}>
                   Most frequent (90 days)
@@ -156,7 +151,7 @@ export default observer(({hookup}) => {
               (contact) => contact.name?.charAt(0) === letter,
             );
           } else {
-            letterContacts = contact.filter(
+            letterContacts = contacts.filter(
               (contact) => contact.name?.charAt(0) === letter,
             );
           }

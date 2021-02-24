@@ -47,11 +47,9 @@ const HomePage = observer(() => {
   useEffect(() => {
     if (keys.length === 0) {
       setConfirmPassword(true);
-      console.log('TTTTTTTTTTUUUUUUUUUT');
     }
     if (keys.includes('@Pass') && !auth) {
       setConfirmPassword(false);
-      console.log('ZDDDDDEEEEEEEES');
     }
   }, [keys]);
 

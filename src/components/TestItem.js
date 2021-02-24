@@ -55,7 +55,6 @@ export default observer(
 
     useEffect(() => {
       if (current?.title === title && current !== undefined) {
-
         setFlag(false);
         setConfirm(true);
         setSelected(current.result);

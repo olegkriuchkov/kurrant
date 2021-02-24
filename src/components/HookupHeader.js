@@ -75,7 +75,6 @@ export default observer(({calendar, tabs}) => {
   const save = () => {
     if (searchValue || nameCurrent.currentName) {
       if (contactID !== null) {
-
         setName(nameCurrent.currentName);
         setHookups(mainID, contactID);
       } else {

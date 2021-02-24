@@ -33,6 +33,12 @@ class HookupStore {
 
   @observable changeLog = false;
 
+  @observable mainID = '';
+
+  @action setMainID = (id) => {
+    this.mainID = id;
+  };
+
   @observable includeFilters = {
     activity: 0,
     protection: 0,

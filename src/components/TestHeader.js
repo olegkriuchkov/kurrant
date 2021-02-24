@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
@@ -132,7 +131,6 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             path={require('../assets/okButton.png')}
             containerStyle={TestsHeaderStyle.imageWrapper}
             onPress={() => {
-              console.log('ITEM', toJS(testItems));
               save();
             }}
           />

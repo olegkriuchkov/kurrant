@@ -53,6 +53,7 @@ export default observer(
         setConfirm(true);
         setSelected(current?.result);
         current?.single ? setSingleFlag(true) : setSingleFlag(false);
+        setHookup(selected, current?.single);
       } else {
         setFlag(false);
       }

@@ -29,6 +29,8 @@ export default observer(({calendar, tabs}) => {
     hookupSuccess,
     setContactHookupFlag,
     deleteHookup,
+    mainID,
+    setMainID,
     setChangeFlag,
     log,
     contactHookupFlag,
@@ -73,9 +75,9 @@ export default observer(({calendar, tabs}) => {
   const save = () => {
     if (searchValue || nameCurrent.currentName) {
       if (contactID !== null) {
-        console.log('tut');
+
         setName(nameCurrent.currentName);
-        setHookups(id, contactID);
+        setHookups(mainID, contactID);
       } else {
         setHookups(id);
       }
@@ -103,6 +105,7 @@ export default observer(({calendar, tabs}) => {
     setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
+    setMainID(null);
     setAddHookups(false);
     setContactHookupFlag(false);
     setHookupSuccess(true);

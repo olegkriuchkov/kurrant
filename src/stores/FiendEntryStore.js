@@ -31,9 +31,36 @@ class FiendEntryStore {
 
   @observable addHookups = true;
 
+  @observable countryFilter = null;
+
   @observable isSearch = false;
 
+  @observable locationFlag = false;
+
+  @observable includesFilters = {
+    status: 0,
+    position: 0,
+  };
+
   @observable select = false;
+
+  @observable favoriteFlag = false;
+
+  @action setCountryFilter = (text) => {
+    this.countryFilter = text;
+  };
+
+  @action favoriteFilter = () => {
+    this.favoriteFlag = !this.favoriteFlag;
+  };
+
+  @action setIncludesFilters = (obj) => {
+    this.includesFilters = obj;
+  };
+
+  @action setLocationFlag = (bool) => {
+    this.locationFlag = bool;
+  };
 
   @action setAddHookups = (bool) => {
     this.addHookups = bool;
@@ -215,6 +242,10 @@ class FiendEntryStore {
 
   @action clearFilters = () => {
     this.filters = [];
+    this.includesFilters = {
+      status: 0,
+      position: 0,
+    };
   };
 
   constructor() {

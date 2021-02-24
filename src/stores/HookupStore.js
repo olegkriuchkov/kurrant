@@ -33,6 +33,16 @@ class HookupStore {
 
   @observable changeLog = false;
 
+  @observable includeFilters = {
+    activity: 0,
+    protection: 0,
+    substance: 0,
+  };
+
+  @action setIncludeFilters = (obj) => {
+    this.includeFilters = obj;
+  };
+
   @action setChangeLog = (bool) => {
     this.changeLog = bool;
   };
@@ -195,6 +205,11 @@ class HookupStore {
 
   @action clearLogFilters = () => {
     this.logFilters = [];
+    this.includeFilters = {
+      activity: 0,
+      protection: 0,
+      substance: 0,
+    };
   };
 
   constructor() {

@@ -14,6 +14,7 @@ import Contacts from '../pages/Contacts/Contacts';
 import ContactsHeader from '../pages/Contacts/ContactsHeader';
 import Entry from '../pages/Entry';
 import ContactsFilters from '../pages/Flters/ContactsFilters';
+import CountryFilter from '../pages/Flters/CountryFilter';
 import LogFilters from '../pages/Flters/LogFilters';
 import AddFriendEntry from '../pages/FriendEntry';
 import HomePage from '../pages/HomePage';
@@ -220,6 +221,14 @@ export default observer(() => (
         component={AnalyticsPage}
         modal={true}
         navBar={() => <AnalyticsHeader />}
+      />
+      <Scene
+        key="CountryFilter"
+        statusBarStyle="light-content"
+        hideTabBar={true}
+        hideNavBar
+        component={() => <CountryFilter countryFilter />}
+        modal={true}
       />
     </Stack>
   </Router>

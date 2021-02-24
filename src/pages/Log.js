@@ -102,13 +102,17 @@ export default observer(() => {
         });
         return coutn === logFilters.length && temp;
       });
-      setFiltered(contactFilter);
+      console.log(toJS(contactFilter));
+      contactFilter.length > 0 ? setFiltered(contactFilter) : setFiltered('');
     } else {
       setFiltered([]);
     }
   }, [globalState.selectedTab, logFilters.length]);
   useEffect(() => {
-    const parse = filtered?.length > 0 ? parseLog(filtered) : parseLog(data);
+    const parse =
+      filtered?.length > 0 || typeof filtered === 'string' // strange function but
+        ? parseLog(filtered.length > 0 ? filtered : []) // I don't have time to redo it  all logic is on line 106
+        : parseLog(data);
     setLogData(parse);
   }, [globalState.selectedTab, logFilters.length]);
   return (

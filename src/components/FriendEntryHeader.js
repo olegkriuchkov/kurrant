@@ -1,12 +1,14 @@
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
-import {Alert, Text, TextInput, View} from 'react-native';
+import {Alert, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import 'react-native-get-random-values';
 import {Actions} from 'react-native-router-flux';
 import {v4 as uuidv4} from 'uuid';
+import COLOR from '../constants/COLOR';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import globalStore from '../stores/globalStore';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
+import GoogleSearch from './GoogleSearch';
 import Image from './Image';
 import Tabs from './Tabs';
 import TouchebleText from './TouchebleText';
@@ -37,6 +39,8 @@ export default observer(({tabs, friendName}) => {
     setContacID,
     setName,
     contact,
+    locationFlag,
+    setLocationFlag,
   } = FiendEntryStore;
   const deleteItem = () => {
     if (contactID) {
@@ -99,140 +103,144 @@ export default observer(({tabs, friendName}) => {
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>
-      <View style={TestsHeaderStyle.mainWrapper}>
-        <View>
-          <Image
-            onPress={() => home()}
-            path={require('../assets/back.png')}
-            style={TestsHeaderStyle.backImage}
-          />
-          <View style={TestsHeaderStyle.titlewrapper}>
-            <View
-              style={[TestsHeaderStyle.headWrapper, {flexDirection: 'column'}]}>
+      {!locationFlag && (
+        <View style={TestsHeaderStyle.mainWrapper}>
+          <View>
+            <Image
+              onPress={() => home()}
+              path={require('../assets/back.png')}
+              style={TestsHeaderStyle.backImage}
+            />
+            <View style={TestsHeaderStyle.titlewrapper}>
               <View
                 style={[
-                  TestsHeaderStyle.columnWrapper,
-                  {alignSelf: 'flex-start'},
+                  TestsHeaderStyle.headWrapper,
+                  {flexDirection: 'column'},
                 ]}>
-                {!friendEntrySuccess || nameCurrent?.currentName ? (
-                  <Text style={TestsHeaderStyle.inputStyle}>
-                    {nameCurrent?.currentName || name || 'No name'}
-                  </Text>
-                ) : (
-                  !friendName && (
-                    <TextInput
-                      onChangeText={(text) => setName(text)}
-                      placeholder="Enter name"
-                      style={TestsHeaderStyle.inputStyle}
-                      value={name}
-                    />
-                  )
-                )}
-              </View>
-              <View
-                style={[
-                  TestsHeaderStyle.columnWrapper,
-                  {alignSelf: 'flex-start'},
-                ]}>
-                {!friendEntrySuccess || nameCurrent?.currentLocation ? (
-                  <Text style={TestsHeaderStyle.inputStyle}>
-                    {nameCurrent?.currentLocation || location || 'No location'}
-                  </Text>
-                ) : (
-                  !friendName && (
-                    <TextInput
-                      onChangeText={(text) => setLocation(text)}
-                      placeholder="Location"
-                      style={TestsHeaderStyle.inputStyle}
-                      value={location}
-                    />
-                  )
-                )}
+                <View
+                  style={[
+                    TestsHeaderStyle.columnWrapper,
+                    {alignSelf: 'flex-start'},
+                  ]}>
+                  {!friendEntrySuccess || nameCurrent?.currentName ? (
+                    <Text style={TestsHeaderStyle.inputStyle}>
+                      {nameCurrent?.currentName || name || 'No name'}
+                    </Text>
+                  ) : (
+                    !friendName && (
+                      <TextInput
+                        onChangeText={(text) => setName(text)}
+                        placeholder="Enter name"
+                        style={TestsHeaderStyle.inputStyle}
+                        value={name}
+                      />
+                    )
+                  )}
+                </View>
+                <View
+                  style={[
+                    TestsHeaderStyle.columnWrapper,
+                    {alignSelf: 'flex-start'},
+                  ]}>
+                  {!friendEntrySuccess || nameCurrent?.currentLocation ? (
+                    <Text style={TestsHeaderStyle.inputStyle}>
+                      {nameCurrent?.currentLocation ||
+                        location ||
+                        'No location'}
+                    </Text>
+                  ) : (
+                    !friendName && (
+                      <TouchableOpacity
+                        style={TestsHeaderStyle.inputStyle}
+                        onPress={() => setLocationFlag(true)}>
+                        <Text style={{fontSize: 24}}>
+                          {location || 'Location'}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  )}
+                </View>
               </View>
             </View>
           </View>
-        </View>
 
-        {friendEntrySuccess && (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            {!favorite && (
+          {friendEntrySuccess && (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              {!favorite && (
+                <Image
+                  style={[TestsHeaderStyle.undDeleteImage, {margin: 20}]}
+                  path={require('../assets/star.png')}
+                  onPress={() => {
+                    setFavorite(true);
+                  }}
+                />
+              )}
+              {favorite && (
+                <Image
+                  style={[TestsHeaderStyle.undDeleteImage, {margin: 20}]}
+                  path={require('../assets/selectStar.png')}
+                  onPress={() => {
+                    setFavorite(false);
+                  }}
+                />
+              )}
               <Image
-                style={[TestsHeaderStyle.undDeleteImage, {margin: 20}]}
-                path={require('../assets/star.png')}
+                style={TestsHeaderStyle.image}
+                containerStyle={TestsHeaderStyle.imageWrapper}
+                onPress={() => save()}
+                path={require('../assets/okButton.png')}
+              />
+            </View>
+          )}
+          {!friendEntrySuccess && (
+            <View style={{flexDirection: 'row'}}>
+              {!favorite && (
+                <Image
+                  style={[TestsHeaderStyle.undDeleteImage, {right: 30}]}
+                  path={require('../assets/star.png')}
+                  onPress={() => {
+                    friendEntrySuccess && setFavorite(true);
+                  }}
+                />
+              )}
+              {favorite && (
+                <Image
+                  style={[TestsHeaderStyle.undDeleteImage, {right: 30}]}
+                  path={require('../assets/selectStar.png')}
+                  onPress={() => {
+                    friendEntrySuccess && setFavorite(false);
+                  }}
+                />
+              )}
+              <Image
+                style={TestsHeaderStyle.changeImage}
+                path={require('../assets/change.png')}
                 onPress={() => {
-                  setFavorite(true);
-                  /*
-                  setFAvoriteFlag();
-*/
+                  setFiendSucess(true);
+                  if (contactID) {
+                    Actions.AddFriendEntry();
+                  }
                 }}
               />
-            )}
-            {favorite && (
               <Image
-                style={[TestsHeaderStyle.undDeleteImage, {margin: 20}]}
-                path={require('../assets/selectStar.png')}
-                onPress={() => {
-                  setFavorite(false);
-                  /*
-                  setFAvoriteFlag();
-*/
-                }}
+                style={TestsHeaderStyle.undDeleteImage}
+                path={require('../assets/delete.png')}
+                onPress={() => setDeleteFlag(true)}
               />
-            )}
-            <Image
-              style={TestsHeaderStyle.image}
-              containerStyle={TestsHeaderStyle.imageWrapper}
-              onPress={() => save()}
-              path={require('../assets/okButton.png')}
-            />
-          </View>
-        )}
-        {!friendEntrySuccess && (
-          <View style={{flexDirection: 'row'}}>
-            {!favorite && (
-              <Image
-                style={[TestsHeaderStyle.undDeleteImage, {right: 30}]}
-                path={require('../assets/star.png')}
-                onPress={() => {
-                  friendEntrySuccess && setFavorite(true);
-                }}
-              />
-            )}
-            {favorite && (
-              <Image
-                style={[TestsHeaderStyle.undDeleteImage, {right: 30}]}
-                path={require('../assets/selectStar.png')}
-                onPress={() => {
-                  friendEntrySuccess && setFavorite(false);
-                }}
-              />
-            )}
-            <Image
-              style={TestsHeaderStyle.changeImage}
-              path={require('../assets/change.png')}
-              onPress={() => {
-                setFiendSucess(true);
-                if (contactID) {
-                  Actions.AddFriendEntry();
-                }
-              }}
-            />
-            <Image
-              style={TestsHeaderStyle.undDeleteImage}
-              path={require('../assets/delete.png')}
-              onPress={() => setDeleteFlag(true)}
-            />
-          </View>
-        )}
-      </View>
-      <View style={TestsHeaderStyle.mainTabsWrapper}>
-        <Tabs
-          tab={tabs}
-          onPress={(tabId) => setSelect(tabId)}
-          defaultTab={tabs[0]}
-        />
-      </View>
-      {deleteFlag && (
+            </View>
+          )}
+        </View>
+      )}
+      {!locationFlag && (
+        <View style={TestsHeaderStyle.mainTabsWrapper}>
+          <Tabs
+            tab={tabs}
+            onPress={(tabId) => setSelect(tabId)}
+            defaultTab={tabs[0]}
+          />
+        </View>
+      )}
+      {deleteFlag && !locationFlag && (
         <View style={TestsHeaderStyle.deletScreenWrapper}>
           <Image
             path={require('../assets/deleteConfirm.png')}
@@ -264,6 +272,11 @@ export default observer(({tabs, friendName}) => {
               style={TestsHeaderStyle.deleteText}
             />
           </View>
+        </View>
+      )}
+      {locationFlag && (
+        <View style={{height: '100%', backgroundColor: COLOR.TAB_ICON}}>
+          <GoogleSearch />
         </View>
       )}
     </View>

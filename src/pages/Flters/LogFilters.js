@@ -1,3 +1,4 @@
+import {observer} from 'mobx-react';
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import ButtonWithArrow from '../../components/ButtonWithArrow';
@@ -5,7 +6,7 @@ import ColapseButton from '../../components/ColapseButton';
 import HookupStore from '../../stores/HookupStore';
 import DataStyle from '../../style/page/Settings/DataStyle';
 
-const LogFilters = () => {
+export default observer(() => {
   const [activitiesFlag, setActivities] = useState(false);
   const [protection, setProtection] = useState(false);
   const [substance, seSubstance] = useState(false);
@@ -52,6 +53,4 @@ const LogFilters = () => {
       />
     </View>
   );
-};
-
-export default LogFilters;
+});

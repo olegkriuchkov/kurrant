@@ -2,7 +2,6 @@ import React from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import ButtonWithArrow from '../components/ButtonWithArrow';
-import COLOR from '../constants/COLOR';
 import DataStyle from '../style/page/Settings/DataStyle';
 
 const Settings = () => {
@@ -13,6 +12,7 @@ const Settings = () => {
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
         title="Play App"
+        onPress={() => {}}
       />
       <ButtonWithArrow
         onPress={() => Actions.Security()}

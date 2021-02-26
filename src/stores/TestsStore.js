@@ -1,6 +1,7 @@
-import {makeObservable, observable, action, toJS, reaction} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {action, makeObservable, observable, reaction} from 'mobx';
 import moment from 'moment';
+import {Actions} from 'react-native-router-flux';
 import COLOR from '../constants/COLOR';
 
 class TestsStore {
@@ -16,6 +17,88 @@ class TestsStore {
 
   @observable testSuccess = true;
 
+  @observable id = '';
+
+  @observable tabs = 0;
+
+  @observable beforeSaving = false;
+
+  @observable beforeResult = false;
+
+  @observable addTest = false;
+
+  @observable result = false;
+
+  @observable resultTestItem = [];
+
+  @observable fullscreening = false;
+
+  @observable unFulScreening = true;
+
+  @observable tempStore = [];
+
+  @observable currentTestId = '';
+
+  @action setCurrentID = (id) => {
+    this.currentTestId = id;
+  };
+
+  @action setTempStore = (args) => {
+    if (this.tempStore.includes(args)) {
+      this.tempStore = this.tempStore.filter((e) => e !== args);
+    } else this.tempStore.push(args);
+  };
+
+  @action setAddTest = (bool) => {
+    this.addTest = bool;
+  };
+
+  @action setFullScreening = (bool) => {
+    this.fullscreening = bool;
+  };
+
+  @action setUnFulScreening = (bool) => {
+    this.unFulScreening = bool;
+  };
+
+  @action setResult = (bool) => {
+    this.result = bool;
+  };
+
+  @action setBeforeSaving = (bool) => {
+    this.beforeSaving = bool;
+  };
+
+  @action setBeforeResult = (bool) => {
+    this.beforeResult = bool;
+  };
+
+  @action setResultTestItem = (item) => {
+    const currentItem = this.testItems.find((e) => e.id === item.id);
+    if (currentItem) {
+      currentItem.result = item.result;
+      this.resultTestItem = this.resultTestItem.filter(
+        (e) => e.result.length > 0,
+      );
+    } else {
+      this.resultTestItem.push(item);
+    }
+  };
+
+  @action setTab = (num) => {
+    this.tabs = num;
+  };
+
+  @action setID = (id) => {
+    this.id = id;
+  };
+
+  @observable changeFlag = false;
+
+  @action setChangeFlag = (bool) => {
+    this.changeFlag = bool;
+  };
+
   @action setTestSuccess = (bool) => {
     this.testSuccess = bool;
   };
@@ -29,7 +112,9 @@ class TestsStore {
     const currentItem = this.testItems.find((e) => e.id === item.id);
     if (currentItem) {
       currentItem.result = item.result;
-      this.testItems = this.testItems.filter((e) => e.result.length > 0);
+      currentItem.unresult = item.unresult;
+      this.testItems = this.testItems.filter((e) => e.unresult?.length > 0);
+      this.testItems = this.testItems.filter((e) => e.title?.length > 0);
     } else {
       this.testItems.push(item);
     }
@@ -91,7 +176,13 @@ class TestsStore {
   };
 
   @action deleteTest = (id) => {
+    this.getTests();
+
     this.tests = this.tests.filter((e) => e.id !== id);
+    this.removeTests();
+    this.setAsyncTests();
+    Actions.replace('Home');
+
     this.setTestSuccess(true);
   };
 
@@ -120,6 +211,10 @@ class TestsStore {
       };
     });
     this.markedTest = {...this.markedTest, ...result};
+  };
+
+  @action deleteTestItem = (id) => {
+    this.testItems = this.testItems?.filter((e) => e.id !== id);
   };
 
   constructor() {

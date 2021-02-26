@@ -1,13 +1,23 @@
+import {observer} from 'mobx-react';
 import React, {useState} from 'react';
 import {View} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 
 import ButtonWithArrow from '../../components/ButtonWithArrow';
 import ColapseButton from '../../components/ColapseButton';
+import COLOR from '../../constants/COLOR';
+import FiendEntryStore from '../../stores/FiendEntryStore';
 import DataStyle from '../../style/page/Settings/DataStyle';
 
-const ContactsFilters = () => {
+export default observer(() => {
   const [status, setStatus] = useState(false);
   const [position, setPosition] = useState(false);
+  const {
+    clearFilters,
+    favoriteFilter,
+    favoriteFlag,
+    countryFilter,
+  } = FiendEntryStore;
   const stausTabs = [
     'Negative',
     'Negative, on PrEP',
@@ -22,21 +32,32 @@ const ContactsFilters = () => {
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
         title="Filters"
+        onPress={() => {
+          clearFilters();
+        }}
         filters
         text="Deselect all"
       />
       <ButtonWithArrow
-        onPress={() => {}}
+        onPress={() => {
+          favoriteFilter();
+        }}
         style={DataStyle.button}
-        textStyle={DataStyle.buttonText}
+        textStyle={
+          favoriteFlag
+            ? [DataStyle.buttonText, {color: COLOR.PINK}]
+            : DataStyle.buttonText
+        }
         hideArrow
         title="Favorites"
       />
       <ButtonWithArrow
-        onPress={() => {}}
+        onPress={() => {
+          Actions.CountryFilter();
+        }}
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
-        title="location"
+        title={countryFilter || 'location'}
         icon="rightArrow"
       />
       <ColapseButton
@@ -54,6 +75,4 @@ const ContactsFilters = () => {
       />
     </View>
   );
-};
-
-export default ContactsFilters;
+});

@@ -17,7 +17,6 @@ export default observer(({date}) => {
   const [marker, setMarker] = useState();
   useEffect(() => {
     setMarker({...markedTest, ...markedHookups});
-    console.log(toJS(markedTest), toJS(markedHookups));
   }, [tests.length, hookups.length]);
 
   return (

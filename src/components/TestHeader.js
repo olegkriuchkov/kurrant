@@ -1,30 +1,30 @@
+import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
-import {Actions} from 'react-native-router-flux';
-import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
+import {Actions} from 'react-native-router-flux';
 import {v4 as uuidv4} from 'uuid';
-import globalStore from '../stores/globalStore';
-import Image from './Image';
 import COLOR from '../constants/COLOR';
+import globalStore from '../stores/globalStore';
+import HookupStore from '../stores/HookupStore';
+import TestsStore from '../stores/TestsStore';
 import NavbarStyle from '../style/component/NavbarStyle';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
+import Image from './Image';
 import Tabs from './Tabs';
-import TestsStore from '../stores/TestsStore';
 import TouchebltText from './TouchebleText';
 
 export default observer(({color, noStyle, calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
-  const [id, setId] = useState(uuidv4());
+  const [id] = useState(uuidv4());
   const [date, setDate] = useState(new Date());
-  const [select, setSelect] = useState(true);
   const [deleteFlag, setDeleteFlag] = useState(false);
   const resultTabs = ['Results', 'Notes'];
   const {globalState} = globalStore;
-
+  const {setLog, setChangeLog} = HookupStore;
   const {
     setTestDate,
     setTest,
@@ -32,6 +32,20 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setTestSuccess,
     testSuccess,
     deleteTest,
+    setTab,
+    setBeforeResult,
+    setBeforeSaving,
+    beforeResult,
+    beforeSaving,
+    setResult,
+    setTestsItem,
+    testItems,
+    setChangeFlag,
+    setUnFulScreening,
+    currentTestId,
+    setAddTest,
+    setCurrentID,
+    setFullScreening,
   } = TestsStore;
 
   useEffect(() => {
@@ -39,14 +53,37 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   }, []);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
   const save = () => {
-    setTest(id);
-    setTestSuccess(false);
+    setChangeLog(false);
+    if (testItems.length > 0) {
+      if (currentTestId) {
+        setTest(currentTestId);
+      } else {
+        setTest(id);
+      }
+      setChangeFlag(true);
+      setTestSuccess(false);
+    } else {
+      setBeforeSaving(true);
+    }
   };
   const press = (day) => {
     setDate(new Date(day.timestamp));
     setTestDate(new Date(day.timestamp));
   };
+  const home = () => {
+    setCurrentID(null);
+    setFullScreening(false);
+    setChangeLog(false);
+    setAddTest(false);
+    setBeforeSaving(false);
+    setBeforeResult(false);
+    setTestSuccess(true);
+    clearTestItem();
+    setTab('');
+    setChangeFlag(false);
 
+    Actions.replace('Home');
+  };
   return (
     <View
       style={
@@ -59,11 +96,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
           <Image
             path={require('../assets/back.png')}
             style={TestsHeaderStyle.backImage}
-            onPress={() => {
-              Actions.replace('Home');
-              setTestSuccess(true);
-              clearTestItem();
-            }}
+            onPress={() => home()}
           />
           <View style={TestsHeaderStyle.titlewrapper}>
             <Text
@@ -97,7 +130,9 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             style={TestsHeaderStyle.image}
             path={require('../assets/okButton.png')}
             containerStyle={TestsHeaderStyle.imageWrapper}
-            onPress={() => save()}
+            onPress={() => {
+              save();
+            }}
           />
         )}
         {!testSuccess && (
@@ -105,8 +140,17 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             <Image
               style={{width: 25, height: 25}}
               path={require('../assets/change.png')}
-              onPress={() => setTestSuccess(true)}
+              onPress={() => {
+                setTab('What were you tested for?');
+                setResult(false);
+                setChangeFlag(true);
+                setLog(true);
+                setChangeLog(true);
+                setUnFulScreening(false);
+                setTestSuccess(true);
+              }}
             />
+
             <Image
               style={{width: 25, height: 25, marginLeft: 20}}
               path={require('../assets/delete.png')}
@@ -117,8 +161,10 @@ export default observer(({color, noStyle, calendar, tabs}) => {
       </View>
       <View style={TestsHeaderStyle.mainTabsWrapper}>
         <Tabs
-          tabs={testSuccess ? tabs : resultTabs}
-          onPress={(tabId) => setSelect(tabId)}
+          tab={testSuccess ? tabs : resultTabs}
+          onPress={(tabId) => {
+            setTab(tabId);
+          }}
           defaultTab={testSuccess ? tabs[0] : resultTabs[0]}
         />
       </View>
@@ -142,7 +188,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
                 TestsHeaderStyle.deleteTextWrapper,
                 {marginTop: 5},
               ]}
-              onPress={() => deleteTest(id)}
+              onPress={() => deleteTest(currentTestId || id)}
               style={TestsHeaderStyle.deleteText}
             />
             <TouchebltText
@@ -150,6 +196,51 @@ export default observer(({color, noStyle, calendar, tabs}) => {
               containerStyle={TestsHeaderStyle.cancelWrapper}
               onPress={() => setDeleteFlag(false)}
               style={TestsHeaderStyle.deleteText}
+            />
+          </View>
+        </View>
+      )}
+      {beforeResult && (
+        <View style={TestsHeaderStyle.warning}>
+          <View style={TestsHeaderStyle.errorWrapper}>
+            <TouchebltText
+              text="Select what you were tested for before inputting your results."
+              containerStyle={TestsHeaderStyle.cancelWrapper}
+              style={[
+                TestsHeaderStyle.deleteText,
+                {marginTop: 50, width: '75%', left: 20},
+              ]}
+            />
+            <Image
+              style={[TestsHeaderStyle.image, {right: 10}]}
+              path={require('../assets/okButton.png')}
+              containerStyle={TestsHeaderStyle.imageWrapper}
+              onPress={() => {
+                setBeforeResult(false);
+              }}
+            />
+          </View>
+        </View>
+      )}
+
+      {beforeSaving && (
+        <View style={TestsHeaderStyle.warning}>
+          <View style={TestsHeaderStyle.errorWrapper}>
+            <TouchebltText
+              text="Input your results before saving your test."
+              containerStyle={TestsHeaderStyle.cancelWrapper}
+              style={[
+                TestsHeaderStyle.deleteText,
+                {marginTop: 50, width: '75%', left: 20},
+              ]}
+            />
+            <Image
+              style={[TestsHeaderStyle.image, {right: 10}]}
+              path={require('../assets/okButton.png')}
+              containerStyle={TestsHeaderStyle.imageWrapper}
+              onPress={() => {
+                setBeforeSaving(false);
+              }}
             />
           </View>
         </View>

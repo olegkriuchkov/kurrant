@@ -1,39 +1,48 @@
-import React, {useState} from 'react';
-import {ScrollView, Text, TextInput, View} from 'react-native';
-import HookupWrapepr from '../components/HookupWrapepr';
-import HookupStore from '../stores/HookupStore';
+import {observer} from 'mobx-react';
+import React from 'react';
+import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
+import FriendWrapper from '../components/FriendWrapper';
+import FiendEntryStore from '../stores/FiendEntryStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
-const AddFriendEntry = () => {
+export default observer(() => {
   const status = ['Negative', 'Negative, on PrEP', 'Positive', 'Positive, U'];
   const position = ['Bottom', 'Top', 'Versatile'];
-  const [note, setNote] = useState('');
-  const {friendEntrySuccess, friendEntryNote, setFriendNote} = HookupStore;
+  const {
+    friendEntrySuccess,
+    friendEntryNote,
+    setFriendNote,
+    locationFlag,
+  } = FiendEntryStore;
   const setText = (text) => {
-    setNote(text);
     setFriendNote(text);
   };
   return (
-    <ScrollView style={TestsStyle.entryWrapper}>
-      <View>
-        <HookupWrapepr withOutText array={status} single={true} />
-        <HookupWrapepr title="Protection" array={position} single={true} />
-      </View>
+    <>
+      {!locationFlag && (
+        <SafeAreaView style={TestsStyle.safeArea}>
+          <ScrollView style={TestsStyle.entryWrapper}>
+            <View>
+              <FriendWrapper withOutText array={status} single={true} />
+              <FriendWrapper title="Position" array={position} single={true} />
+            </View>
 
-      <View style={TestsStyle.mainNoteWrapper}>
-        <Text style={TestsStyle.textNote}>Notes</Text>
-        <TextInput
-          onChangeText={(text) => friendEntrySuccess && setText(text)}
-          value={friendEntryNote}
-          style={TestsStyle.textInput}
-          underlineColorAndroid="transparent"
-          placeholder="Add note"
-          placeholderTextColor="grey"
-          numberOfLines={10}
-          multiline={true}
-        />
-      </View>
-    </ScrollView>
+            <View style={TestsStyle.mainNoteWrapper}>
+              <Text style={TestsStyle.textNote}>Notes</Text>
+              <TextInput
+                onChangeText={(text) => friendEntrySuccess && setText(text)}
+                value={friendEntryNote}
+                style={TestsStyle.textInput}
+                underlineColorAndroid="transparent"
+                placeholder="Add note"
+                placeholderTextColor="grey"
+                numberOfLines={10}
+                multiline={true}
+              />
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      )}
+    </>
   );
-};
-export default AddFriendEntry;
+});

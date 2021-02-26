@@ -1,16 +1,33 @@
+import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {observer} from 'mobx-react';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
-import Image from './Image';
+import COLOR from '../constants/COLOR';
+import HookupStore from '../stores/HookupStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import ButtonItem from './ButtonItem';
-import HookupStore from '../stores/HookupStore';
+import Image from './Image';
 
 export default observer(
-  ({title, types, single = false, result = [], sucess = false, colections}) => {
-    const {setHookupItem, hookupSuccess, hookupItem} = HookupStore;
+  ({
+    title,
+    types,
+    single = false,
+    result = [],
+    sucess = false,
+    colections,
+    hookup,
+    current,
+  }) => {
+    const {
+      setHookupItem,
+      deleteHookupItem,
+      hookupSuccess,
+      hookups,
+      contactHookupFlag,
+      hookupItem,
+    } = HookupStore;
     const [flag, setFlag] = useState(false);
     const [selected, setSelected] = useState(result);
     const [singleFlag, setSingleFlag] = useState(false);
@@ -31,11 +48,19 @@ export default observer(
         : setSelected((prev) => [...prev, title]);
     };
     useEffect(() => {
-      setFlag(false);
+      if (current?.title === title) {
+        setFlag(false);
+        setConfirm(true);
+        setSelected(current?.result);
+        current?.single ? setSingleFlag(true) : setSingleFlag(false);
+        setHookup(selected, current?.single);
+      } else {
+        setFlag(false);
+      }
       if (!confirm) {
         setSelected([]);
       }
-    }, [hookupSuccess]);
+    }, [current, hookups]);
     const setHookup = (result, singleItem = false) => {
       setHookupItem({
         title,
@@ -62,10 +87,10 @@ export default observer(
           setHookup(selected);
         } else {
           setFlag(false);
-          setHookup(selected);
         }
         if (selected.length === 0 && !single) {
           setConfirm(false);
+          deleteHookupItem(currentItem?.id);
         }
       }
     };
@@ -73,7 +98,7 @@ export default observer(
     return (
       <TouchableOpacity
         onPress={() => {
-          toggleSingleSelect();
+          !contactHookupFlag && toggleSingleSelect();
         }}
         style={singleFlag ? TestsStyle.singleMainItem : TestsStyle.mainItem}>
         {(single ? true : !flag) && !confirm && (
@@ -85,6 +110,7 @@ export default observer(
             <ButtonItem
               index={index}
               key={type}
+              hookup
               type={type}
               onPress={() => select(type)}
               selected={selected}
@@ -101,7 +127,12 @@ export default observer(
           </View>
         )}
         {confirm && !flag && (
-          <View style={TestsStyle.resultTitle}>
+          <View
+            style={
+              hookup
+                ? [TestsStyle.resultTitle, {backgroundColor: COLOR.PINK}]
+                : TestsStyle.resultTitle
+            }>
             <Text style={TestsStyle.resultTitleText}>{title}</Text>
             {!single &&
               selected.map((selectedText) => (

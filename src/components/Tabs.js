@@ -4,9 +4,9 @@ import {ScrollView, Text, TouchableOpacity} from 'react-native';
 import TestsStore from '../stores/TestsStore';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 
-export default observer(({tabs, onPress, defaultTab}) => {
+export default observer(({tab, onPress, defaultTab}) => {
   const [current, setCurrent] = useState('');
-  const {testSuccess} = TestsStore;
+  const {testSuccess, beforeResult, tabs, beforeSaving} = TestsStore;
   useEffect(() => {
     if (defaultTab) {
       setCurrent(defaultTab);
@@ -22,9 +22,18 @@ export default observer(({tabs, onPress, defaultTab}) => {
     setCurrent(text);
     onPress(text);
   };
+  useEffect(() => {
+    if (beforeResult) {
+      setCurrent('What were you tested for?');
+    }
+    if (beforeSaving) {
+      setCurrent('Results');
+    }
+  }, [tabs]);
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {tabs.map((el) => {
+      {tab.map((el) => {
         return (
           <TouchableOpacity
             key={el}

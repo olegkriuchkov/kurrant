@@ -26,6 +26,7 @@ const DeleteData = () => {
         style={DataStyle.button}
         textStyle={DataStyle.redButtonText}
         title="Delete all app data?"
+        onPress={() => {}}
       />
       <ButtonWithArrow
         style={DataStyle.button}

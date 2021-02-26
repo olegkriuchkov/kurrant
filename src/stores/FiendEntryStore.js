@@ -9,6 +9,10 @@ class FiendEntryStore {
 
   @observable name = '';
 
+  @observable pending = true;
+
+  @observable keys = [];
+
   @observable contactItem = [];
 
   @observable location = '';
@@ -31,9 +35,36 @@ class FiendEntryStore {
 
   @observable addHookups = true;
 
+  @observable countryFilter = null;
+
   @observable isSearch = false;
 
+  @observable locationFlag = false;
+
+  @observable includesFilters = {
+    status: 0,
+    position: 0,
+  };
+
   @observable select = false;
+
+  @observable favoriteFlag = false;
+
+  @action setCountryFilter = (text) => {
+    this.countryFilter = text;
+  };
+
+  @action favoriteFilter = () => {
+    this.favoriteFlag = !this.favoriteFlag;
+  };
+
+  @action setIncludesFilters = (obj) => {
+    this.includesFilters = obj;
+  };
+
+  @action setLocationFlag = (bool) => {
+    this.locationFlag = bool;
+  };
 
   @action setAddHookups = (bool) => {
     this.addHookups = bool;
@@ -178,10 +209,13 @@ class FiendEntryStore {
   };
 
   @action getAllKeys = async () => {
-    let keys = [];
+    this.pending = true;
     try {
-      keys = await AsyncStorage.getAllKeys();
-    } catch (e) {}
+      this.keys = await AsyncStorage.getAllKeys();
+    } catch (e) {
+    } finally {
+      this.pending = false;
+    }
   };
 
   @action getContacts = async () => {
@@ -215,6 +249,10 @@ class FiendEntryStore {
 
   @action clearFilters = () => {
     this.filters = [];
+    this.includesFilters = {
+      status: 0,
+      position: 0,
+    };
   };
 
   constructor() {

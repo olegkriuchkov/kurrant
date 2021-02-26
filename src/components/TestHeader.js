@@ -24,7 +24,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   const [deleteFlag, setDeleteFlag] = useState(false);
   const resultTabs = ['Results', 'Notes'];
   const {globalState} = globalStore;
-  const {log} = HookupStore;
+  const {setLog, setChangeLog} = HookupStore;
   const {
     setTestDate,
     setTest,
@@ -41,7 +41,10 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setTestsItem,
     testItems,
     setChangeFlag,
+    setUnFulScreening,
+    currentTestId,
     setAddTest,
+    setCurrentID,
     setFullScreening,
   } = TestsStore;
 
@@ -50,8 +53,13 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   }, []);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
   const save = () => {
+    setChangeLog(false);
     if (testItems.length > 0) {
-      setTest(id);
+      if (currentTestId) {
+        setTest(currentTestId);
+      } else {
+        setTest(id);
+      }
       setChangeFlag(true);
       setTestSuccess(false);
     } else {
@@ -63,7 +71,9 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setTestDate(new Date(day.timestamp));
   };
   const home = () => {
+    setCurrentID(null);
     setFullScreening(false);
+    setChangeLog(false);
     setAddTest(false);
     setBeforeSaving(false);
     setBeforeResult(false);
@@ -120,31 +130,32 @@ export default observer(({color, noStyle, calendar, tabs}) => {
             style={TestsHeaderStyle.image}
             path={require('../assets/okButton.png')}
             containerStyle={TestsHeaderStyle.imageWrapper}
-            onPress={() => save()}
+            onPress={() => {
+              save();
+            }}
           />
         )}
         {!testSuccess && (
           <View style={{flexDirection: 'row'}}>
-            {!log && (
-              <Image
-                style={{width: 25, height: 25}}
-                path={require('../assets/change.png')}
-                onPress={() => {
-                  setTab('What were you tested for?');
-                  setResult(false);
-                  setChangeFlag(true);
-                  setAddTest(false);
-                  setTestSuccess(true);
-                }}
-              />
-            )}
-            {!log && (
-              <Image
-                style={{width: 25, height: 25, marginLeft: 20}}
-                path={require('../assets/delete.png')}
-                onPress={() => setDeleteFlag(true)}
-              />
-            )}
+            <Image
+              style={{width: 25, height: 25}}
+              path={require('../assets/change.png')}
+              onPress={() => {
+                setTab('What were you tested for?');
+                setResult(false);
+                setChangeFlag(true);
+                setLog(true);
+                setChangeLog(true);
+                setUnFulScreening(false);
+                setTestSuccess(true);
+              }}
+            />
+
+            <Image
+              style={{width: 25, height: 25, marginLeft: 20}}
+              path={require('../assets/delete.png')}
+              onPress={() => setDeleteFlag(true)}
+            />
           </View>
         )}
       </View>
@@ -177,7 +188,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
                 TestsHeaderStyle.deleteTextWrapper,
                 {marginTop: 5},
               ]}
-              onPress={() => deleteTest(id)}
+              onPress={() => deleteTest(currentTestId || id)}
               style={TestsHeaderStyle.deleteText}
             />
             <TouchebltText

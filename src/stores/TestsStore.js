@@ -37,6 +37,12 @@ class TestsStore {
 
   @observable tempStore = [];
 
+  @observable currentTestId = '';
+
+  @action setCurrentID = (id) => {
+    this.currentTestId = id;
+  };
+
   @action setTempStore = (args) => {
     if (this.tempStore.includes(args)) {
       this.tempStore = this.tempStore.filter((e) => e !== args);
@@ -108,6 +114,7 @@ class TestsStore {
       currentItem.result = item.result;
       currentItem.unresult = item.unresult;
       this.testItems = this.testItems.filter((e) => e.unresult?.length > 0);
+      this.testItems = this.testItems.filter((e) => e.title?.length > 0);
     } else {
       this.testItems.push(item);
     }

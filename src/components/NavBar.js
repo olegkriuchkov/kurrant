@@ -33,7 +33,7 @@ const NavBar = observer(
       setDate(new Date(day.timestamp));
     };
     const {logFilters} = HookupStore;
-    const {globalState, setAsyncPass} = globalStore;
+    const {globalState, setAsyncPass, confirmPassword} = globalStore;
     useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
     const wrapperStyle = noStyle
       ? [NavbarStyle.noStyle, {backgroundColor: color}]

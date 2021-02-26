@@ -19,6 +19,7 @@ export default observer(() => {
     setChangeFlag,
     setHookupSuccess,
     setLog,
+    setMainID,
   } = HookupStore;
   const {setContacID, contact} = FiendEntryStore;
   const [filtered, setFiltered] = useState(null);
@@ -40,6 +41,7 @@ export default observer(() => {
           eventDate: moment(e.date),
           name: e.name,
           id: e?.contactID,
+          mainID: e.id,
           type: e.type,
           length: e.test?.length || e.hookup?.length || 0,
           favorite: favorite?.favorite,
@@ -101,13 +103,17 @@ export default observer(() => {
         });
         return coutn === logFilters.length && temp;
       });
-      setFiltered(contactFilter);
+      console.log(toJS(contactFilter));
+      contactFilter.length > 0 ? setFiltered(contactFilter) : setFiltered('');
     } else {
       setFiltered([]);
     }
   }, [globalState.selectedTab, logFilters.length]);
   useEffect(() => {
-    const parse = filtered?.length > 0 ? parseLog(filtered) : parseLog(data);
+    const parse =
+      filtered?.length > 0 || typeof filtered === 'string' // strange function but
+        ? parseLog(filtered.length > 0 ? filtered : []) // I don't have time to redo it  all logic is on line 106
+        : parseLog(data);
     setLogData(parse);
   }, [globalState.selectedTab, logFilters.length]);
   return (
@@ -136,6 +142,7 @@ export default observer(() => {
                       <TouchableOpacity
                         onPress={() => {
                           setContacID(el.id);
+                          setMainID(el.mainID);
                           setHookupSuccess(false);
                           setChangeFlag(true);
                           setLog(true);

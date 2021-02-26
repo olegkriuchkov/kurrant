@@ -12,32 +12,37 @@ export default observer(() => {
     friendEntrySuccess,
     friendEntryNote,
     setFriendNote,
+    locationFlag,
   } = FiendEntryStore;
   const setText = (text) => {
     setFriendNote(text);
   };
   return (
-    <SafeAreaView style={TestsStyle.safeArea}>
-      <ScrollView style={TestsStyle.entryWrapper}>
-        <View>
-          <FriendWrapper withOutText array={status} single={true} />
-          <FriendWrapper title="Position" array={position} single={true} />
-        </View>
+    <>
+      {!locationFlag && (
+        <SafeAreaView style={TestsStyle.safeArea}>
+          <ScrollView style={TestsStyle.entryWrapper}>
+            <View>
+              <FriendWrapper withOutText array={status} single={true} />
+              <FriendWrapper title="Position" array={position} single={true} />
+            </View>
 
-        <View style={TestsStyle.mainNoteWrapper}>
-          <Text style={TestsStyle.textNote}>Notes</Text>
-          <TextInput
-            onChangeText={(text) => friendEntrySuccess && setText(text)}
-            value={friendEntryNote}
-            style={TestsStyle.textInput}
-            underlineColorAndroid="transparent"
-            placeholder="Add note"
-            placeholderTextColor="grey"
-            numberOfLines={10}
-            multiline={true}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+            <View style={TestsStyle.mainNoteWrapper}>
+              <Text style={TestsStyle.textNote}>Notes</Text>
+              <TextInput
+                onChangeText={(text) => friendEntrySuccess && setText(text)}
+                value={friendEntryNote}
+                style={TestsStyle.textInput}
+                underlineColorAndroid="transparent"
+                placeholder="Add note"
+                placeholderTextColor="grey"
+                numberOfLines={10}
+                multiline={true}
+              />
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      )}
+    </>
   );
 });

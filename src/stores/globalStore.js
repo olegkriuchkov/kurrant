@@ -6,8 +6,18 @@ class GlobalStore {
 
   @observable password = '';
 
+  @observable auth = false;
+
   @action setPassword = (text) => {
     this.password = text;
+  };
+
+  @observable asyncPass = '';
+
+  @observable confirmPassword = false;
+
+  @action setAuth = (bool) => {
+    this.auth = bool;
   };
 
   @action setAsyncPass = async () => {
@@ -17,6 +27,19 @@ class GlobalStore {
     } catch (e) {
       throw new Error('pass ', e);
     }
+  };
+
+  @action getAsyncPass = async () => {
+    const result = JSON.parse(await AsyncStorage.getItem('@Pass'));
+    try {
+      this.asyncPass = result !== null ? result : '';
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  @action setConfirmPassword = (bool) => {
+    this, (this.confirmPassword = bool);
   };
 
   @action setSelectedTab = (tabName) => {

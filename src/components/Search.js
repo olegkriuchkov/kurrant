@@ -27,7 +27,7 @@ export default observer(({hookup, disable, name}) => {
             : styles.inputContainerStyle
           : [
               styles.inputContainerStyle,
-              {backgroundColor: COLOR.WHITE, minWidth: '93%', marginBottom: 15},
+              {backgroundColor: COLOR.WHITE, minWidth: '93%'},
             ]
       }>
       {!hookup && (
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.LIGHT_GREY,
     borderRadius: 15,
     paddingLeft: 18,
-
     flexDirection: 'row',
     alignItems: 'center',
     height: 47,
@@ -108,6 +107,7 @@ const styles = StyleSheet.create({
   searchInput: {
     backgroundColor: COLOR.LIGHT_GREY,
     borderRadius: 15,
+
     fontSize: 20,
     width: 200,
   },

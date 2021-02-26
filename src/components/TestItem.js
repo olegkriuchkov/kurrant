@@ -7,7 +7,16 @@ import TestsStore from '../stores/TestsStore';
 import Item from './Item';
 
 export default observer(
-  ({title, types, sucess = false, whatIsTest, result, current, testing}) => {
+  ({
+    title,
+    types,
+    sucess = false,
+    whatIsTest,
+    result,
+    current,
+    testing,
+    changeLog,
+  }) => {
     const {
       setTestsItem,
       testSuccess,
@@ -45,11 +54,12 @@ export default observer(
     };
 
     useEffect(() => {
-      if (current?.title === title) {
+      if (current?.title === title && current !== undefined) {
         setFlag(false);
         setConfirm(true);
         setSelected(current.result);
         setTemp(current.unresult);
+        setTest(selected);
       } else {
         setFlag(false);
       }
@@ -57,6 +67,7 @@ export default observer(
         setSelected([]);
       }
     }, [current, tests]);
+
     useEffect(() => {
       if (unFulScreening) {
         if (fullscreening && !testing) {

@@ -31,6 +31,28 @@ class HookupStore {
 
   @observable contactHookupFlag = false;
 
+  @observable changeLog = false;
+
+  @observable mainID = '';
+
+  @action setMainID = (id) => {
+    this.mainID = id;
+  };
+
+  @observable includeFilters = {
+    activity: 0,
+    protection: 0,
+    substance: 0,
+  };
+
+  @action setIncludeFilters = (obj) => {
+    this.includeFilters = obj;
+  };
+
+  @action setChangeLog = (bool) => {
+    this.changeLog = bool;
+  };
+
   @action setLog = (bool) => {
     this.log = bool;
   };
@@ -189,6 +211,11 @@ class HookupStore {
 
   @action clearLogFilters = () => {
     this.logFilters = [];
+    this.includeFilters = {
+      activity: 0,
+      protection: 0,
+      substance: 0,
+    };
   };
 
   constructor() {

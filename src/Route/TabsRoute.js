@@ -14,6 +14,7 @@ import Contacts from '../pages/Contacts/Contacts';
 import ContactsHeader from '../pages/Contacts/ContactsHeader';
 import Entry from '../pages/Entry';
 import ContactsFilters from '../pages/Flters/ContactsFilters';
+import CountryFilter from '../pages/Flters/CountryFilter';
 import LogFilters from '../pages/Flters/LogFilters';
 import AddFriendEntry from '../pages/FriendEntry';
 import HomePage from '../pages/HomePage';
@@ -34,13 +35,22 @@ export default observer(() => (
   <Router>
     <Stack key="root">
       <Stack hideNavBar tabs tabBarStyle={TabBarStyle.tabBar} showLabel={false}>
+        {/*  <Scene
+          title="Login"
+          key="Login"
+          statusBarStyle="light-content"
+          component={Login}
+          hideTabBar
+          hideNavBar
+        /> */}
         <Scene
           title="Home"
           key="Home"
+          initial
           statusBarStyle="light-content"
           component={HomePage}
-          initial
           tabBarComponent={TabBar}
+          hideNavBar={!globalStore.confirmPassword}
           onEnter={() => {
             globalStore.setSelectedTab('home');
           }}
@@ -220,6 +230,14 @@ export default observer(() => (
         component={AnalyticsPage}
         modal={true}
         navBar={() => <AnalyticsHeader />}
+      />
+      <Scene
+        key="CountryFilter"
+        statusBarStyle="light-content"
+        hideTabBar={true}
+        hideNavBar
+        component={() => <CountryFilter countryFilter />}
+        modal={true}
       />
     </Stack>
   </Router>

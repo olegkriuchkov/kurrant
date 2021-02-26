@@ -29,6 +29,8 @@ export default observer(({calendar, tabs}) => {
     hookupSuccess,
     setContactHookupFlag,
     deleteHookup,
+    mainID,
+    setMainID,
     setChangeFlag,
     log,
     contactHookupFlag,
@@ -74,7 +76,7 @@ export default observer(({calendar, tabs}) => {
     if (searchValue || nameCurrent.currentName) {
       if (contactID !== null) {
         setName(nameCurrent.currentName);
-        setHookups(id, contactID);
+        setHookups(mainID, contactID);
       } else {
         setHookups(id);
       }
@@ -102,6 +104,7 @@ export default observer(({calendar, tabs}) => {
     setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
+    setMainID(null);
     setAddHookups(false);
     setContactHookupFlag(false);
     setHookupSuccess(true);
@@ -183,22 +186,18 @@ export default observer(({calendar, tabs}) => {
         )}
         {!hookupSuccess && !contactHookupFlag && !isSearch && (
           <View style={{flexDirection: 'row'}}>
-            {!log && (
-              <Image
-                style={TestsHeaderStyle.changeImage}
-                path={require('../assets/change.png')}
-                onPress={() => {
-                  setHookupSuccess(true);
-                }}
-              />
-            )}
-            {!log && (
-              <Image
-                style={TestsHeaderStyle.undDeleteImage}
-                path={require('../assets/delete.png')}
-                onPress={() => setDeleteFlag(true)}
-              />
-            )}
+            <Image
+              style={TestsHeaderStyle.changeImage}
+              path={require('../assets/change.png')}
+              onPress={() => {
+                setHookupSuccess(true);
+              }}
+            />
+            <Image
+              style={TestsHeaderStyle.undDeleteImage}
+              path={require('../assets/delete.png')}
+              onPress={() => setDeleteFlag(true)}
+            />
           </View>
         )}
       </View>

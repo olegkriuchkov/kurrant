@@ -6,7 +6,7 @@ import HookupStore from '../stores/HookupStore';
 import CompleteEntry from './CompleteEntry';
 
 export default ({single = false, date, hook}) => {
-  const {hookupItem, changeFlag, hookupSuccess, hookups} = HookupStore;
+  const {hookupItem, changeFlag, hookupSuccess, hookups, initial} = HookupStore;
   const {contactID, select, contactHookup} = FiendEntryStore;
   const [current, setCurrent] = useState(hookupItem);
   const {globalState} = globalStore;
@@ -24,14 +24,18 @@ export default ({single = false, date, hook}) => {
   }, [hookupSuccess, hookups]);
   useEffect(() => {
     let temp;
-    if (!contactID) {
-      temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
-    }
+
     if (contactID) {
       temp = hookups?.find((e) => e.contactID === contactID && e.date === date);
+      console.log('zdes');
+    }
+    if (initial) {
+      temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
+      console.log('tut');
     }
     if (select && contactHookup.length > 0) {
       temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
+      console.log('tam');
     }
     if (changeFlag) {
       setCurrent(temp);

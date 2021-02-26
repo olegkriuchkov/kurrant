@@ -25,19 +25,23 @@ const TabBar = observer(() => {
     {iconName: 'home', onPress: () => Actions.Home()},
     {iconName: 'log', onPress: () => Actions.Log()},
   ];
-  const {globalState} = globalStore;
+  const {globalState, confirmPassword} = globalStore;
 
   return (
-    <View style={styles.container}>
-      {icons.map((icon) => (
-        <TabIcon
-          iconName={icon.iconName}
-          onPress={icon.onPress}
-          selectedIcon={globalState.selectedTab}
-          key={icon.iconName}
-        />
-      ))}
-    </View>
+    <>
+      {confirmPassword && (
+        <View style={styles.container}>
+          {icons.map((icon) => (
+            <TabIcon
+              iconName={icon.iconName}
+              onPress={icon.onPress}
+              selectedIcon={globalState.selectedTab}
+              key={icon.iconName}
+            />
+          ))}
+        </View>
+      )}
+    </>
   );
 });
 

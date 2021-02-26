@@ -33,13 +33,14 @@ export default observer(({calendar, tabs}) => {
     setMainID,
     setChangeFlag,
     log,
+    setInitial,
     contactHookupFlag,
   } = HookupStore;
   const [calendarFlag, setCalendarFlag] = useState(false);
   const [date, setDate] = useState(new Date());
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [id, setId] = useState(uuidv4());
-  const {globalState} = globalStore;
+  const {globalState, setCurrentNote} = globalStore;
   const {
     contactID,
     contact,
@@ -105,11 +106,13 @@ export default observer(({calendar, tabs}) => {
   };
   const home = () => {
     setMainID(null);
+    setCurrentNote('');
     setAddHookups(false);
     setContactHookupFlag(false);
     setHookupSuccess(true);
     setChangeFlag(false);
     setSelect(false);
+    setInitial(false);
     clearForm();
     setTab('Activity');
     if (contactID) {

@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
@@ -33,11 +34,8 @@ export default observer(({date}) => {
     addTest,
   } = TestsStore;
   const {log, setChangeFlag, changeFlag, changeLog} = HookupStore;
-  const setText = (text) => {
-    setNote(text);
-    setTestNote(text);
-  };
-  const {globalState} = globalStore;
+
+  const {globalState, currentNote} = globalStore;
   const [current, setCurrent] = useState([]);
   const [currentTest, setCurrentTest] = useState([]);
   const scrollRef = useRef(null);
@@ -81,12 +79,16 @@ export default observer(({date}) => {
     let temp;
     if (!addTest) {
       temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
+      console.log('note', toJS(temp));
+
       setChangeFlag(true);
     }
     if (log) {
-      temp = tests.find((e) => e.date === date);
+      const a = tests.find((e) => e.date === date);
+      temp = a !== undefined ? a : temp;
       setChangeFlag(true);
     }
+    console.log('temp', toJS(temp));
 
     if (changeFlag) {
       setCurrent(temp);
@@ -188,8 +190,9 @@ export default observer(({date}) => {
         <View style={TestsStyle.mainNoteWrapper}>
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
-            value={note}
-            onChangeText={(text) => testSuccess && setText(text)}
+            editable={testSuccess}
+            value={currentNote.length > 0 ? currentNote : note}
+            onChangeText={(text) => testSuccess && setTestNote(text)}
             style={TestsStyle.textInput}
             underlineColorAndroid="transparent"
             placeholder="Add note"

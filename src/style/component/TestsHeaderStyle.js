@@ -68,24 +68,8 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     width: '100%',
   },
-  warning: {
-    position: 'absolute',
-    zIndex: 2,
-
-    height: '1000%',
-    opacity: 1,
-    backgroundColor: 'white',
-    width: '100%',
-  },
   deleteImage: {width: 20, height: 20, margin: 20, marginTop: 40},
   mainDeleteTextWrapper: {margin: 20, marginVertical: 0},
-  errorWrapper: {
-    margin: 20,
-    marginVertical: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-
   deleteTextWrapper: {
     width: '100%',
     borderWidth: 1,

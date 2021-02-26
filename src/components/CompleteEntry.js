@@ -4,7 +4,7 @@ import {Text, View} from 'react-native';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import EntryItem from './EntryItem';
 
-export default observer(({arr, withText = false, single, text, hookup}) => {
+export default observer(({arr, withText = false, single, text}) => {
   return (
     <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 8}}>
       {withText && (
@@ -13,12 +13,10 @@ export default observer(({arr, withText = false, single, text, hookup}) => {
       {arr.map((e) => (
         <Fragment key={e.title}>
           <EntryItem
-            colections={text}
             title={e.title}
             result={e.result}
             single={single}
             sucess={true}
-            hookup
           />
         </Fragment>
       ))}

@@ -1,12 +1,10 @@
-import {observer} from 'mobx-react';
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import ButtonWithArrow from '../../components/ButtonWithArrow';
 import ColapseButton from '../../components/ColapseButton';
-import HookupStore from '../../stores/HookupStore';
 import DataStyle from '../../style/page/Settings/DataStyle';
 
-export default observer(() => {
+const LogFilters = () => {
   const [activitiesFlag, setActivities] = useState(false);
   const [protection, setProtection] = useState(false);
   const [substance, seSubstance] = useState(false);
@@ -18,9 +16,8 @@ export default observer(() => {
     'Anal',
     'Other',
   ];
-  const substanceTabs = ['Alcohol', 'Marijuana', 'Poppers', 'Other '];
+  const substanceTabs = ['Alcohol', 'Marijuana', 'Poppers', 'Other'];
   const protectionTabs = ['Condom', 'No Condom'];
-  const {clearLogFilters} = HookupStore;
   return (
     <View style={DataStyle.main}>
       <ButtonWithArrow
@@ -29,7 +26,6 @@ export default observer(() => {
         textStyle={DataStyle.buttonText}
         title="Filters"
         filters
-        onPress={() => clearLogFilters()}
         text="Deselect all"
       />
       <ColapseButton
@@ -53,4 +49,6 @@ export default observer(() => {
       />
     </View>
   );
-});
+};
+
+export default LogFilters;

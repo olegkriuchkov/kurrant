@@ -1,56 +1,45 @@
-import {observer} from 'mobx-react';
 import React from 'react';
-import {Router, Scene, Stack} from 'react-native-router-flux';
-import FriendEntryHeader from '../components/FriendEntryHeader';
+import {Actions, Router, Scene, Stack} from 'react-native-router-flux';
+import {observer} from 'mobx-react';
 import HookupHeader from '../components/HookupHeader';
-import NavBar from '../components/NavBar';
-import TabBar from '../components/TabBar/TabBar';
-import TestsHeader from '../components/TestHeader';
-import COLOR from '../constants/COLOR';
-import {AnalyticsPage} from '../pages/AnalyticsPage';
-import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
-import Contact from '../pages/Contact';
-import Contacts from '../pages/Contacts/Contacts';
-import ContactsHeader from '../pages/Contacts/ContactsHeader';
-import Entry from '../pages/Entry';
 import ContactsFilters from '../pages/Flters/ContactsFilters';
-import CountryFilter from '../pages/Flters/CountryFilter';
 import LogFilters from '../pages/Flters/LogFilters';
 import AddFriendEntry from '../pages/FriendEntry';
 import HomePage from '../pages/HomePage';
-import Log from '../pages/Log';
+
+import NavBar from '../components/NavBar';
+import TabBar from '../components/TabBar/TabBar';
 import Settings from '../pages/Settings';
+import COLOR from '../constants/COLOR';
+import Log from '../pages/Log';
+import SecurityPage from '../pages/Settings/security/SeccurityPage';
 import DataPage from '../pages/Settings/data/DataPage';
+import Contacts from '../pages/Contacts/Contacts';
+import PinPage from '../pages/Settings/security/pinPage';
 import DeleteData from '../pages/Settings/data/DeleteData';
 import Notifications from '../pages/Settings/Notifications/Notifications';
-import PinPage from '../pages/Settings/security/pinPage';
-import SecurityPage from '../pages/Settings/security/SeccurityPage';
 import Touchid from '../pages/Settings/security/touchID';
 import Tests from '../pages/Tests';
-import globalStore from '../stores/globalStore';
-import {setLog} from '../stores/HookupStore';
+import TestsHeader from '../components/TestHeader';
 import TabBarStyle from '../style/component/TabBarStyle';
+import Entry from '../pages/Entry';
+import globalStore from '../stores/globalStore';
+import ContactsHeader from '../pages/Contacts/ContactsHeader';
+import {AnalyticsPage} from '../pages/AnalyticsPage';
+import {AnalyticsHeader} from '../pages/AnalyticsPage/AnalyticsHeader';
+import Filters from '../pages/Flters/ContactsFilters';
 
 export default observer(() => (
   <Router>
     <Stack key="root">
       <Stack hideNavBar tabs tabBarStyle={TabBarStyle.tabBar} showLabel={false}>
-        {/*  <Scene
-          title="Login"
-          key="Login"
-          statusBarStyle="light-content"
-          component={Login}
-          hideTabBar
-          hideNavBar
-        /> */}
         <Scene
           title="Home"
           key="Home"
-          initial
           statusBarStyle="light-content"
           component={HomePage}
+          initial
           tabBarComponent={TabBar}
-          hideNavBar={!globalStore.confirmPassword}
           onEnter={() => {
             globalStore.setSelectedTab('home');
           }}
@@ -62,10 +51,7 @@ export default observer(() => (
           statusBarStyle="light-content"
           component={Log}
           tabBarComponent={TabBar}
-          onEnter={() => {
-            globalStore.setSelectedTab('log');
-            setLog(false);
-          }}
+          onEnter={() => globalStore.setSelectedTab('log')}
           back
           navBar={() => (
             <NavBar color={COLOR.WHITE} logCalendar calendar settings />
@@ -102,7 +88,7 @@ export default observer(() => (
           component={PinPage}
           hideTabBar={true}
           back
-          navBar={() => <NavBar color={COLOR.GREY} noStyle cancel safePass />}
+          navBar={() => <NavBar color={COLOR.GREY} noStyle cancel />}
         />
         <Scene
           key="TouchID"
@@ -151,14 +137,8 @@ export default observer(() => (
         hideTabBar={true}
         component={Tests}
         back
-        onEnter={() => {
-          globalStore.setSelectedTab('Test');
-        }}
         navBar={() => (
-          <TestsHeader
-            calendar
-            tabs={['What were you tested for?', 'Results', 'Notes']}
-          />
+          <TestsHeader calendar tabs={['Any positive tests?', 'Notes']} />
         )}
       />
       <Scene
@@ -167,9 +147,6 @@ export default observer(() => (
         tabBarComponent={TabBar}
         component={Entry}
         back
-        onEnter={() => {
-          globalStore.setSelectedTab('entry');
-        }}
         navBar={() => (
           <HookupHeader
             calendar
@@ -184,22 +161,9 @@ export default observer(() => (
         component={AddFriendEntry}
         back
         navBar={() => (
-          <FriendEntryHeader tabs={['Status', 'Position', 'Notes']} />
-        )}
-      />
-      <Scene
-        key="Contact"
-        statusBarStyle="light-content"
-        tabBarComponent={TabBar}
-        component={Contact}
-        back
-        onEnter={() => {
-          globalStore.setSelectedTab('contact');
-        }}
-        navBar={() => (
-          <FriendEntryHeader
-            friendName
-            tabs={['Status', 'Position', 'Hookups', 'Notes']}
+          <HookupHeader
+            calendar
+            tabs={['Activity', 'Protection', 'Substance', 'Notes']}
           />
         )}
       />
@@ -208,9 +172,6 @@ export default observer(() => (
         statusBarStyle="light-content"
         component={ContactsFilters}
         hideTabBar={true}
-        onEnter={() => {
-          globalStore.setSelectedTab('contactFilters');
-        }}
         back
         navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
       />
@@ -219,7 +180,6 @@ export default observer(() => (
         statusBarStyle="light-content"
         component={LogFilters}
         hideTabBar={true}
-        onEnter={() => globalStore.setSelectedTab('logFilters')}
         back
         navBar={() => <NavBar color={COLOR.GREY} noStyle arrowBack />}
       />
@@ -230,14 +190,6 @@ export default observer(() => (
         component={AnalyticsPage}
         modal={true}
         navBar={() => <AnalyticsHeader />}
-      />
-      <Scene
-        key="CountryFilter"
-        statusBarStyle="light-content"
-        hideTabBar={true}
-        hideNavBar
-        component={() => <CountryFilter countryFilter />}
-        modal={true}
       />
     </Stack>
   </Router>

@@ -12,7 +12,6 @@ const SecurityPage = () => {
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
         title="Security"
-        onPress={() => {}}
       />
       <ButtonWithArrow
         style={DataStyle.button}

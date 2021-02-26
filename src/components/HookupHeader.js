@@ -1,23 +1,27 @@
-import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Alert, Text, View} from 'react-native';
-import 'react-native-get-random-values';
+import {Text, View, TextInput} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import {observer} from 'mobx-react';
+import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
-import COLOR from '../constants/COLOR';
-import FiendEntryStore from '../stores/FiendEntryStore';
 import globalStore from '../stores/globalStore';
-import HookupStore from '../stores/HookupStore';
+import Image from './Image';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
-import Image from './Image';
-import Search from './Search';
 import Tabs from './Tabs';
+import HookupStore from '../stores/HookupStore';
 import TouchebleText from './TouchebleText';
 
 export default observer(({calendar, tabs}) => {
+  const [calendarFlag, setCalendarFlag] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [select, setSelect] = useState(true);
+  const [deleteFlag, setDeleteFlag] = useState(false);
+  const [id, setId] = useState(uuidv4());
+  const {globalState} = globalStore;
+
   const {
     setHookups,
     setHookupDate,
@@ -25,173 +29,79 @@ export default observer(({calendar, tabs}) => {
     setHookupSuccess,
     setName,
     name,
-    setTab,
     hookupSuccess,
-    setContactHookupFlag,
     deleteHookup,
-    mainID,
-    setMainID,
-    setChangeFlag,
-    log,
-    contactHookupFlag,
   } = HookupStore;
-  const [calendarFlag, setCalendarFlag] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const [deleteFlag, setDeleteFlag] = useState(false);
-  const [id, setId] = useState(uuidv4());
-  const {globalState} = globalStore;
-  const {
-    contactID,
-    contact,
-    setSelect,
-    setSearchValue,
-    isSearch,
-    searchValue,
-    setAddHookups,
-  } = FiendEntryStore;
-  const [nameCurrent, setCurrentName] = useState({
-    currentName: null,
-    currentLocation: null,
-  });
-
-  useEffect(() => {
-    const currentContact = contact?.find((e) => e.friendId === contactID);
-
-    setCurrentName({
-      currentName: currentContact?.name,
-      currentLocation: currentContact?.location,
-    });
-    if (contactID) {
-      nameCurrent?.currentName !== undefined &&
-      nameCurrent?.currentName !== null
-        ? setSearchValue(nameCurrent?.currentName)
-        : true;
-    }
-  }, [contactID, globalState.selectedTab]);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab.length]);
   useEffect(() => {
     setHookupDate(new Date());
   }, []);
   const save = () => {
-    if (searchValue || nameCurrent.currentName) {
-      if (contactID !== null) {
-        setName(nameCurrent.currentName);
-        setHookups(mainID, contactID);
-      } else {
-        setHookups(id);
-      }
-      setHookupSuccess(false);
-      setChangeFlag(true);
-    } else {
-      Alert.alert(
-        '',
-        'Pleas enter the name',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => {},
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => {}},
-        ],
-        {cancelable: false},
-      );
-    }
+    setHookups(id);
+    setHookupSuccess(false);
   };
-
   const press = (day) => {
     setDate(new Date(day.timestamp));
     setHookupDate(new Date(day.timestamp));
   };
   const home = () => {
-    setMainID(null);
-    setAddHookups(false);
-    setContactHookupFlag(false);
+    Actions.replace('Home');
     setHookupSuccess(true);
-    setChangeFlag(false);
-    setSelect(false);
     clearForm();
-    setTab('Activity');
-    if (contactID) {
-      Actions.pop();
-    } else Actions.replace('Home');
   };
   return (
-    <View
-      style={
-        isSearch
-          ? [
-              TestsHeaderStyle.mainStyle,
-              {
-                backgroundColor: COLOR.LIGHT_GREY,
-                shadowColor: COLOR.WHITE,
-                elevation: 0,
-              },
-            ]
-          : TestsHeaderStyle.mainStyle
-      }>
+    <View style={TestsHeaderStyle.mainStyle}>
       <View style={TestsHeaderStyle.mainWrapper}>
-        {!isSearch && (
-          <View>
-            <Image
-              onPress={() => {
-                home();
-              }}
-              path={require('../assets/back.png')}
-              style={TestsHeaderStyle.backImage}
-            />
-            <View style={TestsHeaderStyle.titlewrapper}>
-              <View style={TestsHeaderStyle.headWrapper}>
-                <View style={TestsHeaderStyle.columnWrapper}>
-                  <View style={TestsHeaderStyle.headWrapper}>
-                    <Text style={TestsHeaderStyle.date}>
-                      {moment(date).format('MMMM D')}
-                    </Text>
-                    {hookupSuccess && calendar && (
-                      <CalendarButton
-                        onPress={() => setCalendarFlag(!calendarFlag)}
-                        calendarFlag={calendarFlag}
-                      />
-                    )}
-                  </View>
-                  {calendarFlag && (
-                    <CustomCalendar onPress={press} date={date} />
-                  )}
-                  {!contactID && !contactHookupFlag && (
-                    <Search hookup disable />
-                  )}
-                  {!!contactID && !contactHookupFlag && !hookupSuccess && (
-                    <Text style={TestsHeaderStyle.inputStyle}>
-                      {nameCurrent?.currentName}
-                    </Text>
-                  )}
-                  {hookupSuccess && !!contactID && !contactHookupFlag && (
-                    <Search hookup disable={true} name />
+        <View>
+          <Image
+            onPress={() => home()}
+            path={require('../assets/back.png')}
+            style={TestsHeaderStyle.backImage}
+          />
+          <View style={TestsHeaderStyle.titlewrapper}>
+            <View style={TestsHeaderStyle.headWrapper}>
+              <View style={TestsHeaderStyle.columnWrapper}>
+                <View style={TestsHeaderStyle.headWrapper}>
+                  <Text style={TestsHeaderStyle.date}>
+                    {moment(date).format('MMMM D')}
+                  </Text>
+                  {hookupSuccess && calendar && (
+                    <CalendarButton
+                      onPress={() => setCalendarFlag(!calendarFlag)}
+                      calendarFlag={calendarFlag}
+                    />
                   )}
                 </View>
+                {calendarFlag && <CustomCalendar onPress={press} date={date} />}
+
+                {!hookupSuccess ? (
+                  <Text style={TestsHeaderStyle.inputStyle}>{name}</Text>
+                ) : (
+                  <TextInput
+                    onChangeText={(text) => setName(text)}
+                    placeholder="Enter name"
+                    style={TestsHeaderStyle.inputStyle}
+                    value={name}
+                  />
+                )}
               </View>
             </View>
           </View>
-        )}
-        {isSearch && <Search hookup disable />}
-        {hookupSuccess && !contactHookupFlag && !isSearch && (
+        </View>
+        {hookupSuccess && (
           <Image
             style={TestsHeaderStyle.image}
             containerStyle={TestsHeaderStyle.imageWrapper}
-            onPress={() => {
-              save();
-            }}
+            onPress={() => save()}
             path={require('../assets/okButton.png')}
           />
         )}
-        {!hookupSuccess && !contactHookupFlag && !isSearch && (
+        {!hookupSuccess && (
           <View style={{flexDirection: 'row'}}>
             <Image
               style={TestsHeaderStyle.changeImage}
               path={require('../assets/change.png')}
-              onPress={() => {
-                setHookupSuccess(true);
-              }}
+              onPress={() => setHookupSuccess(true)}
             />
             <Image
               style={TestsHeaderStyle.undDeleteImage}
@@ -201,17 +111,13 @@ export default observer(({calendar, tabs}) => {
           </View>
         )}
       </View>
-      {!isSearch && (
-        <View style={TestsHeaderStyle.mainTabsWrapper}>
-          <Tabs
-            tab={tabs}
-            onPress={(tabId) => {
-              setTab(tabId);
-            }}
-            defaultTab={tabs[0]}
-          />
-        </View>
-      )}
+      <View style={TestsHeaderStyle.mainTabsWrapper}>
+        <Tabs
+          tabs={tabs}
+          onPress={(tabId) => setSelect(tabId)}
+          defaultTab={tabs[0]}
+        />
+      </View>
       {deleteFlag && (
         <View style={TestsHeaderStyle.deletScreenWrapper}>
           <Image

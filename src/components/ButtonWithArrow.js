@@ -11,7 +11,6 @@ export default ({
   hideArrow,
   filters,
   text,
-  icon,
   transformarrow,
 }) => {
   const [arrowFalg, setArrowFalg] = useState(false);
@@ -32,9 +31,9 @@ export default ({
             width: '100%',
           }}>
           <Text style={[{fontSize: 15}, textStyle]}>{title}</Text>
-          <TouchableOpacity onPress={onPress} style={{alignSelf: 'flex-end'}}>
-            <Text style={{color: COLOR.WHITE}}>{text}</Text>
-          </TouchableOpacity>
+          <Text style={{alignSelf: 'flex-end', color: COLOR.WHITE}}>
+            {text}
+          </Text>
         </View>
       )}
       <View style={ButtonWithArrowStyle.imageWrapper}>

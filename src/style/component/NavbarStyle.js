@@ -56,9 +56,7 @@ export default StyleSheet.create({
     marginTop: 35,
     color: COLOR.WHITE,
   },
-
   canelWrapper: {left: 320, bottom: 20},
-  saveWrapper: {right: 50, bottom: 20},
 
   arrowBack: {
     width: 25,

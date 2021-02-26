@@ -13,7 +13,6 @@ const Notifications = () => {
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
         title="Notifications"
-        onPress={() => {}}
       />
       <View style={NotificationStyle.info}>
         <Text style={NotificationStyle.infoText}>

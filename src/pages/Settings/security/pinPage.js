@@ -1,13 +1,11 @@
-import {observer} from 'mobx-react';
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-import globalStore from '../../../stores/globalStore';
 import DataStyle from '../../../style/page/Settings/DataStyle';
 import PinStyle from '../../../style/page/Settings/PinStyle';
 
-export default observer(() => {
-  const {password, setPassword} = globalStore;
+const PinPage = () => {
+  const [pin, setPin] = useState('');
   return (
     <View style={PinStyle.main}>
       <View style={PinStyle.textWrapper}>
@@ -20,11 +18,13 @@ export default observer(() => {
         password={true}
         cellStyle={null}
         cellStyleFocused={null}
-        value={password}
+        value={pin}
         onTextChange={(code) => {
-          setPassword(code);
+          setPin(code);
         }}
       />
     </View>
   );
-});
+};
+
+export default PinPage;

@@ -1,72 +1,51 @@
-import {observer} from 'mobx-react';
-import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, ScrollView} from 'react-native';
+import {SearchBar, Icon} from 'react-native-elements';
 import {Actions} from 'react-native-router-flux';
-import Image from '../../components/Image';
-
-import FiendEntryStore from '../../stores/FiendEntryStore';
-import globalStore from '../../stores/globalStore';
-import HookupStore from '../../stores/HookupStore';
 import ContactsStyle from '../../style/page/ContactsStyle';
 
-export default observer(({hookup}) => {
-  const {
-    contact,
-    getContacts,
-    deleteHistoryItem,
-    setFiendSucess,
-    filters,
-    searchValue,
-    searchHistory,
-    isSearch,
-    clearSearchHistory,
-    setSearchValue,
-    setContacID,
-    countryFilter,
-    favoriteFlag,
-    setIsSearch,
-  } = FiendEntryStore;
-  const {setName} = HookupStore;
-  const [filtered, setFiltered] = useState(null);
-  const {globalState} = globalStore;
-  const [contacts, setContacts] = useState(contact);
-  const [hookups, setHookups] = useState();
-  const getFavorite = () => {
-    const temp = contacts.filter((e) => e.favorite);
-    setHookups(temp);
-    if (countryFilter !== null) {
-      setHookups(temp.filter((e) => e.location === countryFilter));
-    }
-  };
-  useEffect(() => {
-    getFavorite();
-  }, [contacts, globalState.selectedTab, favoriteFlag]);
-  useEffect(() => {
-    setContacts(contact);
-    if (countryFilter !== null) {
-      console.log('TUUUUUt');
-      setContacts(contact.filter((el) => el.location === countryFilter));
-    }
-  }, [contact, countryFilter]);
-  useEffect(() => {
-    getContacts();
-    if (filters.length > 0) {
-      const arr = favoriteFlag ? hookups : contacts;
-      const contactFilter = arr?.filter((e) => {
-        let coutn = 0;
-        const temp = e.contact.filter((e) => {
-          if (filters.includes(e.title)) {
-            coutn++;
-            return e;
-          }
-        });
-        return coutn === filters.length && temp;
-      });
-      setFiltered(contactFilter);
-    } else {
-      setFiltered([]);
-    }
-  }, [globalState.selectedTab, filters.length, favoriteFlag, countryFilter]);
+const contacts = [
+  'Pete Davidson',
+  'Ryan Raynolds',
+  'Chad',
+  'Alan Wong',
+  'Bill',
+  'Zill',
+  'Mike',
+  'Adam',
+  'Chris',
+  'Cody',
+  'Paul',
+  'Bob',
+  'Michael',
+  'Henry',
+  'Harry',
+];
+const hookups = [
+  {
+    name: 'Chris',
+    time: 1610111040600,
+    number: 4,
+  },
+  {
+    name: 'Chad',
+    time: 1610568040600,
+    number: 1,
+  },
+  {
+    name: 'Zill',
+    time: 1610311040600,
+    number: 3,
+  },
+  {
+    name: 'Alan Wong',
+    time: 1610361040600,
+    number: 2,
+  },
+];
+
+const Contacts = () => {
+  const [searchValue, setSearchValue] = useState('');
 
   const getLetters = () => {
     const letters = [];
@@ -76,193 +55,67 @@ export default observer(({hookup}) => {
 
     return letters;
   };
-
-  const onPressContact = (id, name) => {
-    if (hookup) {
-      setSearchValue(name);
-      setContacID(id);
-      setIsSearch(false);
-    } else {
-      setFiendSucess(false);
-      Actions.push('Contact', {id});
-    }
-  };
-
+  console.log('------', Actions.currentScene);
   return (
-    <ScrollView style={!isSearch ? {} : ContactsStyle.scrollViewBlock}>
-      {!favoriteFlag && (
-        <View style={ContactsStyle.mostFrequentContainer}>
-          <View style={ContactsStyle.contentContainer}>
-            {!isSearch && !countryFilter && (
-              <View style={ContactsStyle.titleContainer}>
-                <Text style={ContactsStyle.mostFrequent}>
-                  Most frequent (90 days)
-                </Text>
-              </View>
-            )}
-            {!!hookups?.length &&
-              !isSearch &&
-              hookups
-                .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
-                .slice(0, 3)
-                .map((hookup, i) => (
-                  <TouchableOpacity
-                    onPress={() => onPressContact(hookup.friendId, hookup.name)}
-                    style={[
-                      ContactsStyle.contactContainer,
-                      i > 0 ? ContactsStyle.topBorder : null,
-                    ]}
-                    key={`${hookup.name}-${i}`}>
-                    <Text style={ContactsStyle.mostFrequentHookups}>
-                      {hookup.name}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-          </View>
-        </View>
-      )}
-      {!favoriteFlag && !isSearch ? (
-        getLetters().map((letter, i) => {
-          let letterContacts;
-          if (filtered?.length > 0) {
-            letterContacts = filtered.filter(
-              (contact) => contact.name?.charAt(0) === letter,
-            );
-          } else {
-            letterContacts = contacts.filter(
-              (contact) => contact.name?.charAt(0) === letter,
-            );
-          }
-          return (
-            <View key={i} style={ContactsStyle.letterBlock}>
-              <View
-                style={[
-                  ContactsStyle.letterContainer,
-                  letterContacts?.length === 0 && ContactsStyle.bottomBorder,
-                ]}>
+    <ScrollView style={ContactsStyle.scrollViewBlock}>
+      {/* <SearchBar
+        placeholder="Search"
+        onChangeText={(value)=> setSearchValue(value.toLowerCase())}
+        value={searchValue}
+        lightTheme={true}
+        inputStyle={ContactsStyle.searchField}
+        containerStyle={{backgroundColor: 'transparent', padding: 10, }}
+        inputContainerStyle={{backgroundColor: 'white', borderRadius: 15, borderWidth: 2, borderColor: 'lightgrey'}}
+        searchIcon={
+          <Icon
+            name='sc-telegram'
+            type='evilicon'
+            color='#517fa4'
+          />
+        }
+      /> */}
+      <View>
+        <Text style={ContactsStyle.mostFrequent}>Most frequent (90 days)</Text>
+        {hookups
+          .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
+          .slice(0, 3)
+          .map((hookup, i, hookups) => (
+            <Text
+              key={i}
+              style={[
+                ContactsStyle.mostFrequentHookups,
+                i < hookups.length - 1 ? ContactsStyle.bottomBorder : null,
+              ]}>
+              {hookup.name}
+            </Text>
+          ))}
+      </View>
+      {!searchValue
+        ? getLetters().map((letter, i) => {
+            return (
+              <View key={i} style={ContactsStyle.letterBlock}>
                 <Text style={ContactsStyle.letter}>{letter}</Text>
-              </View>
-              <View style={ContactsStyle.contactsBlock}>
-                {letterContacts.map((contact, i) => {
-                  return (
-                    <TouchableOpacity
-                      style={[
-                        ContactsStyle.contactContainer,
-                        i > 0 ? ContactsStyle.topBorder : null,
-                      ]}
-                      key={i}
-                      onPress={() => onPressContact(contact.friendId)}>
-                      <Text style={ContactsStyle.contact}>{contact.name}</Text>
-                      {contact.favorite && (
-                        <Image
-                          path={require('../../assets/favorite.png')}
-                          style={{width: 15, height: 15}}
-                        />
-                      )}
-                    </TouchableOpacity>
-                  );
+                {contacts.map((contact, i) => {
+                  if (contact.charAt(0) === letter) {
+                    return (
+                      <Text style={ContactsStyle.contact} key={i}>
+                        {contact}
+                      </Text>
+                    );
+                  }
                 })}
               </View>
-            </View>
-          );
-        })
-      ) : searchValue?.length > 0 ? (
-        <View style={ContactsStyle.contactsBlock}>
-          {contacts.map((contact, i) => {
-            return contact.name.toLowerCase().startsWith(searchValue) ? (
-              <TouchableOpacity
-                key={i}
-                onPress={() => onPressContact(contact.friendId, contact.name)}
-                style={[
-                  ContactsStyle.contactContainer,
-                  i > 0 ? ContactsStyle.topBorder : null,
-                ]}>
-                <Text style={ContactsStyle.contact}>{contact.name}</Text>
-              </TouchableOpacity>
+            );
+          })
+        : contacts.map((contact, i) => {
+            return contact.toLowerCase().startsWith(searchValue) ? (
+              <Text style={ContactsStyle.contact} key={i}>
+                {contact}
+              </Text>
             ) : null;
           })}
-        </View>
-      ) : (
-        <View style={ContactsStyle.contactsBlock}>
-          {isSearch && (
-            <TouchableOpacity
-              onPress={() => {
-                setFiendSucess(true);
-                setContacID(null);
-                Actions.AddFriendEntry();
-              }}>
-              <Text>Add new Contact</Text>
-            </TouchableOpacity>
-          )}
-          {searchHistory.map((contact, i) => {
-            const name =
-              contact[0].toUpperCase() + contact.slice(1, contact.length);
-            return (
-              <TouchableOpacity
-                key={i}
-                onPress={() => setSearchValue(name)}
-                style={[
-                  ContactsStyle.contactContainer,
-                  {
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  },
-                  i > 0 ? ContactsStyle.topBorder : null,
-                ]}>
-                <Text style={ContactsStyle.contact}>{name}</Text>
-                <Image
-                  path={require('../../assets/deleteHistoryItem.png')}
-                  style={{width: 30, height: 30}}
-                  onPress={() => {
-                    deleteHistoryItem(contact);
-                  }}
-                />
-              </TouchableOpacity>
-            );
-          })}
-
-          {searchHistory.length > 0 && (
-            <TouchableOpacity
-              style={ContactsStyle.clearSearchButton}
-              onPress={() => {
-                clearSearchHistory();
-              }}>
-              <Text style={ContactsStyle.clearButtonText}>
-                Clear recent searches
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      )}
-      {favoriteFlag && (
-        <View style={ContactsStyle.mostFrequentContainer}>
-          <View style={ContactsStyle.contentContainer}>
-            {!!hookups?.length &&
-              !isSearch &&
-              (filters.length > 0 ? filtered : hookups)
-                .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
-                .slice(0, 3)
-                .map((hookup, i) => (
-                  <TouchableOpacity
-                    onPress={() => onPressContact(hookup.friendId, hookup.name)}
-                    style={[
-                      ContactsStyle.contactContainer,
-                      i > 0 ? ContactsStyle.topBorder : null,
-                    ]}
-                    key={`${hookup.name}-${i}`}>
-                    <Text style={ContactsStyle.mostFrequentHookups}>
-                      {hookup.name}
-                    </Text>
-                    <Image
-                      path={require('../../assets/favorite.png')}
-                      style={{width: 15, height: 15}}
-                    />
-                  </TouchableOpacity>
-                ))}
-          </View>
-        </View>
-      )}
     </ScrollView>
   );
-});
+};
+
+export default Contacts;

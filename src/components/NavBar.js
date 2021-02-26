@@ -3,13 +3,11 @@ import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import COLOR from '../constants/COLOR';
 import globalStore from '../stores/globalStore';
-import HookupStore from '../stores/HookupStore';
+import Image from './Image';
 import NavbarStyle from '../style/component/NavbarStyle';
 import CustomCalendar from './Calendar';
 import CalendarButton from './CalendarButton';
-import Image from './Image';
 import SelectedCalendar from './SelectedCalendar';
 
 const NavBar = observer(
@@ -22,7 +20,6 @@ const NavBar = observer(
     settings,
     noStyle,
     pop,
-    safePass,
     calendar,
     cancel,
     logCalendar,
@@ -32,8 +29,7 @@ const NavBar = observer(
     const press = (day) => {
       setDate(new Date(day.timestamp));
     };
-    const {logFilters} = HookupStore;
-    const {globalState, setAsyncPass, confirmPassword} = globalStore;
+    const {globalState} = globalStore;
     useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
     const wrapperStyle = noStyle
       ? [NavbarStyle.noStyle, {backgroundColor: color}]
@@ -54,13 +50,6 @@ const NavBar = observer(
               style={NavbarStyle.canelWrapper}
               onPress={() => Actions.pop()}>
               <Text style={NavbarStyle.cancel}>Cancel</Text>
-            </TouchableOpacity>
-          )}
-          {safePass && (
-            <TouchableOpacity
-              style={NavbarStyle.saveWrapper}
-              onPress={() => setAsyncPass()}>
-              <Text style={NavbarStyle.cancel}>Save password</Text>
             </TouchableOpacity>
           )}
           {pop && (
@@ -95,31 +84,12 @@ const NavBar = observer(
                 />
               )}
               {settings && logCalendar && (
-                <View>
-                  {logFilters.length > 0 && (
-                    <View
-                      style={{
-                        position: 'absolute',
-                        borderRadius: 50,
-                        backgroundColor: COLOR.PINK,
-                        width: 16,
-                        height: 16,
-                        alignItems: 'center',
-                        bottom: 35,
-                        left: 10,
-                      }}>
-                      <Text style={{fontSize: 12, color: COLOR.WHITE}}>
-                        {logFilters.length}
-                      </Text>
-                    </View>
-                  )}
-                  <Image
-                    path={require('../assets/settings.png')}
-                    style={NavbarStyle.settings}
-                    containerStyle={NavbarStyle.settingsBtn}
-                    onPress={() => Actions.LogFilters()}
-                  />
-                </View>
+                <Image
+                  path={require('../assets/settings.png')}
+                  style={NavbarStyle.settings}
+                  containerStyle={NavbarStyle.settingsBtn}
+                  onPress={() => Actions.LogFilters()}
+                />
               )}
             </View>
             {calendarFlag && !logCalendar && (

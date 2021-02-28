@@ -23,7 +23,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   const [date, setDate] = useState(new Date());
   const [deleteFlag, setDeleteFlag] = useState(false);
   const resultTabs = ['Results', 'Notes'];
-  const {globalState} = globalStore;
+  const {globalState, setCurrentNote} = globalStore;
   const {setLog, setChangeLog} = HookupStore;
   const {
     setTestDate,
@@ -71,6 +71,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setTestDate(new Date(day.timestamp));
   };
   const home = () => {
+    setCurrentNote('');
     setCurrentID(null);
     setFullScreening(false);
     setChangeLog(false);
@@ -145,6 +146,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
                 setResult(false);
                 setChangeFlag(true);
                 setLog(true);
+                setAddTest(false);
                 setChangeLog(true);
                 setUnFulScreening(false);
                 setTestSuccess(true);

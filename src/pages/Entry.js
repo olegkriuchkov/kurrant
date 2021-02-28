@@ -5,6 +5,7 @@ import HookupWrapepr from '../components/HookupWrapepr';
 import SucessHookupWrapper from '../components/SucessHookupWrapper';
 import COLOR from '../constants/COLOR';
 import FiendEntryStore from '../stores/FiendEntryStore';
+import globalStore from '../stores/globalStore';
 import HookupStore from '../stores/HookupStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 import Contacts from './Contacts/Contacts';
@@ -15,6 +16,7 @@ export default observer(({date}) => {
   const protection = ['Condom', 'No Condom'];
   const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other '];
   const {setHookupNote, tabs, hookupSuccess, note} = HookupStore;
+  const {currentNote} = globalStore;
   const setText = (text) => {
     setHookupNote(text);
   };
@@ -90,7 +92,8 @@ export default observer(({date}) => {
             <Text style={TestsStyle.textNote}>Notes</Text>
             <TextInput
               onChangeText={(text) => hookupSuccess && setText(text)}
-              value={note}
+              value={currentNote.length > 0 ? currentNote : note}
+              editable={hookupSuccess}
               style={TestsStyle.textInput}
               underlineColorAndroid="transparent"
               placeholder="Add note"

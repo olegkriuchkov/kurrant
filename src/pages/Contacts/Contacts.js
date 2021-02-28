@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
@@ -62,7 +63,9 @@ export default observer(({hookup}) => {
         });
         return coutn === filters.length && temp;
       });
-      setFiltered(contactFilter);
+      contactFilter.length > 0
+        ? setFiltered(contactFilter)
+        : setFiltered('false');
     } else {
       setFiltered([]);
     }
@@ -90,7 +93,7 @@ export default observer(({hookup}) => {
 
   return (
     <ScrollView style={!isSearch ? {} : ContactsStyle.scrollViewBlock}>
-      {!favoriteFlag && (
+      {!favoriteFlag && typeof filtered !== 'string' && (
         <View style={ContactsStyle.mostFrequentContainer}>
           <View style={ContactsStyle.contentContainer}>
             {!isSearch && !countryFilter && (
@@ -104,24 +107,29 @@ export default observer(({hookup}) => {
               !isSearch &&
               hookups
                 .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
-                .slice(0, 3)
-                .map((hookup, i) => (
-                  <TouchableOpacity
-                    onPress={() => onPressContact(hookup.friendId, hookup.name)}
-                    style={[
-                      ContactsStyle.contactContainer,
-                      i > 0 ? ContactsStyle.topBorder : null,
-                    ]}
-                    key={`${hookup.name}-${i}`}>
-                    <Text style={ContactsStyle.mostFrequentHookups}>
-                      {hookup.name}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
+                .slice(-5, hookups.length)
+                .map((hookup, i) => {
+                  console.log('EL', toJS(hookup), 'hook', toJS(hookups));
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        onPressContact(hookup.friendId, hookup.name)
+                      }
+                      style={[
+                        ContactsStyle.contactContainer,
+                        i > 0 ? ContactsStyle.topBorder : null,
+                      ]}
+                      key={`${hookup.name}-${i}`}>
+                      <Text style={ContactsStyle.mostFrequentHookups}>
+                        {hookup.name}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
           </View>
         </View>
       )}
-      {!favoriteFlag && !isSearch ? (
+      {!favoriteFlag && typeof filtered !== 'string' && !isSearch ? (
         getLetters().map((letter, i) => {
           let letterContacts;
           if (filtered?.length > 0) {
@@ -191,7 +199,7 @@ export default observer(({hookup}) => {
                 setContacID(null);
                 Actions.AddFriendEntry();
               }}>
-              <Text>Add new Contact</Text>
+              <Text style={{marginTop: 5}}>Add new Contact</Text>
             </TouchableOpacity>
           )}
           {searchHistory.map((contact, i) => {
@@ -234,6 +242,11 @@ export default observer(({hookup}) => {
             </TouchableOpacity>
           )}
         </View>
+      )}
+      {typeof filtered === 'string' && (
+        <Text style={{marginTop: '50%', alignSelf: 'center'}}>
+          There are no contacts matching these filters
+        </Text>
       )}
       {favoriteFlag && (
         <View style={ContactsStyle.mostFrequentContainer}>

@@ -144,9 +144,11 @@ export default observer(({tabs, friendName}) => {
                   ]}>
                   {!friendEntrySuccess || nameCurrent?.currentLocation ? (
                     <Text style={TestsHeaderStyle.inputStyle}>
-                      {nameCurrent?.currentLocation ||
-                        location ||
-                        'No location'}
+                      {nameCurrent?.currentLocation?.length > 15
+                        ? nameCurrent?.currentLocation.slice(0, 15)
+                        : nameCurrent?.currentLocation ||
+                          location ||
+                          'No location'}
                     </Text>
                   ) : (
                     !friendName && (
@@ -154,7 +156,9 @@ export default observer(({tabs, friendName}) => {
                         style={TestsHeaderStyle.inputStyle}
                         onPress={() => setLocationFlag(true)}>
                         <Text style={{fontSize: 24}}>
-                          {location || 'Location'}
+                          {location.length > 15
+                            ? location.slice(0, 15)
+                            : location || 'Location'}
                         </Text>
                       </TouchableOpacity>
                     )

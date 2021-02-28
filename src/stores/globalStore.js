@@ -8,16 +8,22 @@ class GlobalStore {
 
   @observable auth = false;
 
-  @action setPassword = (text) => {
-    this.password = text;
-  };
+  @observable currentNote = '';
 
   @observable asyncPass = '';
 
   @observable confirmPassword = false;
 
+  @action setCurrentNote = (text) => {
+    this.currentNote = text;
+  };
+
   @action setAuth = (bool) => {
     this.auth = bool;
+  };
+
+  @action setPassword = (text) => {
+    this.password = text;
   };
 
   @action setAsyncPass = async () => {

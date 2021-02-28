@@ -49,8 +49,8 @@ export default observer(() => (
           initial
           statusBarStyle="light-content"
           component={HomePage}
-          tabBarComponent={TabBar}
           hideNavBar={!globalStore.confirmPassword}
+          tabBarComponent={TabBar}
           onEnter={() => {
             globalStore.setSelectedTab('home');
           }}

@@ -29,7 +29,7 @@ export default observer(() => {
     getTests();
   }, []);
   const data = [...toJS(hookups), ...toJS(tests)];
-  const {globalState} = globalStore;
+  const {globalState, setCurrentNote} = globalStore;
   const [logData, setLogData] = useState([]);
   const parseLog = (args) => {
     const sortDate = args.sort((a, b) => moment(a.date).diff(b.date));
@@ -48,6 +48,7 @@ export default observer(() => {
           date: e.date,
           colection: e.colection,
           hookups: e.hookup,
+          note: e.note,
         },
       };
     });
@@ -118,75 +119,89 @@ export default observer(() => {
   }, [globalState.selectedTab, logFilters.length]);
   return (
     <ScrollView>
-      {logData.map((e) => {
-        return (
-          <View style={LogStyle.main}>
-            <View
-              style={e.date.length > 0 ? LogStyle.title : LogStyle.singletitle}
-              key={e.date + Math.random()}>
-              <Text style={LogStyle.titleText}>{e.title}</Text>
-            </View>
-            {e.date.map((el, index) => {
-              return (
-                <TouchableOpacity style={LogStyle.infoWrapper}>
-                  <View
-                    style={
-                      index === e.date.length - 1
-                        ? LogStyle.itemWrapper
-                        : LogStyle.lastItemWrapper
-                    }>
-                    <Text style={LogStyle.time}>
-                      {moment(el.eventDate).format('ddd D')}
-                    </Text>
-                    {el.type === 'hookup' ? (
-                      <TouchableOpacity
-                        onPress={() => {
-                          setContacID(el.id);
-                          setMainID(el.mainID);
-                          setHookupSuccess(false);
-                          setChangeFlag(true);
-                          setLog(true);
-                          Actions.push('Entry', {date: el.date});
-                        }}
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}>
-                        <Text style={LogStyle.name}>{el.name}</Text>
-                        {el.favorite && (
+      {typeof filtered !== 'string' &&
+        logData.map((e) => {
+          return (
+            <View style={LogStyle.main}>
+              <View
+                style={
+                  e.date.length > 0 ? LogStyle.title : LogStyle.singletitle
+                }
+                key={e.date + Math.random()}>
+                <Text style={LogStyle.titleText}>{e.title}</Text>
+              </View>
+              {e.date.map((el, index) => {
+                return (
+                  <TouchableOpacity style={LogStyle.infoWrapper}>
+                    <View
+                      style={
+                        index === e.date.length - 1
+                          ? LogStyle.itemWrapper
+                          : LogStyle.lastItemWrapper
+                      }>
+                      <Text style={LogStyle.time}>
+                        {moment(el.eventDate).format('ddd D')}
+                      </Text>
+                      {el.type === 'hookup' ? (
+                        <TouchableOpacity
+                          onPress={() => {
+                            setContacID(el.id);
+                            setMainID(el.mainID);
+                            setHookupSuccess(false);
+                            setChangeFlag(true);
+                            setLog(true);
+
+                            setCurrentNote(el.note);
+
+                            Actions.push('Entry', {date: el.date});
+                          }}
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}>
+                          <Text style={LogStyle.name}>{el.name}</Text>
+                          {el.favorite && (
+                            <Image
+                              source={require('../assets/favorite.png')}
+                              style={{width: 15, height: 15}}
+                            />
+                          )}
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() => {
+                            setContacID(el.id);
+                            setTestSuccess(false);
+                            setLog(true);
+                            setChangeFlag(true);
+                            setCurrentNote(el.note);
+                            Actions.push('Test', {date: el.date});
+                          }}
+                          style={{flexDirection: 'row', alignItems: 'center'}}>
                           <Image
-                            source={require('../assets/favorite.png')}
-                            style={{width: 15, height: 15}}
+                            source={require('../assets/positiveTest.png')}
+                            style={LogStyle.image}
                           />
-                        )}
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity
-                        onPress={() => {
-                          setContacID(el.id);
-                          setTestSuccess(false);
-                          setLog(true);
-                          setChangeFlag(true);
-                          Actions.push('Test', {date: el.date});
-                        }}
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Image
-                          source={require('../assets/positiveTest.png')}
-                          style={LogStyle.image}
-                        />
-                        <Text style={LogStyle.titleText}>
-                          {el.length > 0 ? 'Test - Positive' : 'Test Negative'}
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        );
-      })}
+                          <Text style={LogStyle.titleText}>
+                            {el.length > 0
+                              ? 'Test - Positive'
+                              : 'Test Negative'}
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          );
+        })}
+      {typeof filtered === 'string' && (
+        <Text style={{marginTop: '50%', alignSelf: 'center'}}>
+          There are no contacts matching these filters
+        </Text>
+      )}
     </ScrollView>
   );
 });

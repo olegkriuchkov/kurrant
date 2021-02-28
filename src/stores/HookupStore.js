@@ -15,6 +15,8 @@ class HookupStore {
 
   markedHookups = {};
 
+  @observable initial = true;
+
   @observable changeFlag = false;
 
   @observable hookupSuccess = true;
@@ -43,6 +45,10 @@ class HookupStore {
     activity: 0,
     protection: 0,
     substance: 0,
+  };
+
+  @action setInitial = (bool) => {
+    this.initial = bool;
   };
 
   @action setIncludeFilters = (obj) => {

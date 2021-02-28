@@ -12,7 +12,14 @@ import HomePageStyle from '../style/page/HomePageStyle';
 // TODO most frqumen всего 5 элементов за последние 90 дней отображаются 5 элементво с найбольшим количеством хукапов,пофиксить баги ВХОД ЧЕРЕЗ ПИН
 const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
-  const {getHookups, hookups, hookupSuccess, setLog} = HookupStore;
+  const {
+    getHookups,
+    hookups,
+    hookupSuccess,
+    setLog,
+    setChangeFlag,
+    setInitial,
+  } = HookupStore;
   const {getTests, tests, testSuccess, setTestSuccess, setAddTest} = TestsStore;
   const {setContacID, setSearchValue, keys} = FiendEntryStore;
   const {
@@ -38,6 +45,7 @@ const HomePage = observer(() => {
     getTests();
     getContacts();
     getAsyncPass();
+    setSearchValue('');
     console.log('Hookups', toJS(hookups));
     console.log('Tests', toJS(tests));
     console.log('Contacts', toJS(contact));
@@ -92,7 +100,8 @@ const HomePage = observer(() => {
                 setIsSearch(false);
                 setAddHookups(true);
                 setSearchValue('');
-
+                setChangeFlag(false);
+                setInitial(true);
                 console.log('Hookups', toJS(hookups));
               }}>
               <Text style={HomePageStyle.modalText}>New hookup</Text>

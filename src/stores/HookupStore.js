@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable, reaction} from 'mobx';
+import {action, makeObservable, observable, reaction, toJS} from 'mobx';
 import moment from 'moment';
 import {Actions} from 'react-native-router-flux';
 import COLOR from '../constants/COLOR';
@@ -106,6 +106,7 @@ class HookupStore {
     this.getHookups();
     const currentHookup =
       this.hookups !== null ? this.hookups.find((e) => e.id === id) : false;
+    console.log('curr', toJS(currentHookup));
     if (currentHookup) {
       this.removeHookup();
 

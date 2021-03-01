@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import moment from 'moment';
 import Image from '../../components/Image';
 
 import FiendEntryStore from '../../stores/FiendEntryStore';
@@ -27,19 +28,38 @@ export default observer(({hookup}) => {
     favoriteFlag,
     setIsSearch,
   } = FiendEntryStore;
-  const {setName} = HookupStore;
   const [filtered, setFiltered] = useState(null);
   const {globalState} = globalStore;
   const [contacts, setContacts] = useState(contact);
-  const [hookups, setHookups] = useState();
+  const [hooks, setHookups] = useState();
+  const [frequent, setFrequent] = useState();
+  const getMostFrequent = () => {
+    const filterContacts = contact
+      ?.map((e) => {
+        const temp = e.hookups?.filter((el) => {
+          return moment(el.date).diff(moment(Date.now()), 'days') > -90;
+        });
+        return {...e, hookups: toJS(temp)};
+      })
+      .filter((e) => e !== undefined)
+      .filter((e) => e.hookups?.length !== 0)
+      .filter((e) => e.hookups !== undefined);
+    const temp = filterContacts?.sort(
+      (a, b) => b.hookups?.length - a.hookups?.length,
+    );
+    const result = temp.slice(0, 5);
+    console.log('filtered', toJS(result));
+    setFrequent(result);
+  };
   const getFavorite = () => {
-    const temp = contacts.filter((e) => e.favorite);
+    const temp = contacts?.filter((e) => e.favorite);
     setHookups(temp);
     if (countryFilter !== null) {
       setHookups(temp.filter((e) => e.location === countryFilter));
     }
   };
   useEffect(() => {
+    getMostFrequent();
     getFavorite();
   }, [contacts, globalState.selectedTab, favoriteFlag]);
   useEffect(() => {
@@ -52,7 +72,7 @@ export default observer(({hookup}) => {
   useEffect(() => {
     getContacts();
     if (filters.length > 0) {
-      const arr = favoriteFlag ? hookups : contacts;
+      const arr = favoriteFlag ? hooks : contacts;
       const contactFilter = arr?.filter((e) => {
         let coutn = 0;
         const temp = e.contact.filter((e) => {
@@ -103,29 +123,24 @@ export default observer(({hookup}) => {
                 </Text>
               </View>
             )}
-            {!!hookups?.length &&
+            {!!frequent?.length &&
               !isSearch &&
-              hookups
-                .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
-                .slice(-5, hookups.length)
-                .map((hookup, i) => {
-                  console.log('EL', toJS(hookup), 'hook', toJS(hookups));
-                  return (
-                    <TouchableOpacity
-                      onPress={() =>
-                        onPressContact(hookup.friendId, hookup.name)
-                      }
-                      style={[
-                        ContactsStyle.contactContainer,
-                        i > 0 ? ContactsStyle.topBorder : null,
-                      ]}
-                      key={`${hookup.name}-${i}`}>
-                      <Text style={ContactsStyle.mostFrequentHookups}>
-                        {hookup.name}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
+              frequent.map((hookup, i) => {
+                console.log('EL', toJS(hookup), 'hook', toJS(hooks));
+                return (
+                  <TouchableOpacity
+                    onPress={() => onPressContact(hookup.friendId, hookup.name)}
+                    style={[
+                      ContactsStyle.contactContainer,
+                      i > 0 ? ContactsStyle.topBorder : null,
+                    ]}
+                    key={`${hookup.name}-${i}`}>
+                    <Text style={ContactsStyle.mostFrequentHookups}>
+                      {hookup.name}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
           </View>
         </View>
       )}
@@ -251,9 +266,9 @@ export default observer(({hookup}) => {
       {favoriteFlag && (
         <View style={ContactsStyle.mostFrequentContainer}>
           <View style={ContactsStyle.contentContainer}>
-            {!!hookups?.length &&
+            {!!hooks?.length &&
               !isSearch &&
-              (filters.length > 0 ? filtered : hookups)
+              (filters.length > 0 ? filtered : hooks)
                 .sort((hookup1, hookup2) => hookup1.time < hookup2.time)
                 .slice(0, 3)
                 .map((hookup, i) => (

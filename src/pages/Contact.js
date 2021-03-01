@@ -1,8 +1,16 @@
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect} from 'react';
-import {SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import {toJS} from 'mobx';
 import ButtonWithArrow from '../components/ButtonWithArrow';
 import Image from '../components/Image';
 import SucessContactWrapper from '../components/SucessContactWrapper';
@@ -33,9 +41,9 @@ export default observer(({id}) => {
   useEffect(() => {
     setContacID(id);
     const temp = hookups.filter((e) => e.contactID === id);
-    setContactHookup(temp);
+    setContactHookup(temp, id);
   }, [hookupSuccess, globalState.selectedTab]);
-
+  useEffect(() => {}, [contactHookup.length]);
   const setText = (text) => {
     setFriendNote(text);
   };

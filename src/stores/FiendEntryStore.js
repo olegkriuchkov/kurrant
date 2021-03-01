@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable} from 'mobx';
+import {action, makeObservable, observable, toJS} from 'mobx';
 import {Actions} from 'react-native-router-flux';
 
 class FiendEntryStore {
@@ -147,7 +147,7 @@ class FiendEntryStore {
     }
   };
 
-  @action setContacts = async (friendId, bool) => {
+  @action setContacts = async (friendId, bool, arr) => {
     this.getContacts();
     const currentContact =
       this.contact !== null
@@ -155,11 +155,13 @@ class FiendEntryStore {
         : false;
     if (currentContact) {
       this.removeContact();
-      currentContact.contact = this.contactItem;
+      currentContact.contact =
+        this.contactItem.length > 0 ? this.contactItem : currentContact.contact;
       currentContact.name = this.name ? this.name : currentContact.name;
       currentContact.friendEntryNote = this.friendEntryNote;
       currentContact.location = this.location;
-      currentContact.favorite = bool;
+      currentContact.favorite =
+        bool !== undefined ? bool : currentContact.favorite;
       this.contact = this.contact.map((e) => {
         if (e.friendId === friendId) {
           return {
@@ -170,6 +172,7 @@ class FiendEntryStore {
             friendId: currentContact.friendId,
             type: 'contact',
             favorite: currentContact.favorite,
+            hookups: arr,
           };
         }
         return e;
@@ -235,8 +238,10 @@ class FiendEntryStore {
     }
   };
 
-  @action setContactHookup = (array) => {
+  @action setContactHookup = (array, id) => {
     this.contactHookup = array;
+
+    this.setContacts(id, undefined, array);
   };
 
   @action setFilters = (el) => {

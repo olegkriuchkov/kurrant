@@ -15,6 +15,7 @@ export default observer(({countryFilter}) => {
     setCountryFilter,
     setFilters,
   } = FiendEntryStore;
+
   return (
     <>
       <GooglePlacesAutocomplete

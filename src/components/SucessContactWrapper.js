@@ -13,6 +13,7 @@ export default ({id}) => {
   });
   const currentContact = contact?.find((e) => e.friendId === id);
   useEffect(() => {
+    console.log(toJS(currentContact));
     if (!currentContact) return;
     setStatus({
       position: [],

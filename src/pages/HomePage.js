@@ -1,15 +1,22 @@
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
-import {Dimensions, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Login from '../components/Login';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import globalStore from '../stores/globalStore';
 import HookupStore from '../stores/HookupStore';
+
 import TestsStore from '../stores/TestsStore';
 import HomePageStyle from '../style/page/HomePageStyle';
-// TODO most frqumen всего 5 элементов за последние 90 дней отображаются 5 элементво с найбольшим количеством хукапов,пофиксить баги ВХОД ЧЕРЕЗ ПИН
+// TODO most frqumen всего 5 элементов за последние 90 дней отображаются 5 элементво с найбольшим количеством хукапов
 const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
   const {

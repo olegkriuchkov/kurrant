@@ -25,7 +25,8 @@ export default StyleSheet.create({
   },
   noStyle: {
     height: 70,
-    paddingTop: 20,
+    paddingTop: 40,
+    width: '100%',
   },
   dateContaier: {
     flexDirection: 'row',

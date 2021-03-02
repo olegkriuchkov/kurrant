@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useRef} from 'react';
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
@@ -14,7 +15,7 @@ export default observer(({hookup, disable, name}) => {
     setSearchHistory,
   } = FiendEntryStore;
   const refBlur = useRef();
-
+  console.log('search', toJS(searchValue));
   return (
     <View
       style={

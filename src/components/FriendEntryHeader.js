@@ -31,7 +31,6 @@ export default observer(({tabs, friendName}) => {
     name,
     location,
     setLocation,
-
     setContacts,
     clearItem,
     deleteContact,
@@ -41,6 +40,7 @@ export default observer(({tabs, friendName}) => {
     contact,
     locationFlag,
     setLocationFlag,
+    setSearchValue,
   } = FiendEntryStore;
   const deleteItem = () => {
     if (contactID) {
@@ -92,6 +92,7 @@ export default observer(({tabs, friendName}) => {
   }, [contactID, globalState.selectedTab, contact]);
 
   const home = () => {
+    setSearchValue('');
     setFiendSucess(true);
     clearForm();
     clearItem();

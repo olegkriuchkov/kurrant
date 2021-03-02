@@ -104,7 +104,6 @@ export default observer(() => {
         });
         return coutn === logFilters.length && temp;
       });
-      console.log(toJS(contactFilter));
       contactFilter.length > 0 ? setFiltered(contactFilter) : setFiltered('');
     } else {
       setFiltered([]);

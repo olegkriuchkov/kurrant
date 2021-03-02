@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
@@ -18,7 +17,6 @@ export default observer(({date}) => {
     'Other',
   ];
   const testTypes = ['Rectal', 'Throad', 'Urine'];
-  const [setNote] = useState('');
   const {
     setTestNote,
     testSuccess,
@@ -37,7 +35,6 @@ export default observer(({date}) => {
 
   const {globalState, currentNote} = globalStore;
   const [current, setCurrent] = useState([]);
-  const [currentTest, setCurrentTest] = useState([]);
   const scrollRef = useRef(null);
   const scrollTo = () => {
     if (tabs === 'Notes') {
@@ -79,7 +76,6 @@ export default observer(({date}) => {
     let temp;
     if (!addTest) {
       temp = tests?.find((e) => e.id === tests[tests.length - 1].id);
-      console.log('note', toJS(temp));
 
       setChangeFlag(true);
     }
@@ -88,7 +84,6 @@ export default observer(({date}) => {
       temp = a !== undefined ? a : temp;
       setChangeFlag(true);
     }
-    console.log('temp', toJS(temp));
 
     if (changeFlag) {
       setCurrent(temp);
@@ -105,6 +100,7 @@ export default observer(({date}) => {
                 const selectedTitle = current?.test?.find(
                   (e) => e?.title === title,
                 );
+
                 return (
                   <TestItem
                     title={title}
@@ -164,6 +160,7 @@ export default observer(({date}) => {
                 const selectedTitle = current?.test?.find(
                   (e) => e?.title === title,
                 );
+
                 return (
                   <TestItem
                     title={title}

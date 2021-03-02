@@ -1,7 +1,7 @@
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import COLOR from '../constants/COLOR';
 import globalStore from '../stores/globalStore';
@@ -17,7 +17,6 @@ const NavBar = observer(
     title,
     arrowBack,
     color,
-    onPress,
     titleStyle,
     settings,
     noStyle,
@@ -33,7 +32,7 @@ const NavBar = observer(
       setDate(new Date(day.timestamp));
     };
     const {logFilters} = HookupStore;
-    const {globalState, setAsyncPass, confirmPassword} = globalStore;
+    const {globalState, setAsyncPass, confirmPassword, password} = globalStore;
     useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
     const wrapperStyle = noStyle
       ? [NavbarStyle.noStyle, {backgroundColor: color}]
@@ -59,7 +58,18 @@ const NavBar = observer(
           {safePass && (
             <TouchableOpacity
               style={NavbarStyle.saveWrapper}
-              onPress={() => setAsyncPass()}>
+              onPress={() => {
+                if (password.length < 4) {
+                  Alert.alert(
+                    '',
+                    'Password must be 4 characters long',
+                    [{text: 'OK', onPress: () => {}}],
+                    {cancelable: false},
+                  );
+                } else {
+                  setAsyncPass();
+                }
+              }}>
               <Text style={NavbarStyle.cancel}>Save password</Text>
             </TouchableOpacity>
           )}

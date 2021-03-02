@@ -1,14 +1,13 @@
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import moment from 'moment';
 import Image from '../../components/Image';
 
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
-import HookupStore from '../../stores/HookupStore';
 import ContactsStyle from '../../style/page/ContactsStyle';
 
 export default observer(({hookup}) => {
@@ -48,7 +47,6 @@ export default observer(({hookup}) => {
       (a, b) => b.hookups?.length - a.hookups?.length,
     );
     const result = temp.slice(0, 5);
-    console.log('filtered', toJS(result));
     setFrequent(result);
   };
   const getFavorite = () => {
@@ -65,7 +63,6 @@ export default observer(({hookup}) => {
   useEffect(() => {
     setContacts(contact);
     if (countryFilter !== null) {
-      console.log('TUUUUUt');
       setContacts(contact.filter((el) => el.location === countryFilter));
     }
   }, [contact, countryFilter]);
@@ -126,7 +123,6 @@ export default observer(({hookup}) => {
             {!!frequent?.length &&
               !isSearch &&
               frequent.map((hookup, i) => {
-                console.log('EL', toJS(hookup), 'hook', toJS(hooks));
                 return (
                   <TouchableOpacity
                     onPress={() => onPressContact(hookup.friendId, hookup.name)}

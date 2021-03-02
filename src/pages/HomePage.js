@@ -1,13 +1,8 @@
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {
-  Dimensions,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Dimensions, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Login from '../components/Login';
 import FiendEntryStore from '../stores/FiendEntryStore';
@@ -16,9 +11,11 @@ import HookupStore from '../stores/HookupStore';
 
 import TestsStore from '../stores/TestsStore';
 import HomePageStyle from '../style/page/HomePageStyle';
-// TODO most frqumen всего 5 элементов за последние 90 дней отображаются 5 элементво с найбольшим количеством хукапов
+
 const HomePage = observer(() => {
   const [modalFlag, setModalFlag] = useState(true);
+  const [hookupsCounter, setHookupsCounter] = useState(0);
+  const [lastTest, setLasttest] = useState(0);
   const {
     getHookups,
     hookups,
@@ -27,8 +24,33 @@ const HomePage = observer(() => {
     setChangeFlag,
     setInitial,
   } = HookupStore;
-  const {getTests, tests, testSuccess, setTestSuccess, setAddTest} = TestsStore;
+  const {
+    getTests,
+    tests,
+    testSuccess,
+    setTestSuccess,
+    setAddTest,
+    clearTestItem,
+  } = TestsStore;
   const {setContacID, setSearchValue, keys} = FiendEntryStore;
+  const getCountHookups = () => {
+    const temp = hookups?.filter((el) => {
+      return moment(el?.date).diff(moment(Date.now()), 'days') > -90;
+    });
+    setHookupsCounter(temp.length);
+  };
+  const getLastTest = () => {
+    const lastTest = tests.sort(
+      (a, b) =>
+        moment(a?.date).diff(moment(Date.now()), 'days') -
+        moment(b?.date).diff(moment(Date.now()), 'days'),
+    );
+    const diff = moment(lastTest[lastTest?.length - 1]?.date).diff(
+      moment(Date.now()),
+      'days',
+    );
+    setLasttest(-diff);
+  };
   const {
     globalState,
     getAsyncPass,
@@ -68,6 +90,10 @@ const HomePage = observer(() => {
     }
   }, [keys]);
 
+  useEffect(() => {
+    getCountHookups();
+    getLastTest();
+  }, [hookups, tests]);
   return (
     <>
       <View
@@ -84,12 +110,12 @@ const HomePage = observer(() => {
                 onPress={() => {
                   Actions.AnalyticsPage();
                 }}>
-                <Text style={HomePageStyle.days}>90</Text>
+                <Text style={HomePageStyle.days}>{lastTest}</Text>
                 <Text style={HomePageStyle.text}>Days since last test</Text>
               </TouchableOpacity>
               <View style={HomePageStyle.hookupView}>
                 <View style={HomePageStyle.lastHookup}>
-                  <Text style={HomePageStyle.days}>8</Text>
+                  <Text style={HomePageStyle.days}>{hookupsCounter}</Text>
                   <Text style={HomePageStyle.text}>Hookups (90 days)</Text>
                 </View>
               </View>
@@ -109,7 +135,6 @@ const HomePage = observer(() => {
                 setSearchValue('');
                 setChangeFlag(false);
                 setInitial(true);
-                console.log('Hookups', toJS(hookups));
               }}>
               <Text style={HomePageStyle.modalText}>New hookup</Text>
             </TouchableOpacity>
@@ -119,8 +144,8 @@ const HomePage = observer(() => {
                 setTestSuccess(true);
                 setLog(false);
                 setAddTest(true);
+                clearTestItem();
                 Actions.Test();
-                console.log('Tests', toJS(tests));
               }}>
               <Text style={HomePageStyle.modalText}>New test result</Text>
             </TouchableOpacity>

@@ -27,15 +27,12 @@ export default ({single = false, date, hook}) => {
 
     if (contactID) {
       temp = hookups?.find((e) => e.contactID === contactID && e.date === date);
-      console.log('zdes');
     }
     if (initial) {
       temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
-      console.log('tut');
     }
     if (select && contactHookup.length > 0) {
       temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
-      console.log('tam');
     }
     if (changeFlag) {
       setCurrent(temp);

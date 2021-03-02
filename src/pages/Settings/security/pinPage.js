@@ -8,6 +8,7 @@ import PinStyle from '../../../style/page/Settings/PinStyle';
 
 export default observer(() => {
   const {password, setPassword} = globalStore;
+
   return (
     <View style={PinStyle.main}>
       <View style={PinStyle.textWrapper}>

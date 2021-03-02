@@ -1,4 +1,3 @@
-import {toJS} from 'mobx';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import FiendEntryStore from '../stores/FiendEntryStore';
@@ -13,7 +12,6 @@ export default ({id}) => {
   });
   const currentContact = contact?.find((e) => e.friendId === id);
   useEffect(() => {
-    console.log(toJS(currentContact));
     if (!currentContact) return;
     setStatus({
       position: [],

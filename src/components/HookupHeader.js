@@ -5,7 +5,6 @@ import {Alert, Text, View} from 'react-native';
 import 'react-native-get-random-values';
 import {Actions} from 'react-native-router-flux';
 import {v4 as uuidv4} from 'uuid';
-import {toJS} from 'mobx';
 import COLOR from '../constants/COLOR';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import globalStore from '../stores/globalStore';
@@ -79,9 +78,7 @@ export default observer(({calendar, tabs}) => {
       if (contactID !== null && log) {
         setName(nameCurrent.currentName);
         setHookups(mainID, contactID);
-        console.log('SSSSSS', toJS(mainID));
       } else {
-        console.log('WWWWWWW');
         setHookups(id, contactID);
       }
       setHookupSuccess(false);

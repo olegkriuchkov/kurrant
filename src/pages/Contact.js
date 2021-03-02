@@ -1,16 +1,8 @@
 import {observer} from 'mobx-react';
 import moment from 'moment';
-import React, {useEffect} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import {toJS} from 'mobx';
 import ButtonWithArrow from '../components/ButtonWithArrow';
 import Image from '../components/Image';
 import SucessContactWrapper from '../components/SucessContactWrapper';
@@ -20,6 +12,7 @@ import HookupStore from '../stores/HookupStore';
 import TestsStyle from '../style/page/Tests/TestsStyle';
 
 export default observer(({id}) => {
+  const [currentName, setCurrentName] = useState('');
   const {
     friendEntrySuccess,
     friendEntryNote,
@@ -30,6 +23,7 @@ export default observer(({id}) => {
     contactHookup,
     setSelect,
     setSearchValue,
+    contactID,
   } = FiendEntryStore;
   const {
     hookups,
@@ -47,6 +41,13 @@ export default observer(({id}) => {
   const setText = (text) => {
     setFriendNote(text);
   };
+  useEffect(() => {
+    const currentContact = contact?.find((e) => e.friendId === contactID);
+    setCurrentName({
+      currentName: currentContact?.name,
+      currentLocation: currentContact?.location,
+    });
+  }, [contactID, globalState.selectedTab, contact]);
 
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
@@ -78,6 +79,8 @@ export default observer(({id}) => {
           <TouchableOpacity
             style={TestsStyle.addHookups}
             onPress={() => {
+              console.log('name', currentName.currentName);
+              setSearchValue(currentName.currentName);
               setSelect(true);
               Actions.Entry();
             }}>

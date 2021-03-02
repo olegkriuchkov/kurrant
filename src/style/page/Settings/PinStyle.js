@@ -6,6 +6,7 @@ export default StyleSheet.create({
     height: '100%',
     backgroundColor: COLOR.GREY,
     alignItems: 'center',
+    paddingTop: 20,
   },
 
   textWrapper: {

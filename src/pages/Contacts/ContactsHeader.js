@@ -9,7 +9,14 @@ import COLOR from '../../constants/COLOR';
 import FiendEntryStore from '../../stores/FiendEntryStore';
 
 export default observer(() => {
-  const {isSearch, setFiendSucess, setContacID, filters} = FiendEntryStore;
+  const {
+    isSearch,
+    setFiendSucess,
+    setContacID,
+    filters,
+    favoriteFlag,
+    countryFilter,
+  } = FiendEntryStore;
   return (
     <View
       style={!isSearch ? styles.header : {backgroundColor: COLOR.LIGHT_GREY}}>
@@ -31,7 +38,28 @@ export default observer(() => {
                     left: 10,
                   }}>
                   <Text style={{fontSize: 12, color: COLOR.WHITE}}>
-                    {filters.length}
+                    {filters.length +
+                      (favoriteFlag ? 1 : 0) +
+                      (countryFilter?.length > 0 ? 1 : 0)}
+                  </Text>
+                </View>
+              )}
+              {filters.length === 0 && (favoriteFlag || countryFilter) && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    borderRadius: 50,
+                    backgroundColor: COLOR.PINK,
+                    width: 16,
+                    height: 16,
+                    alignItems: 'center',
+                    bottom: 22,
+                    left: 10,
+                  }}>
+                  <Text style={{fontSize: 12, color: COLOR.WHITE}}>
+                    {filters?.length +
+                      (favoriteFlag ? 1 : 0) +
+                      (countryFilter?.length > 0 ? 1 : 0)}
                   </Text>
                 </View>
               )}

@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
@@ -34,10 +35,11 @@ export default observer(({calendar, tabs}) => {
     setChangeFlag,
     log,
     setInitial,
+    date,
     contactHookupFlag,
   } = HookupStore;
   const [calendarFlag, setCalendarFlag] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [dates, setDate] = useState(new Date());
   const [deleteFlag, setDeleteFlag] = useState(false);
   const [id, setId] = useState(uuidv4());
   const {globalState, setCurrentNote} = globalStore;
@@ -57,7 +59,7 @@ export default observer(({calendar, tabs}) => {
 
   useEffect(() => {
     const currentContact = contact?.find((e) => e.friendId === contactID);
-
+    console.log('current', toJS(currentContact));
     setCurrentName({
       currentName: currentContact?.name,
       currentLocation: currentContact?.location,
@@ -71,7 +73,7 @@ export default observer(({calendar, tabs}) => {
   }, [contactID, globalState.selectedTab]);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab.length]);
   useEffect(() => {
-    setHookupDate(new Date());
+    !log && setHookupDate(new Date());
   }, []);
   const save = () => {
     if (searchValue || nameCurrent.currentName) {
@@ -79,6 +81,7 @@ export default observer(({calendar, tabs}) => {
         setName(nameCurrent.currentName);
         setHookups(mainID, contactID);
       } else {
+        setName(searchValue);
         setHookups(id, contactID);
       }
       setHookupSuccess(false);
@@ -99,7 +102,6 @@ export default observer(({calendar, tabs}) => {
       );
     }
   };
-
   const press = (day) => {
     setDate(new Date(day.timestamp));
     setHookupDate(new Date(day.timestamp));

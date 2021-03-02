@@ -7,6 +7,7 @@ import {v4 as uuidv4} from 'uuid';
 import COLOR from '../constants/COLOR';
 import FiendEntryStore from '../stores/FiendEntryStore';
 import globalStore from '../stores/globalStore';
+import HookupStore from '../stores/HookupStore';
 import TestsHeaderStyle from '../style/component/TestsHeaderStyle';
 import GoogleSearch from './GoogleSearch';
 import Image from './Image';
@@ -24,6 +25,7 @@ export default observer(({tabs, friendName}) => {
   });
   const [favorite, setFavorite] = useState(false);
   const {globalState} = globalStore;
+  const {setTab} = HookupStore;
   const {
     setFiendSucess,
     friendEntrySuccess,
@@ -39,6 +41,7 @@ export default observer(({tabs, friendName}) => {
     setName,
     contact,
     locationFlag,
+    setIsSearch,
     setLocationFlag,
     setSearchValue,
   } = FiendEntryStore;
@@ -92,6 +95,7 @@ export default observer(({tabs, friendName}) => {
   }, [contactID, globalState.selectedTab, contact]);
 
   const home = () => {
+    setIsSearch(false);
     setSearchValue('');
     setFiendSucess(true);
     clearForm();
@@ -99,8 +103,8 @@ export default observer(({tabs, friendName}) => {
     setCurrentName();
     if (contactID) {
       setFiendSucess(false);
-      Actions.pop();
-    } else Actions.pop();
+      Actions.Contacts();
+    } else Actions.Contacts();
   };
   return (
     <View style={TestsHeaderStyle.mainStyle}>
@@ -240,7 +244,7 @@ export default observer(({tabs, friendName}) => {
         <View style={TestsHeaderStyle.mainTabsWrapper}>
           <Tabs
             tab={tabs}
-            onPress={(tabId) => setSelect(tabId)}
+            onPress={(tabId) => setTab(tabId)}
             defaultTab={tabs[0]}
           />
         </View>

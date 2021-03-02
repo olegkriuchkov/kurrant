@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {action, makeObservable, observable, toJS} from 'mobx';
+import {action, makeObservable, observable} from 'mobx';
 import {Actions} from 'react-native-router-flux';
 
 class FiendEntryStore {
@@ -50,8 +50,15 @@ class FiendEntryStore {
 
   @observable favoriteFlag = false;
 
+  @observable favorite = false;
+
   @action setCountryFilter = (text) => {
     this.countryFilter = text;
+  };
+
+  @action setFavorite = (bool, id) => {
+    this.favorite = bool;
+    id && this.setContacts(id, bool);
   };
 
   @action favoriteFilter = () => {
@@ -159,7 +166,8 @@ class FiendEntryStore {
         this.contactItem.length > 0 ? this.contactItem : currentContact.contact;
       currentContact.name = this.name ? this.name : currentContact.name;
       currentContact.friendEntryNote = this.friendEntryNote;
-      currentContact.location = this.location;
+      currentContact.location =
+        this.location !== '' ? this.location : currentContact.location;
       currentContact.favorite =
         bool !== undefined ? bool : currentContact.favorite;
       this.contact = this.contact.map((e) => {
@@ -258,6 +266,8 @@ class FiendEntryStore {
       status: 0,
       position: 0,
     };
+    this.favoriteFlag = false;
+    this.setCountryFilter(null);
   };
 
   constructor() {

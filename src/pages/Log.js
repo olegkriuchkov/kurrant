@@ -11,12 +11,19 @@ import TestsStore from '../stores/TestsStore';
 import LogStyle from '../style/page/LogStyle';
 
 export default observer(() => {
-  const {tests, getTests, testSuccess, setTestSuccess} = TestsStore;
+  const {
+    tests,
+    getTests,
+    testSuccess,
+    setTestSuccess,
+    setTestDate,
+  } = TestsStore;
   const {
     hookups,
     getHookups,
     logFilters,
     setChangeFlag,
+    setHookupDate,
     setHookupSuccess,
     setLog,
     setMainID,
@@ -116,6 +123,25 @@ export default observer(() => {
         : parseLog(data);
     setLogData(parse);
   }, [globalState.selectedTab, logFilters.length]);
+  const hookupType = (el) => {
+    setContacID(el.id);
+    setMainID(el.mainID);
+    setHookupSuccess(false);
+    setChangeFlag(true);
+    setHookupDate(el.date);
+    setLog(true);
+    setCurrentNote(el.note);
+    Actions.push('Entry', {date: el.date});
+  };
+  const testType = (el) => {
+    setContacID(el.id);
+    setTestSuccess(false);
+    setLog(true);
+    setTestDate(el.date);
+    setChangeFlag(true);
+    setCurrentNote(el.note);
+    Actions.push('Test', {date: el.date});
+  };
   return (
     <ScrollView>
       {typeof filtered !== 'string' &&
@@ -143,17 +169,7 @@ export default observer(() => {
                       </Text>
                       {el.type === 'hookup' ? (
                         <TouchableOpacity
-                          onPress={() => {
-                            setContacID(el.id);
-                            setMainID(el.mainID);
-                            setHookupSuccess(false);
-                            setChangeFlag(true);
-                            setLog(true);
-
-                            setCurrentNote(el.note);
-
-                            Actions.push('Entry', {date: el.date});
-                          }}
+                          onPress={() => hookupType(el)}
                           style={{
                             flexDirection: 'row',
                             justifyContent: 'space-between',
@@ -169,14 +185,7 @@ export default observer(() => {
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity
-                          onPress={() => {
-                            setContacID(el.id);
-                            setTestSuccess(false);
-                            setLog(true);
-                            setChangeFlag(true);
-                            setCurrentNote(el.note);
-                            Actions.push('Test', {date: el.date});
-                          }}
+                          onPress={() => testType(el)}
                           style={{flexDirection: 'row', alignItems: 'center'}}>
                           <Image
                             source={require('../assets/positiveTest.png')}

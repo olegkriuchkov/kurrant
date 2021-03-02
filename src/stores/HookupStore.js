@@ -112,6 +112,7 @@ class HookupStore {
       currentHookup.hookup = this.hookupItem;
       currentHookup.name = this.name;
       currentHookup.note = this.note;
+      currentHookup.date = this.date;
       this.hookups = this.hookups.filter((e) => e.hookup.length > 0);
       this.setAsyncHookups();
     } else {
@@ -166,7 +167,8 @@ class HookupStore {
   };
 
   @action setName = (name) => {
-    this.name = name;
+    console.log('name', name);
+    this.name = name[0].toUpperCase() + name.slice(1, name.length);
   };
 
   @action setHookupDate = (date) => {

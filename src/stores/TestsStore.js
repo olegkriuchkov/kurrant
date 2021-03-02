@@ -129,6 +129,7 @@ class TestsStore {
 
       currentTest.test = this.testItems;
       currentTest.note = this.note;
+      currentTest.date = this.date;
       this.tests = this.tests.filter((e) => e.test.length > 0);
       this.setAsyncTests();
     } else {

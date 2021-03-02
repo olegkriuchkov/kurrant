@@ -1,3 +1,4 @@
+import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
@@ -13,6 +14,7 @@ import TestsStyle from '../style/page/Tests/TestsStyle';
 
 export default observer(({id}) => {
   const [currentName, setCurrentName] = useState('');
+  const [note, setNote] = useState('');
   const {
     friendEntrySuccess,
     friendEntryNote,
@@ -38,17 +40,17 @@ export default observer(({id}) => {
     setContactHookup(temp, id);
   }, [hookupSuccess, globalState.selectedTab]);
   useEffect(() => {}, [contactHookup.length]);
-  const setText = (text) => {
-    setFriendNote(text);
-  };
+
   useEffect(() => {
     const currentContact = contact?.find((e) => e.friendId === contactID);
+    console.log('contact', toJS(contact));
+
     setCurrentName({
       currentName: currentContact?.name,
       currentLocation: currentContact?.location,
     });
+    setNote(currentContact?.friendEntryNote);
   }, [contactID, globalState.selectedTab, contact]);
-
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
       <ScrollView style={TestsStyle.entryWrapper}>
@@ -94,8 +96,9 @@ export default observer(({id}) => {
         <View style={TestsStyle.mainNoteWrapper}>
           <Text style={TestsStyle.textNote}>Notes</Text>
           <TextInput
-            onChangeText={(text) => friendEntrySuccess && setText(text)}
-            value={friendEntryNote}
+            editable={friendEntrySuccess}
+            onChangeText={(text) => friendEntrySuccess && setFriendNote(text)}
+            value={note}
             style={TestsStyle.textInput}
             underlineColorAndroid="transparent"
             placeholder="Add note"

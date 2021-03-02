@@ -20,11 +20,11 @@ import TouchebltText from './TouchebleText';
 export default observer(({color, noStyle, calendar, tabs}) => {
   const [calendarFlag, setCalendarFlag] = useState(false);
   const [id] = useState(uuidv4());
-  const [date, setDate] = useState(new Date());
+  const [dates, setDate] = useState(new Date());
   const [deleteFlag, setDeleteFlag] = useState(false);
   const resultTabs = ['Results', 'Notes'];
   const {globalState, setCurrentNote} = globalStore;
-  const {setLog, setChangeLog} = HookupStore;
+  const {setLog, setChangeLog, log} = HookupStore;
   const {
     setTestDate,
     setTest,
@@ -46,10 +46,11 @@ export default observer(({color, noStyle, calendar, tabs}) => {
     setAddTest,
     setCurrentID,
     setFullScreening,
+    date,
   } = TestsStore;
 
   useEffect(() => {
-    setTestDate(new Date());
+    !log && setTestDate(new Date());
   }, []);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
   const save = () => {

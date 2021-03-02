@@ -57,7 +57,7 @@ export default observer(() => {
         }}
         style={DataStyle.button}
         textStyle={DataStyle.buttonText}
-        title={countryFilter || 'location'}
+        title={countryFilter?.slice(0, 15) || 'location'}
         icon="rightArrow"
       />
       <ColapseButton

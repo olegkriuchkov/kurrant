@@ -15,7 +15,7 @@ export default observer(({countryFilter}) => {
         <TouchableOpacity
           onPress={() => setCountryFilter(null)}
           style={{top: 120, left: 25}}>
-          <Text style={{fontSize: 15}}>Clear filter</Text>
+          <Text style={{fontSize: 15, color: COLOR.WHITE}}>Clear filter</Text>
         </TouchableOpacity>
         <GoogleSearch countryFilter={countryFilter} />
       </View>

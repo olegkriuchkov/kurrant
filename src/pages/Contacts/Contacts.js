@@ -64,6 +64,9 @@ export default observer(({hookup}) => {
     setContacts(contact);
     if (countryFilter !== null) {
       setContacts(contact.filter((el) => el.location === countryFilter));
+      if (contacts.length === 0) {
+        setFiltered('');
+      }
     }
   }, [contact, countryFilter]);
   useEffect(() => {
@@ -86,7 +89,12 @@ export default observer(({hookup}) => {
     } else {
       setFiltered([]);
     }
-  }, [globalState.selectedTab, filters.length, favoriteFlag, countryFilter]);
+  }, [
+    globalState.selectedTab,
+    filters.length,
+    favoriteFlag,
+    countryFilter?.length,
+  ]);
 
   const getLetters = () => {
     const letters = [];
@@ -107,13 +115,12 @@ export default observer(({hookup}) => {
       Actions.push('Contact', {id});
     }
   };
-
   return (
     <ScrollView style={!isSearch ? {} : ContactsStyle.scrollViewBlock}>
       {!favoriteFlag && typeof filtered !== 'string' && (
         <View style={ContactsStyle.mostFrequentContainer}>
           <View style={ContactsStyle.contentContainer}>
-            {!isSearch && !countryFilter && (
+            {!isSearch && !countryFilter && filters.length === 0 && (
               <View style={ContactsStyle.titleContainer}>
                 <Text style={ContactsStyle.mostFrequent}>
                   Most frequent (90 days)
@@ -122,6 +129,7 @@ export default observer(({hookup}) => {
             )}
             {!!frequent?.length &&
               !isSearch &&
+              filters.length === 0 &&
               frequent.map((hookup, i) => {
                 return (
                   <TouchableOpacity

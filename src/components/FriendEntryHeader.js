@@ -202,7 +202,7 @@ export default observer(({tabs, friendName}) => {
             </View>
           )}
           {!friendEntrySuccess && (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
               {!favorite && (
                 <Image
                   style={[TestsHeaderStyle.undDeleteImage, {right: 30}]}
@@ -284,7 +284,13 @@ export default observer(({tabs, friendName}) => {
         </View>
       )}
       {locationFlag && (
-        <View style={{height: '100%', backgroundColor: COLOR.TAB_ICON}}>
+        <View
+          style={{
+            flex: 1,
+            height: '100%',
+            backgroundColor: COLOR.TAB_ICON,
+            paddingBottom: '200%',
+          }}>
           <GoogleSearch />
         </View>
       )}

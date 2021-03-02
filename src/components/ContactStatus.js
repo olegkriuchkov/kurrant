@@ -6,7 +6,7 @@ import FriendItem from './FriendItem';
 
 export default observer(({arr, withText = false, text}) => {
   return (
-    <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 8}}>
+    <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 0}}>
       {withText && (
         <Text style={[TestsStyle.textNote, {right: 10}]}>{text}</Text>
       )}

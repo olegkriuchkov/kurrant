@@ -27,6 +27,7 @@ export default observer(() => {
     setHookupSuccess,
     setLog,
     clearForm,
+    setTab,
     setMainID,
   } = HookupStore;
   const {setContacID, contact} = FiendEntryStore;
@@ -132,10 +133,14 @@ export default observer(() => {
     setHookupDate(el.date);
     setLog(true);
     clearForm();
+    setTab('');
+
     setCurrentNote(el.note);
     Actions.push('Entry', {date: el.date});
   };
   const testType = (el) => {
+    setTab('');
+
     setContacID(el.id);
     setTestSuccess(false);
     setLog(true);

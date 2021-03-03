@@ -231,6 +231,7 @@ class HookupStore {
       () => this.hookups.length,
       () => this.getHookups(),
     );
+
     makeObservable(this);
   }
 }

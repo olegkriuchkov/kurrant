@@ -53,7 +53,7 @@ export default ({id}) => {
           <ContactStatus
             arr={status.position}
             withText={true}
-            text="Protection"
+            text="Position"
             single={true}
           />
         )}

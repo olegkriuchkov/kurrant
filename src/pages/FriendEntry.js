@@ -32,7 +32,6 @@ export default observer(() => {
         animated: true,
       });
     }
-
     if (tabs === 'Notes') {
       scrollRef.current?.scrollTo({
         y: 100 * 12,

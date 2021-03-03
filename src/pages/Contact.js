@@ -1,7 +1,7 @@
 import {toJS} from 'mobx';
 import {observer} from 'mobx-react';
 import moment from 'moment';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import ButtonWithArrow from '../components/ButtonWithArrow';
@@ -52,9 +52,56 @@ export default observer(({id}) => {
     });
     setNote(currentContact?.friendEntryNote);
   }, [contactID, globalState.selectedTab, contact]);
+  const {tabs} = HookupStore;
+
+  const scrollRef = useRef(null);
+
+  const scrollTo = () => {
+    if (tabs === 'Status') {
+      scrollRef.current?.scrollTo({
+        y: 100 * 0,
+        animated: true,
+      });
+    }
+    if (tabs === 'Position') {
+      const currentContact = contact?.find((e) => e.friendId === id);
+
+      if (
+        currentContact.contact.find((e) => e.collections === 'Position') !==
+        undefined
+      ) {
+        scrollRef.current?.scrollTo({
+          y: 100 * 2,
+          animated: true,
+        });
+      }
+    }
+    if (tabs === 'Hookups') {
+      const currentContact = contact?.find((e) => e.friendId === id);
+
+      scrollRef.current?.scrollTo({
+        y:
+          100 *
+          (currentContact.contact.find((e) => e.collections === 'Position') !==
+          undefined
+            ? 4.5
+            : 2),
+        animated: true,
+      });
+    }
+    if (tabs === 'Notes') {
+      scrollRef.current?.scrollTo({
+        y: 100 * 100,
+        animated: true,
+      });
+    }
+  };
+  useEffect(() => {
+    scrollTo();
+  }, [tabs]);
   return (
     <SafeAreaView style={TestsStyle.safeArea}>
-      <ScrollView style={TestsStyle.entryWrapper}>
+      <ScrollView style={TestsStyle.entryWrapper} ref={scrollRef}>
         <View style={{marginTop: 20}}>
           <SucessContactWrapper id={id} />
         </View>

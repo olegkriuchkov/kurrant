@@ -8,6 +8,7 @@ import Image from '../../components/Image';
 
 import FiendEntryStore from '../../stores/FiendEntryStore';
 import globalStore from '../../stores/globalStore';
+import HookupStore from '../../stores/HookupStore';
 import ContactsStyle from '../../style/page/ContactsStyle';
 
 export default observer(({hookup}) => {
@@ -27,6 +28,7 @@ export default observer(({hookup}) => {
     favoriteFlag,
     setIsSearch,
   } = FiendEntryStore;
+  const {setTab} = HookupStore;
   const [filtered, setFiltered] = useState(null);
   const {globalState} = globalStore;
   const [contacts, setContacts] = useState(contact);
@@ -111,6 +113,7 @@ export default observer(({hookup}) => {
       setContacID(id);
       setIsSearch(false);
     } else {
+      setTab('');
       setFiendSucess(false);
       Actions.push('Contact', {id});
     }

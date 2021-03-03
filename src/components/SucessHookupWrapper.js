@@ -1,3 +1,5 @@
+import {toJS} from 'mobx';
+import {observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import FiendEntryStore from '../stores/FiendEntryStore';
@@ -5,7 +7,7 @@ import globalStore from '../stores/globalStore';
 import HookupStore from '../stores/HookupStore';
 import CompleteEntry from './CompleteEntry';
 
-export default ({single = false, date, hook}) => {
+export default observer(({single = false, date, hook}) => {
   const {hookupItem, changeFlag, hookupSuccess, hookups, initial} = HookupStore;
   const {contactID, select, contactHookup} = FiendEntryStore;
   const [current, setCurrent] = useState(hookupItem);
@@ -27,22 +29,28 @@ export default ({single = false, date, hook}) => {
 
     if (contactID) {
       temp = hookups?.find((e) => e.contactID === contactID && e.date === date);
+      console.log('TUT', toJS(temp));
     }
     if (initial) {
-      temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
+      if (hookups.length > 0) {
+        temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
+        console.log('ZDES');
+      }
     }
     if (select && contactHookup.length > 0) {
       temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
+      console.log('TAM');
     }
     if (changeFlag) {
       setCurrent(temp);
     }
     pars();
-  }, [hookups, changeFlag, contactID, hookupSuccess, globalState.selectedTab]);
+  }, [hookups, changeFlag, contactID, globalState.selectedTab]);
 
   const pars = () => {
-    const arr = current?.hookup ? current.hookup : hookupItem;
-    arr.forEach((e) => {
+    const arr = hookupItem.length > 0 ? hookupItem : current.hookup;
+    console.log('arr', toJS(arr));
+    arr?.forEach((e) => {
       switch (e.colection) {
         case 'Substance':
           setHookup((prev) => {
@@ -100,4 +108,4 @@ export default ({single = false, date, hook}) => {
       </View>
     </>
   );
-};
+});

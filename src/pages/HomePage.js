@@ -22,6 +22,7 @@ const HomePage = observer(() => {
     hookupSuccess,
     setLog,
     setChangeFlag,
+    clearForm,
     setInitial,
   } = HookupStore;
   const {
@@ -50,7 +51,7 @@ const HomePage = observer(() => {
       moment(Date.now()),
       'days',
     );
-    setLasttest(-diff);
+    setLasttest(Math.abs(diff));
   };
   const {
     globalState,
@@ -135,6 +136,7 @@ const HomePage = observer(() => {
                 setAddHookups(true);
                 setSearchValue('');
                 setChangeFlag(false);
+                clearForm();
                 setInitial(true);
               }}>
               <Text style={HomePageStyle.modalText}>New hookup</Text>

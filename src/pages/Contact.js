@@ -31,6 +31,7 @@ export default observer(({id}) => {
     hookups,
     hookupSuccess,
     setChangeFlag,
+    clearForm,
     setContactHookupFlag,
   } = HookupStore;
   const {globalState} = globalStore;
@@ -71,6 +72,7 @@ export default observer(({id}) => {
                   setSearchValue(e.name);
                   setChangeFlag(true);
                   setContactHookupFlag(true);
+                  clearForm();
                   Actions.push('Entry', {date: e.date});
                 }}
                 style={TestsStyle.buttonStyle}
@@ -84,6 +86,7 @@ export default observer(({id}) => {
               console.log('name', currentName.currentName);
               setSearchValue(currentName.currentName);
               setSelect(true);
+              clearForm();
               Actions.Entry();
             }}>
             <Image

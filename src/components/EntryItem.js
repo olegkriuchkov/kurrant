@@ -106,7 +106,7 @@ export default observer(
         )}
         {flag &&
           !single &&
-          types.map((type, index) => (
+          types?.map((type, index) => (
             <ButtonItem
               index={index}
               key={type}
@@ -135,7 +135,7 @@ export default observer(
             }>
             <Text style={TestsStyle.resultTitleText}>{title}</Text>
             {!single &&
-              selected.map((selectedText) => (
+              selected?.map((selectedText) => (
                 <Text key={selectedText} style={TestsStyle.resultText}>
                   {selectedText}
                 </Text>

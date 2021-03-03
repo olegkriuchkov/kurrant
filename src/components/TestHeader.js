@@ -25,6 +25,7 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   const resultTabs = ['Results', 'Notes'];
   const {globalState, setCurrentNote} = globalStore;
   const {setLog, setChangeLog, log} = HookupStore;
+  const [errorDate, setErrorDate] = useState(false);
   const {
     setTestDate,
     setTest,
@@ -52,6 +53,11 @@ export default observer(({color, noStyle, calendar, tabs}) => {
   useEffect(() => {
     !log && setTestDate(new Date());
   }, []);
+  useEffect(() => {
+    if (moment(date).diff(Date.now(), 'days') > 1) {
+      setErrorDate(true);
+    }
+  }, [date]);
   useEffect(() => setCalendarFlag(false), [globalState.selectedTab]);
   const save = () => {
     setChangeLog(false);
@@ -243,6 +249,29 @@ export default observer(({color, noStyle, calendar, tabs}) => {
               containerStyle={TestsHeaderStyle.imageWrapper}
               onPress={() => {
                 setBeforeSaving(false);
+              }}
+            />
+          </View>
+        </View>
+      )}
+      {errorDate && (
+        <View style={TestsHeaderStyle.warning}>
+          <View style={TestsHeaderStyle.errorWrapper}>
+            <TouchebltText
+              text="Can't schedule a test for the future"
+              containerStyle={TestsHeaderStyle.cancelWrapper}
+              style={[
+                TestsHeaderStyle.deleteText,
+                {marginTop: 50, width: '75%', left: 20},
+              ]}
+            />
+            <Image
+              style={[TestsHeaderStyle.image, {right: 10}]}
+              path={require('../assets/okButton.png')}
+              containerStyle={TestsHeaderStyle.imageWrapper}
+              onPress={() => {
+                setTestDate(Date.now());
+                setErrorDate(false);
               }}
             />
           </View>

@@ -26,6 +26,7 @@ export default observer(() => {
     setHookupDate,
     setHookupSuccess,
     setLog,
+    clearForm,
     setMainID,
   } = HookupStore;
   const {setContacID, contact} = FiendEntryStore;
@@ -130,6 +131,7 @@ export default observer(() => {
     setChangeFlag(true);
     setHookupDate(el.date);
     setLog(true);
+    clearForm();
     setCurrentNote(el.note);
     Actions.push('Entry', {date: el.date});
   };

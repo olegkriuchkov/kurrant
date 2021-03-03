@@ -1,5 +1,5 @@
 import {observer} from 'mobx-react';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, View} from 'react-native';
 import HookupWrapepr from '../components/HookupWrapepr';
 import SucessHookupWrapper from '../components/SucessHookupWrapper';
@@ -15,18 +15,20 @@ export default observer(({date}) => {
   const types = ['Give', 'Receive', 'Give & Receive'];
   const protection = ['Condom', 'No Condom'];
   const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other '];
+  const [temp, setTemp] = useState('');
   const {
     setHookupNote,
     tabs,
     hookupSuccess,
     note,
+    hookups,
     contactHookupFlag,
   } = HookupStore;
-  const {currentNote} = globalStore;
+  const {currentNote, setCurrentNote} = globalStore;
   const setText = (text) => {
     setHookupNote(text);
   };
-  const {isSearch} = FiendEntryStore;
+  const {isSearch, contactID} = FiendEntryStore;
   const scrollRef = useRef(null);
   const scrollTo = () => {
     if (tabs === 'Activity') {
@@ -54,6 +56,11 @@ export default observer(({date}) => {
       });
     }
   };
+  useEffect(() => {
+    setCurrentNote(
+      hookups?.find((e) => e.contactID === contactID && e.date === date).note,
+    );
+  }, []);
   useEffect(() => {
     scrollTo();
   }, [tabs]);
@@ -98,7 +105,7 @@ export default observer(({date}) => {
             <Text style={TestsStyle.textNote}>Notes</Text>
             <TextInput
               onChangeText={(text) => hookupSuccess && setText(text)}
-              value={currentNote.length > 0 ? currentNote : note}
+              value={currentNote?.length > 0 ? currentNote : note}
               editable={hookupSuccess && !contactHookupFlag}
               style={TestsStyle.textInput}
               underlineColorAndroid="transparent"

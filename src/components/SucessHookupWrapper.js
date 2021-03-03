@@ -11,7 +11,7 @@ export default observer(({single = false, date, hook}) => {
   const {hookupItem, changeFlag, hookupSuccess, hookups, initial} = HookupStore;
   const {contactID, select, contactHookup} = FiendEntryStore;
   const [current, setCurrent] = useState(hookupItem);
-  const {globalState} = globalStore;
+  const {globalState, setCurrentNote} = globalStore;
   const [hookup, setHookup] = useState({
     protection: [],
     activities: [],
@@ -30,6 +30,7 @@ export default observer(({single = false, date, hook}) => {
     if (contactID) {
       temp = hookups?.find((e) => e.contactID === contactID && e.date === date);
       console.log('TUT', toJS(temp));
+      setCurrentNote(temp.note);
     }
     if (initial) {
       if (hookups.length > 0) {

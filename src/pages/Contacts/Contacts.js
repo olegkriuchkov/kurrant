@@ -219,6 +219,7 @@ export default observer(({hookup}) => {
               onPress={() => {
                 setFiendSucess(true);
                 setContacID(null);
+                setSearchValue('');
                 Actions.AddFriendEntry();
               }}>
               <Text style={{marginTop: 5}}>Add new Contact</Text>

@@ -57,9 +57,11 @@ export default observer(({date}) => {
     }
   };
   useEffect(() => {
-    setCurrentNote(
-      hookups?.find((e) => e.contactID === contactID && e.date === date).note,
+    const hookup = hookups?.find(
+      (e) => e.contactID === contactID && e.date === date,
     );
+    if (!hookup) return;
+    setCurrentNote(hookup.note);
   }, []);
   useEffect(() => {
     scrollTo();

@@ -76,6 +76,7 @@ export default StyleSheet.create({
     opacity: 1,
     backgroundColor: 'white',
     width: '100%',
+    paddingTop: 10,
   },
   deleteImage: {width: 20, height: 20, margin: 20, marginTop: 40},
   mainDeleteTextWrapper: {margin: 20, marginVertical: 0},

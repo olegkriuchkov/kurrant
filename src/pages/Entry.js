@@ -15,7 +15,13 @@ export default observer(({date}) => {
   const types = ['Give', 'Receive', 'Give & Receive'];
   const protection = ['Condom', 'No Condom'];
   const substance = ['Alcohol', 'Marijuana', 'Poppres', 'Other '];
-  const {setHookupNote, tabs, hookupSuccess, note} = HookupStore;
+  const {
+    setHookupNote,
+    tabs,
+    hookupSuccess,
+    note,
+    contactHookupFlag,
+  } = HookupStore;
   const {currentNote} = globalStore;
   const setText = (text) => {
     setHookupNote(text);
@@ -93,7 +99,7 @@ export default observer(({date}) => {
             <TextInput
               onChangeText={(text) => hookupSuccess && setText(text)}
               value={currentNote.length > 0 ? currentNote : note}
-              editable={hookupSuccess}
+              editable={hookupSuccess && !contactHookupFlag}
               style={TestsStyle.textInput}
               underlineColorAndroid="transparent"
               placeholder="Add note"

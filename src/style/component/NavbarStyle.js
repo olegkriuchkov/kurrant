@@ -58,7 +58,7 @@ export default StyleSheet.create({
     color: COLOR.WHITE,
   },
 
-  canelWrapper: {left: 320, bottom: 20},
+  canelWrapper: {left: '500%', bottom: 20},
   saveWrapper: {right: 50, bottom: 20},
 
   arrowBack: {

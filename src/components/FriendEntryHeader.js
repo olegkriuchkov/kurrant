@@ -65,9 +65,11 @@ export default observer(({tabs, friendName}) => {
       if (contactID) {
         setContacts(contactID, favorite);
         setFiendSucess(!friendEntrySuccess);
+        Actions.Contacts();
       } else {
         setContacts(friendId, favorite);
         setFiendSucess(!friendEntrySuccess);
+        Actions.Contacts();
       }
     } else {
       Alert.alert(

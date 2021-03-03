@@ -25,7 +25,6 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
   },
   mainItem: {
-    width: '45%',
     minHeight: 165,
     maxHeight: 165,
     minWidth: 168,
@@ -36,7 +35,6 @@ export default StyleSheet.create({
     marginTop: 5,
   },
   singleMainItem: {
-    width: '45%',
     minHeight: 165,
     maxHeight: 165,
     minWidth: 168,

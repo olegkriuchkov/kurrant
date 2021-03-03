@@ -59,7 +59,7 @@ export default observer(() => {
               alert('Authentication Failed');
             })
         }
-        style={{width: 40, height: 40, marginTop: 300}}
+        style={{width: 40, height: 40, marginTop: 200}}
       />
     </View>
   );

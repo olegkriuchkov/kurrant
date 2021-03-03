@@ -48,7 +48,7 @@ export default observer(({single = false, date, hook}) => {
   }, [hookups, changeFlag, contactID, globalState.selectedTab]);
 
   const pars = () => {
-    const arr = hookupItem.length > 0 ? hookupItem : current.hookup;
+    const arr = hookupItem.length > 0 ? hookupItem : current?.hookup;
     console.log('arr', toJS(arr));
     arr?.forEach((e) => {
       switch (e.colection) {

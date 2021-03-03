@@ -71,7 +71,7 @@ export default observer(
               style={TestsStyle.confirmImage}
               containerStyle={[
                 TestsStore.confirmButton,
-                {bottom: 30, left: 80},
+                {bottom: 30, left: 70},
               ]}
               onPress={() => testsSuccess()}
             />

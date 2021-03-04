@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
   },
   cancel: {
     position: 'absolute',
-    top: 55,
     left: '74%',
+    top: 12,
   },
   cancelText: {
     color: COLOR.DARK_GREY,
@@ -33,12 +33,13 @@ const styles = StyleSheet.create({
 });
 
 export default observer(({countryFilter}) => {
-  const {
-    setLocation,
-    setLocationFlag,
-    setCountryFilter,
-    setFilters,
-  } = FiendEntryStore;
+  const {setLocation, setLocationFlag, setCountryFilter} = FiendEntryStore;
+
+  const onCancel = () => {
+    if (countryFilter) {
+      Actions.pop();
+    } else setLocationFlag(false);
+  };
 
   return (
     <>
@@ -62,16 +63,12 @@ export default observer(({countryFilter}) => {
           }
         }}
         onFail={(error) => console.error(error)}
+        renderRightButton={() => (
+          <TouchableOpacity style={styles.cancel} onPress={onCancel}>
+            <Text style={styles.cancelText}>Cancel</Text>
+          </TouchableOpacity>
+        )}
       />
-      <TouchableOpacity
-        style={styles.cancel}
-        onPress={() => {
-          if (countryFilter) {
-            Actions.pop();
-          } else setLocationFlag(false);
-        }}>
-        <Text style={styles.cancelText}>Cancel</Text>
-      </TouchableOpacity>
     </>
   );
 });

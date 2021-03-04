@@ -29,18 +29,16 @@ export default observer(({single = false, date, hook}) => {
 
     if (contactID) {
       temp = hookups?.find((e) => e.contactID === contactID && e.date === date);
-      console.log('TUT', toJS(temp));
-      setCurrentNote(temp.note);
+      console.log('HERE', temp);
+      if (temp) setCurrentNote(temp.note);
     }
     if (initial) {
       if (hookups.length > 0) {
         temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
-        console.log('ZDES');
       }
     }
     if (select && contactHookup.length > 0) {
       temp = hookups?.find((e) => e.id === hookups[hookups.length - 1].id);
-      console.log('TAM');
     }
     if (changeFlag) {
       setCurrent(temp);

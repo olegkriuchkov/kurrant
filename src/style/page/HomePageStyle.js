@@ -6,6 +6,17 @@ export default StyleSheet.create({
     height: '100%',
     marginHorizontal: 10,
   },
+  splashScreenContainer: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+  },
+  pinContainer: {
+    position: 'absolute',
+    zIndex: 5,
+    opacity: 0.9,
+    width: '100%',
+  },
   daysView: {
     alignItems: 'center',
   },
